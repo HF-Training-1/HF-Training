@@ -3,87 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hair Force 1 — Barbering E-Portfolio</title>
+    <title>HF Training — Barbering Academy E-Portfolio</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-        :root{--gold:#D4AF37;--dark:#1a1a1a;--accent:#8B5A2B;--success:#2ecc71;--danger:#e74c3c;--light:#f8f8f8}
-        body{background:linear-gradient(135deg,#2c1810,#1a1a1a);min-height:100vh;color:white}
+        /* ========== NEW COLOUR THEME ========== */
+        :root{
+            --dark-blue:#1E3A5F;
+            --mid-blue:#2E5077;
+            --light-blue:#4A90D9;
+            --pale-blue:#E8F0FA;
+            --gray-900:#1A1A1A;
+            --gray-800:#2D2D2D;
+            --gray-700:#404040;
+            --gray-500:#888888;
+            --gray-200:#E0E0E0;
+            --gray-100:#F5F5F5;
+            --success:#2ECC71;
+            --danger:#E74C3C;
+            --white:#FFFFFF;
+        }
+        body{background:linear-gradient(135deg,var(--dark-blue),var(--gray-800));min-height:100vh;color:var(--white)}
         
-        .auth-container{max-width:420px;margin:4rem auto;padding:2.5rem;background:white;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.3);color:#333}
-        .auth-container h1{text-align:center;color:var(--accent);margin-bottom:0.5rem}
-        .auth-container p{text-align:center;color:#777;margin-bottom:2rem}
-        input,select,textarea{width:100%;padding:0.85rem 1rem;margin:0.5rem 0 1rem;border:2px solid #eee;border-radius:8px;font-size:1rem;transition:0.2s}
-        input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+        .auth-container{max-width:440px;margin:4rem auto;padding:2.5rem;background:var(--white);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.3);color:var(--gray-800)}
+        .auth-container h1{text-align:center;color:var(--dark-blue);margin-bottom:0.5rem;font-size:1.8rem}
+        .auth-container p{text-align:center;color:var(--gray-500);margin-bottom:2rem}
+        input,select,textarea{width:100%;padding:0.85rem 1rem;margin:0.5rem 0 1rem;border:2px solid var(--gray-200);border-radius:8px;font-size:1rem;transition:0.2s}
+        input:focus,select:focus,textarea:focus{outline:none;border-color:var(--light-blue)}
         button{width:100%;padding:0.9rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:0.2s}
-        .btn-primary{background:linear-gradient(90deg,var(--accent),var(--gold));color:white}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(212,175,55,0.4)}
-        .btn-secondary{background:#eee;color:#333;margin-top:0.5rem}
-        .btn-danger{background:var(--danger);color:white}
+        .btn-primary{background:linear-gradient(90deg,var(--dark-blue),var(--light-blue));color:var(--white)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(74,144,217,0.4)}
+        .btn-secondary{background:var(--gray-200);color:var(--gray-800);margin-top:0.5rem}
+        .btn-danger{background:var(--danger);color:var(--white)}
         .btn-small{width:auto;padding:0.5rem 1rem;font-size:0.9rem}
+        .btn-success{background:var(--success);color:var(--white)}
         
         #app{display:none;min-height:100vh}
-        header{background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap}
-        .logo{font-size:1.4rem;font-weight:700;color:var(--gold)}
-        .nav-links{display:flex;gap:1.5rem;flex-wrap:wrap}
-        .nav-links a{color:white;text-decoration:none;opacity:0.8;transition:0.2s}
-        .nav-links a:hover,.nav-links a.active{opacity:1;color:var(--gold)}
+        header{background:rgba(26,26,26,0.8);backdrop-filter:blur(10px);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:1rem;border-bottom:1px solid rgba(74,144,217,0.2)}
+        .logo{font-size:1.4rem;font-weight:700;color:var(--light-blue)}
+        .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+        .nav-links a{color:var(--white);text-decoration:none;opacity:0.8;transition:0.2s;padding:0.5rem 0.75rem;border-radius:6px}
+        .nav-links a:hover,.nav-links a.active{opacity:1;background:rgba(74,144,217,0.2);color:var(--light-blue)}
         
         .container{max-width:1200px;margin:0 auto;padding:2rem}
-        .card{background:rgba(255,255,255,0.05);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid rgba(255,255,255,0.1)}
-        .card h3{color:var(--gold);margin-bottom:1rem}
+        .card{background:rgba(255,255,255,0.05);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid rgba(74,144,217,0.15)}
+        .card h3{color:var(--light-blue);margin-bottom:1rem}
         
         .progress-bg{width:100%;height:24px;background:rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;margin:0.5rem 0 1rem}
-        .progress-fill{height:100%;background:linear-gradient(90deg,var(--success),#27ae60);border-radius:12px;display:flex;align-items:center;justify-content:flex-end;padding-right:0.5rem;font-size:0.75rem;font-weight:bold;transition:0.5s ease}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--dark-blue),var(--light-blue));border-radius:12px;display:flex;align-items:center;justify-content:flex-end;padding-right:0.5rem;font-size:0.75rem;font-weight:bold;transition:0.5s ease}
         
-        .courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
-        .course-card{background:white;color:#333;border-radius:12px;padding:1.5rem;cursor:pointer;transition:0.3s;border:3px solid transparent}
-        .course-card:hover{border-color:var(--gold);transform:translateY(-5px);box-shadow:0 8px 20px rgba(0,0,0,0.2)}
-        .course-card h3{color:var(--accent);margin-bottom:0.5rem}
-        
-        .unit{border-left:4px solid var(--gold);padding:1rem 1.5rem;margin:1rem 0;background:rgba(255,255,255,0.05);border-radius:0 8px 8px 0}
-        .unit.completed{border-color:var(--success);opacity:0.8}
-        .unit-actions{margin-top:1rem;display:flex;gap:0.75rem;flex-wrap:wrap}
-        .upload-zone{border:2px dashed rgba(255,255,255,0.3);border-radius:8px;padding:2rem;text-align:center;margin:1rem 0;cursor:pointer;transition:0.2s}
-        .upload-zone:hover{border-color:var(--gold);background:rgba(212,175,55,0.05)}
-        textarea{min-height:100px;resize:vertical}
+        .unit{border-left:4px solid var(--light-blue);padding:1.5rem;margin:1rem 0;background:rgba(255,255,255,0.03);border-radius:0 10px 10px 0}
+        .unit.completed{border-color:var(--success);opacity:0.9}
+        .unit h4{font-size:1.1rem;margin-bottom:1rem;color:var(--pale-blue)}
+        .q-block{background:rgba(255,255,255,0.03);padding:1rem;border-radius:8px;margin:1rem 0}
+        .q-block label{font-weight:600;display:block;margin-bottom:0.5rem;color:var(--pale-blue)}
+        .upload-zone{border:2px dashed rgba(74,144,217,0.4);border-radius:8px;padding:2rem;text-align:center;margin:1rem 0;cursor:pointer;transition:0.2s}
+        .upload-zone:hover{border-color:var(--light-blue);background:rgba(74,144,217,0.08)}
+        .file-list{margin-top:0.5rem;font-size:0.9rem}
+        .file-item{padding:0.5rem;background:rgba(255,255,255,0.05);border-radius:4px;margin:0.25rem 0;display:flex;justify-content:space-between;align-items:center}
         
         .admin-table{width:100%;border-collapse:collapse;margin-top:1rem}
-        .admin-table th,.admin-table td{padding:0.75rem;text-align:left;border-bottom:1px solid rgba(255,255,255,0.1)}
-        .admin-table th{color:var(--gold)}
+        .admin-table th,.admin-table td{padding:0.75rem;text-align:left;border-bottom:1px solid rgba(74,144,217,0.15)}
+        .admin-table th{color:var(--light-blue)}
         
         .hidden{display:none !important}
         .tag{display:inline-block;padding:0.25rem 0.75rem;border-radius:20px;font-size:0.8rem;font-weight:bold;margin:0.25rem}
-        .tag.vrq{background:#3498db}
-        .tag.nvq{background:#9b59b6}
-        .tag.vtct{background:#1abc9c}
+        .tag.vrq{background:var(--dark-blue)}
+        .tag.nvq{background:var(--mid-blue)}
+        .tag.vtct{background:var(--light-blue)}
         .role-badge{display:inline-block;padding:0.25rem 0.5rem;border-radius:4px;font-size:0.75rem;font-weight:bold;margin-left:0.5rem}
-        .role-admin{background:var(--gold);color:black}
+        .role-admin{background:var(--light-blue);color:var(--white)}
         .role-student{background:var(--success)}
-        .role-assessor{background:#3498db}
-        .role-iqa{background:#9b59b6}
+        .role-assessor{background:var(--mid-blue)}
+        .course-badge{display:inline-block;padding:0.3rem 0.6rem;border-radius:6px;background:rgba(74,144,217,0.15);margin-left:0.5rem;font-size:0.85rem}
+        .status-draft{color:#F39C12}
+        .status-submitted{color:var(--light-blue)}
+        .status-approved{color:var(--success)}
     </style>
 </head>
 <body>
 
 <div id="loginScreen" class="auth-container">
-    <h1>✂️ Hair Force 1</h1>
+    <h1>HF Training</h1>
     <p>Barbering Academy E-Portfolio</p>
     <input type="email" id="email" placeholder="Email address">
     <input type="password" id="password" placeholder="Password">
     <button onclick="login()" class="btn-primary">Sign In</button>
-    <p style="margin-top:1rem;font-size:0.85rem;color:#999">Demo: Admin login pre-filled below</p>
+    <p style="margin-top:1rem;font-size:0.85rem;color:var(--gray-500)">Accounts created by Admin only</p>
 </div>
 
 <div id="app">
     <header>
-        <span class="logo">✂️ Hair Force 1</span>
+        <span class="logo">HF Training</span>
         <nav class="nav-links">
             <a href="#" class="active" data-page="dashboard">Dashboard</a>
-            <a href="#" data-page="courses">My Course</a>
             <a href="#" data-page="portfolio">E-Portfolio</a>
             <a href="#" data-page="attendance">Attendance</a>
-            <a href="#" id="assessorLink" class="hidden" data-page="assessor">Assessor</a>
-            <a href="#" id="iqaLink" class="hidden" data-page="iqa">IQA</a>
             <a href="#" id="adminLink" class="hidden" data-page="admin">Admin</a>
             <a href="#" onclick="logout()">Logout</a>
         </nav>
@@ -91,52 +105,27 @@
 
     <div class="container">
         <section id="page-dashboard" class="page">
-            <h2>Welcome, <span id="userName">User</span> <span id="userRoleBadge" class="role-badge"></span></h2>
+            <h2>Welcome, <span id="userName">User</span> <span id="userCourseBadge" class="course-badge"></span></h2>
             <p style="margin:1rem 0">Your progress across all units</p>
             <div class="card">
                 <h3>Overall Course Progress</h3>
                 <div class="progress-bg">
                     <div class="progress-fill" id="overallProgress" style="width:0%">0%</div>
                 </div>
-                <p id="courseName" style="margin-top:1rem;font-weight:bold">No course selected yet</p>
+                <p id="courseName" style="margin-top:1rem;font-weight:bold"></p>
             </div>
             <div class="card">
                 <h3>Quick Stats</h3>
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem">
-                    <div><p style="opacity:0.7;font-size:0.9rem">Units Completed</p><p style="font-size:1.8rem;font-weight:bold" id="unitsDone">0/7</p></div>
-                    <div><p style="opacity:0.7;font-size:0.9rem">OTJ Hours</p><p style="font-size:1.8rem;font-weight:bold" id="hoursLogged">0/372</p></div>
-                    <div><p style="opacity:0.7;font-size:0.9rem">Assessments Pending</p><p style="font-size:1.8rem;font-weight:bold" id="pendingCount">0</p></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="page-courses" class="page hidden">
-            <h2>Select Your Qualification</h2>
-            <p style="margin:1rem 0">Choose the course you are enrolled on</p>
-            <div class="courses-grid">
-                <div class="course-card" onclick="selectCourse('vrq')">
-                    <span class="tag vrq">VRQ</span>
-                    <h3>Level 2 Diploma in Barbering</h3>
-                    <p>Knowledge + practical skills assessment</p>
-                    <p style="margin-top:0.5rem;font-size:0.9rem;color:#666">7 Mandatory Units</p>
-                </div>
-                <div class="course-card" onclick="selectCourse('nvq')">
-                    <span class="tag nvq">NVQ</span>
-                    <h3>Level 2 NVQ Diploma in Barbering</h3>
-                    <p>Competence-based + OTJ hours required</p>
-                    <p style="margin-top:0.5rem;font-size:0.9rem;color:#666">8 Units • 372 Hours</p>
-                </div>
-                <div class="course-card" onclick="selectCourse('vtct')">
-                    <span class="tag vtct">VTCT</span>
-                    <h3>Level 2 Diploma in Barbering</h3>
-                    <p>Full VTCT aligned — includes optional units</p>
-                    <p style="margin-top:0.5rem;font-size:0.9rem;color:#666">10 Units • 372 Hours</p>
+                    <div><p style="opacity:0.7;font-size:0.9rem">Units Completed</p><p style="font-size:1.8rem;font-weight:bold" id="unitsDone">0/0</p></div>
+                    <div><p style="opacity:0.7;font-size:0.9rem">OTJ Hours</p><p style="font-size:1.8rem;font-weight:bold" id="hoursLogged">0/0</p></div>
+                    <div><p style="opacity:0.7;font-size:0.9rem">Pending</p><p style="font-size:1.8rem;font-weight:bold" id="pendingCount">0</p></div>
                 </div>
             </div>
         </section>
 
         <section id="page-portfolio" class="page hidden">
-            <h2>E-Portfolio — <span id="currentCourseName">Select a course first</span></h2>
+            <h2>E-Portfolio — <span id="currentCourseName"></span></h2>
             <div id="unitsList"></div>
         </section>
 
@@ -153,49 +142,37 @@
             <div class="card">
                 <h3>OTJ Progress</h3>
                 <div class="progress-bg"><div class="progress-fill" id="otjProgress" style="width:0%">0%</div></div>
-                <p id="otjText">0 of 372 hours required</p>
+                <p id="otjText">0 of 0 hours required</p>
                 <h4 style="margin-top:1.5rem">Recent Entries</h4>
                 <div id="hoursLog"></div>
             </div>
         </section>
 
-        <section id="page-assessor" class="page hidden">
-            <h2>✏️ Assessor Dashboard</h2>
-            <p style="margin:1rem 0">Review work from your assigned students</p>
-            <div id="assessorWorkList"><p style="opacity:0.5">No submissions to review yet</p></div>
-        </section>
-
-        <section id="page-iqa" class="page hidden">
-            <h2>🔍 IQA Sampling Dashboard</h2>
-            <p style="margin:1rem 0">Quality assure marked work</p>
-            <div id="iqaWorkList"><p style="opacity:0.5">No work ready for sampling yet</p></div>
-        </section>
-
         <section id="page-admin" class="page hidden">
             <h2>⚙️ Admin Control Panel</h2>
+            
             <div class="card">
                 <h3>Add New User</h3>
                 <input type="text" id="newUserName" placeholder="Full Name">
-                <input type="email" id="newUserEmail" placeholder="Email">
-                <select id="newUserRole">
+                <input type="email" id="newUserEmail" placeholder="Email Address">
+                <input type="password" id="newUserPass" placeholder="Set Password">
+                <select id="newUserRole" onchange="toggleCourseSelect()">
                     <option value="student">Student</option>
-                    <option value="assessor">Assessor</option>
-                    <option value="iqa">IQA</option>
-                    <option value="salon">Salon Manager</option>
+                    <option value="admin">Admin Staff</option>
                 </select>
                 <select id="newUserCourse">
-                    <option value="">— Assign Course (students only) —</option>
-                    <option value="vrq">VRQ Level 2</option>
-                    <option value="nvq">NVQ Level 2</option>
-                    <option value="vtct">VTCT Level 2</option>
+                    <option value="">— Select Course (Students Only) —</option>
+                    <option value="vrq">VRQ Level 2 Diploma in Barbering</option>
+                    <option value="nvq">NVQ Level 2 Diploma in Barbering</option>
+                    <option value="vtct">VTCT Level 2 Diploma in Barbering</option>
                 </select>
-                <input type="text" id="newUserSalon" placeholder="Salon / Location">
-                <button onclick="addUser()" class="btn-primary">Add User</button>
+                <button onclick="addUser()" class="btn-primary">Create Account</button>
             </div>
+            
             <div class="card">
                 <h3>All Users</h3>
                 <table class="admin-table">
-                    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Course/Salon</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Assigned Course</th><th>Actions</th></tr></thead>
                     <tbody id="usersTableBody"></tbody>
                 </table>
             </div>
@@ -204,275 +181,540 @@
 </div>
 
 <script>
+// ==========================================
+// HF TRAINING — FULL SYSTEM
+// ==========================================
 const COURSES = {
-    vrq: {name:"VRQ Level 2 Diploma in Barbering", totalUnits:7, requiredHours:0, units:[
-        {id:"u1", title:"Health & Safety in the Salon", criteria:["Follow safe working practices","Reduce risks to self and others","Emergency procedures"]},
-        {id:"u2", title:"Advise & Consult with Clients", criteria:["Greet & confirm requirements","Assess service suitability","Provide aftercare advice"]},
-        {id:"u3", title:"Shampoo, Condition & Treat Hair & Scalp", criteria:["Prepare workstation","Shampoo & condition","Provide scalp treatments"]},
-        {id:"u4", title:"Cut Men's Hair Using Basic Techniques", criteria:["Preparation & consultation","Blunt, layering, scissor-over-comb techniques","Finish & check"]},
-        {id:"u5", title:"Dry & Finish Men's Hair", criteria:["Select tools/products","Apply finishing techniques","Check client satisfaction"]},
-        {id:"u6", title:"Cut Facial Hair to Shape", criteria:["Protection & preparation","Beard & moustache shaping","Check & advise"]},
-        {id:"u7", title:"Create Basic Outlines & Detailing", criteria:["Design consultation","Apply outlining techniques","Final finish & quality check"]}
-    ]},
-    nvq: {name:"NVQ Level 2 Diploma in Barbering", totalUnits:8, requiredHours:372, units:[
-        {id:"u1", title:"Health & Safety in the Salon", criteria:["Follow safe working practices","Reduce risks to self and others","Emergency procedures"]},
-        {id:"u2", title:"Advise & Consult with Clients", criteria:["Greet & confirm requirements","Assess service suitability","Provide aftercare advice"]},
-        {id:"u3", title:"Shampoo, Condition & Treat Hair & Scalp", criteria:["Prepare workstation","Shampoo & condition","Provide scalp treatments"]},
-        {id:"u4", title:"Cut Men's Hair Using Basic Techniques", criteria:["Preparation & consultation","Blunt, layering, scissor-over-comb techniques","Finish & check"]},
-        {id:"u5", title:"Dry & Finish Men's Hair", criteria:["Select tools/products","Apply finishing techniques","Check client satisfaction"]},
-        {id:"u6", title:"Cut Facial Hair to Shape", criteria:["Protection & preparation","Beard & moustache shaping","Check & advise"]},
-        {id:"u7", title:"Create Basic Outlines & Detailing", criteria:["Design consultation","Apply outlining techniques","Final finish & quality check"]},
-        {id:"u8", title:"Maintain Effectiveness at Work", criteria:["Own professional development","Work as part of a team","Understand employment rights"]}
-    ]},
-    vtct: {name:"VTCT Level 2 Diploma in Barbering", totalUnits:10, requiredHours:372, units:[
-        {id:"u1", title:"Health & Safety in the Salon", criteria:["Follow safe working practices","Reduce risks to self and others","Emergency procedures"]},
-        {id:"u2", title:"Advise & Consult with Clients", criteria:["Greet & confirm requirements","Assess service suitability","Provide aftercare advice"]},
-        {id:"u3", title:"Shampoo, Condition & Treat Hair & Scalp", criteria:["Prepare workstation","Shampoo & condition","Provide scalp treatments"]},
-        {id:"u4", title:"Cut Men's Hair Using Barbering Techniques", criteria:["Preparation & consultation","Full range of cutting methods","Finish & check"]},
-        {id:"u5", title:"Style & Finish Men's Hair", criteria:["Select tools/products","Apply styling techniques","Check client satisfaction"]},
-        {id:"u6", title:"Cut Facial Hair into Shape", criteria:["Protection & preparation","Beard & moustache shaping","Check & advise"]},
-        {id:"u7", title:"Create Basic Outlines & Detailing", criteria:["Design consultation","Apply outlining techniques","Final finish & quality check"]},
-        {id:"u8", title:"Assist with Shaving Services", criteria:["Preparation & hygiene","Apply lather & perform shave","Aftercare advice"]},
-        {id:"u9", title:"Provide Salon Reception Duties", criteria:["Reception procedures","Booking systems","Payment handling"]},
-        {id:"u10", title:"Instruct & Advise on Products & Services", criteria:["Recommend products","Explain usage","Follow up client satisfaction"]}
-    ]}
+    vrq: {
+        name: "VRQ Level 2 Diploma in Barbering",
+        shortName: "VRQ L2",
+        totalUnits: 7,
+        requiredHours: 0,
+        units: [
+            {id:"u1", title:"Health & Safety in the Salon", questions:[
+                {q:"Identify THREE potential hazards in a barbershop and how to reduce risks."},
+                {q:"What is the correct procedure for dealing with a fire emergency in the salon?"},
+                {q:"Explain why it is important to follow COSHH regulations and how to store hazardous products safely."},
+                {q:"Describe how to maintain personal hygiene and professional appearance in the workplace."}
+            ]},
+            {id:"u2", title:"Advise & Consult with Clients", questions:[
+                {q:"What are the key stages of a client consultation?"},
+                {q:"How would you identify a client's hair type, face shape, and suitability for a proposed style?"},
+                {q:"Why is it important to give clear aftercare advice? Give THREE examples of what you would cover."},
+                {q:"How do you handle a client who is unhappy with their service?"}
+            ]},
+            {id:"u3", title:"Shampoo, Condition & Treat Hair & Scalp", questions:[
+                {q:"Explain how to select the correct shampoo and conditioner for different hair and scalp types."},
+                {q:"Describe the correct posture and massage movements used when shampooing."},
+                {q:"What checks should you make before applying any product to a client's hair or scalp?"},
+                {q:"List the steps you would take to prepare your workstation for a shampoo service."}
+            ]},
+            {id:"u4", title:"Cut Men's Hair Using Basic Techniques", questions:[
+                {q:"Explain the difference between blunt cutting and layering techniques."},
+                {q:"Describe how you would check the hairline, nape, and sides for balance during and after cutting."},
+                {q:"What safety checks do you perform on your cutting tools before use?"},
+                {q:"How does hair growth pattern affect the way you cut and style the hair?"}
+            ]},
+            {id:"u5", title:"Dry & Finish Men's Hair", questions:[
+                {q:"Explain how to choose the correct brushes, combs, and drying equipment for different hair types."},
+                {q:"Describe how you would apply finishing products and why you choose specific ones."},
+                {q:"How do you ensure the finished look meets the client's requirements?"},
+                {q:"What aftercare advice would you give to help the client maintain their finished style?"}
+            ]},
+            {id:"u6", title:"Cut Facial Hair to Shape", questions:[
+                {q:"What protective measures should be taken before trimming a client's facial hair?"},
+                {q:"Describe how you would consult with the client to agree the shape and style of beard or moustache."},
+                {q:"Explain how to check for symmetry and balance when trimming facial hair."},
+                {q:"What aftercare advice would you give for maintaining facial hair?"}
+            ]},
+            {id:"u7", title:"Basic Barbering Services & Professional Practice", questions:[
+                {q:"Explain the importance of time management in a busy barbershop."},
+                {q:"How do you maintain cleanliness and hygiene of tools and equipment between clients?"},
+                {q:"Describe how to communicate professionally with colleagues and clients."},
+                {q:"What are your responsibilities under the Data Protection Act/GDPR?"}
+            ]}
+        ]
+    },
+    nvq: {
+        name: "NVQ Level 2 Diploma in Barbering",
+        shortName: "NVQ L2",
+        totalUnits: 8,
+        requiredHours: 372,
+        units: [
+            {id:"n1", title:"Health & Safety", questions:[
+                {q:"Explain your legal responsibilities for health and safety in the workplace."},
+                {q:"Describe how to carry out a risk assessment in the salon."},
+                {q:"What records should be kept for health and safety compliance?"},
+                {q:"How do you report and record accidents or incidents?"}
+            ]},
+            {id:"n2", title:"Client Consultation", questions:[
+                {q:"Explain how to build client confidence and trust during consultation."},
+                {q:"What visual and manual checks do you perform on hair and scalp before service?"},
+                {q:"How do you manage client expectations when their request is not suitable?"},
+                {q:"Why is written consent important and when should it be obtained?"}
+            ]},
+            {id:"n3", title:"Shampoo & Condition", questions:[
+                {q:"Explain the structure and function of hair and skin."},
+                {q:"How do you identify contra-indications that may restrict or prevent service?"},
+                {q:"Describe the effects of different water temperatures and massage pressures."},
+                {q:"How do you evaluate the effectiveness of the treatment given?"}
+            ]},
+            {id:"n4", title:"Cutting Hair — Basic", questions:[
+                {q:"Explain how hair growth, density, and texture influence cutting decisions."},
+                {q:"Describe how to create graduation and layering effects."},
+                {q:"What do you do if you make a mistake during a haircut?"},
+                {q:"How do you position the client and yourself for best results and posture?"}
+            ]},
+            {id:"n5", title:"Cutting Hair — Advanced Men's Techniques", questions:[
+                {q:"Explain how to create different looks using clipper-over-comb and scissor-over-comb."},
+                {q:"How do you blend lengths and maintain balance throughout the cut?"},
+                {q:"Describe how to create defined outlines and check symmetry."},
+                {q:"How do you adapt your technique for curly, coarse, or thinning hair?"}
+            ]},
+            {id:"n6", title:"Facial Hair Shaping", questions:[
+                {q:"Explain how face shape influences beard design."},
+                {q:"How do you prepare the skin before shaving or trimming?"},
+                {q:"Describe the correct angles and movements when using cut-throat or safety razors."},
+                {q:"What signs of irritation do you look for and how do you respond?"}
+            ]},
+            {id:"n7", title:"Styling & Finishing", questions:[
+                {q:"Explain how heat and mechanical styling affect the hair structure."},
+                {q:"How do you select and apply products to achieve the desired finish?"},
+                {q:"Describe how to maintain the finished look and recommend home care products."},
+                {q:"How do you store and maintain your styling tools?"}
+            ]},
+            {id:"n8", title:"Professional Practice", questions:[
+                {q:"Explain the importance of meeting service times and handling booking systems."},
+                {q:"How do you promote products and additional services ethically?"},
+                {q:"Describe how to work as part of a team and support colleagues."},
+                {q:"What are the key differences between working as an employee and running your own business?"}
+            ]}
+        ]
+    },
+    vtct: {
+        name: "VTCT Level 2 Diploma in Barbering",
+        shortName: "VTCT L2",
+        totalUnits: 10,
+        requiredHours: 372,
+        units: [
+            {id:"v1", title:"Working in the Hair Industry", questions:[
+                {q:"Describe the different career pathways available in barbering."},
+                {q:"What qualities and behaviours are expected of a professional barber?"},
+                {q:"How do you keep up to date with industry trends and new techniques?"},
+                {q:"Explain the importance of continuous professional development."}
+            ]},
+            {id:"v2", title:"Health & Safety", questions:[
+                {q:"List the main pieces of legislation that apply to the barbering industry."},
+                {q:"How do you dispose of waste materials safely and hygienically?"},
+                {q:"What personal protective equipment (PPE) should you use and why?"},
+                {q:"How do you ensure electrical safety with styling equipment?"}
+            ]},
+            {id:"v3", title:"Consultation & Client Care", questions:[
+                {q:"Explain active listening techniques and how you use them with clients."},
+                {q:"How do you adapt your communication style for different clients?"},
+                {q:"What information do you record and why is it stored securely?"},
+                {q:"How do you deal with a complaint professionally and constructively?"}
+            ]},
+            {id:"v4", title:"Shampooing & Conditioning", questions:[
+                {q:"Explain the pH scale and how it relates to hair products."},
+                {q:"How do you recognise common hair and scalp disorders?"},
+                {q:"Describe how to detangle hair without causing damage."},
+                {q:"How do you leave the client feeling comfortable and valued?"}
+            ]},
+            {id:"v5", title:"Cutting Men's Hair — Foundation", questions:[
+                {q:"Explain the terms: weight, graduation, layering, and elevation."},
+                {q:"How do you use the natural fall of the hair to guide your cutting lines?"},
+                {q:"Describe how to check balance and proportion from all angles."},
+                {q:"How does hair elasticity affect how it springs back after cutting?"}
+            ]},
+            {id:"v6", title:"Cutting Men's Hair — Creative", questions:[
+                {q:"How do you use clippers to create different lengths and textures?"},
+                {q:"Explain how to create contrast between short and long areas."},
+                {q:"How do you adapt your cutting plan if the hair behaves differently than expected?"},
+                {q:"Describe how to create detailed designs and patterns."}
+            ]},
+            {id:"v7", title:"Shaving & Facial Hair", questions:[
+                {q:"Explain skin preparation including steaming and cleansing."},
+                {q:"What is the correct blade angle and stroke direction for a clean shave?"},
+                {q:"How do you minimise the risk of cuts, grazes, and razor burn?"},
+                {q:"Describe how to shape and maintain moustaches and beards."}
+            ]},
+            {id:"v8", title:"Styling & Dressing Hair", questions:[
+                {q:"Explain how to use root lifting, blow-drying, and finishing products to create volume."},
+                {q:"How do you identify hair type and choose the right styling approach?"},
+                {q:"Describe how to fix and secure hair for longer-lasting styles."},
+                {q:"What advice do you give clients for home maintenance between visits?"}
+            ]},
+            {id:"v9", title:"Colouring & Lightening Basics", questions:[
+                {q:"Explain the difference between permanent, semi-permanent, and temporary colour."},
+                {q:"What safety checks must be done before any colour service?"},
+                {q:"How do you apply root colour and tone evenly?"},
+                {q:"Describe how to remove colour products without staining skin or scalp."}
+            ]},
+            {id:"v10", title:"End Testing & Portfolio Building", questions:[
+                {q:"What evidence do you need to gather to show you are competent?"},
+                {q:"How do you plan your time to complete all units within your course period?"},
+                {q:"Describe how you prepare for your final practical assessments."},
+                {q:"What feedback do you ask for and how do you use it to improve?"}
+            ]}
+        ]
+    }
 };
 
-let currentUser = null, selectedCourse = null;
-let users = JSON.parse(localStorage.getItem('hf1_users') || '[]');
-let hoursLog = JSON.parse(localStorage.getItem('hf1_hours') || '[]');
-let portfolioData = JSON.parse(localStorage.getItem('hf1_portfolio') || '{}');
+let currentUser=null, userData={}, allUsers=[];
+
+// Load saved data
+function loadData(){
+    const saved=localStorage.getItem('hfTrainingData');
+    if(saved){
+        const data=JSON.parse(saved);
+        allUsers=data.users||[];
+        // Auto-login if session exists
+        if(data.activeUser){
+            currentUser=data.activeUser;
+            loadUserData();
+            showApp();
+        }
+    }
+    // Seed default admin if no users exist
+    if(allUsers.length===0){
+        allUsers.push({
+            id:'admin-1',
+            name:'Shane',
+            email:'shane@hairforce-1.co.uk',
+            password:'Hairforce1.',
+            role:'admin',
+            course:null,
+            createdAt:new Date().toISOString()
+        });
+        saveAllData();
+    }
+}
+
+function saveAllData(){
+    localStorage.setItem('hfTrainingData',JSON.stringify({
+        users:allUsers,
+        activeUser:currentUser
+    }));
+}
+
+function loadUserData(){
+    const saved=localStorage.getItem(`hfUser_${currentUser.id}`);
+    if(saved)userData=JSON.parse(saved);
+}
+
+function saveUserData(){
+    localStorage.setItem(`hfUser_${currentUser.id}`,JSON.stringify(userData));
+    saveAllData();
+}
+
+function findUser(email){
+    return allUsers.find(u=>u.email.toLowerCase()===email.trim().toLowerCase());
+}
 
 function login(){
-    const email = document.getElementById('email').value.trim().toLowerCase();
-    const pass = document.getElementById('password').value;
+    const email=document.getElementById('email').value.trim();
+    const pass=document.getElementById('password').value;
+    const user=findUser(email);
     
-    // ADMIN — EXACTLY AS REQUESTED
-    if(email === 'shane@hairforce-1.co.uk' && pass === 'Hairforce1.'){
-        currentUser = {id:'admin', role:'admin', name:'Shane', email};
-        showApp(); return;
-    }
+    if(!user)return alert('Account not found. Check email or contact your Admin.');
+    if(user.password!==pass)return alert('Incorrect password.');
     
-    const user = users.find(u => u.email.toLowerCase() === email);
-    if(user && pass === 'Hairforce1.'){
-        currentUser = user;
-        if(user.course) selectedCourse = user.course;
-        showApp(); return;
-    }
-    
-    alert('❌ Login failed — check email & password\n\nDefault password: Hairforce1.');
+    currentUser={...user};
+    loadUserData();
+    showApp();
 }
 
 function logout(){
-    currentUser = null; selectedCourse = null;
-    document.getElementById('loginScreen').style.display = 'block';
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('email').value = '';
-    document.getElementById('password').value = '';
+    currentUser=null;
+    userData={};
+    saveAllData();
+    document.getElementById('loginScreen').style.display='block';
+    document.getElementById('app').style.display='none';
+    document.getElementById('email').value='';
+    document.getElementById('password').value='';
 }
 
 function showApp(){
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    document.getElementById('userName').textContent = currentUser.name;
-    const badge = document.getElementById('userRoleBadge');
-    badge.textContent = currentUser.role.toUpperCase();
-    badge.className = `role-badge role-${currentUser.role}`;
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
     
-    document.getElementById('adminLink').classList.toggle('hidden', currentUser.role !== 'admin');
-    document.getElementById('assessorLink').classList.toggle('hidden', !['admin','assessor'].includes(currentUser.role));
-    document.getElementById('iqaLink').classList.toggle('hidden', !['admin','iqa'].includes(currentUser.role));
-    
-    if(selectedCourse){
-        document.getElementById('courseName').textContent = COURSES[selectedCourse].name;
-        document.getElementById('currentCourseName').textContent = COURSES[selectedCourse].name;
-        renderUnits();
+    // Show admin link only to admins
+    if(currentUser.role==='admin'){
+        document.getElementById('adminLink').classList.remove('hidden');
+    }else{
+        document.getElementById('adminLink').classList.add('hidden');
     }
-    updateProgress(); setupNavigation();
-    if(currentUser.role === 'admin') renderUsersTable();
+    
+    // Set user info
+    document.getElementById('userName').textContent=currentUser.name;
+    
+    if(currentUser.course){
+        const course=COURSES[currentUser.course];
+        document.getElementById('userCourseBadge').textContent=course.shortName;
+        document.getElementById('courseName').textContent=course.name;
+        document.getElementById('currentCourseName').textContent=course.name;
+    }else{
+        document.getElementById('userCourseBadge').textContent='Admin';
+        document.getElementById('courseName').textContent='Full System Access';
+    }
+    
+    setupNav();
+    renderDashboard();
+    if(currentUser.course)renderPortfolio();
+    renderAttendance();
+    if(currentUser.role==='admin')renderAdmin();
 }
 
-function setupNavigation(){
-    document.querySelectorAll('.nav-links a[data-page]').forEach(link => {
-        link.addEventListener('click', e => {
+function setupNav(){
+    document.querySelectorAll('.nav-links a[data-page]').forEach(link=>{
+        link.addEventListener('click',e=>{
             e.preventDefault();
-            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            document.getElementById(`page-${link.dataset.page}`).classList.remove('hidden');
+            const page=link.dataset.page;
+            if(page==='admin' && currentUser.role!=='admin')return;
+            
+            document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+            document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+            document.getElementById(`page-${page}`).classList.remove('hidden');
             link.classList.add('active');
-            if(link.dataset.page === 'attendance') renderHoursLog();
         });
     });
 }
 
-function selectCourse(courseKey){
-    selectedCourse = courseKey;
-    document.getElementById('courseName').textContent = COURSES[courseKey].name;
-    document.getElementById('currentCourseName').textContent = COURSES[courseKey].name;
-    if(currentUser.role === 'student'){
-        const idx = users.findIndex(u => u.id === currentUser.id);
-        if(idx !== -1){ users[idx].course = courseKey; saveUsers(); }
+function renderDashboard(){
+    if(!currentUser.course){
+        document.getElementById('overallProgress').style.width='100%';
+        document.getElementById('overallProgress').textContent='Admin';
+        document.getElementById('unitsDone').textContent='—';
+        document.getElementById('hoursLogged').textContent='—';
+        document.getElementById('pendingCount').textContent='—';
+        return;
     }
-    renderUnits(); updateProgress();
+    
+    const course=COURSES[currentUser.course];
+    const completed=userData.completedUnits||[];
+    const percent=Math.round((completed.length/course.totalUnits)*100);
+    
+    document.getElementById('overallProgress').style.width=percent+'%';
+    document.getElementById('overallProgress').textContent=percent+'%';
+    document.getElementById('unitsDone').textContent=`${completed.length}/${course.totalUnits}`;
+    
+    const totalHours=(userData.hours||[]).reduce((sum,h)=>sum+parseFloat(h.hours||0),0);
+    document.getElementById('hoursLogged').textContent=`${totalHours.toFixed(1)}/${course.requiredHours}`;
+    document.getElementById('pendingCount').textContent=(userData.submissions||[]).length;
 }
 
-function renderUnits(){
-    const container = document.getElementById('unitsList');
-    const course = COURSES[selectedCourse];
-    if(!course){container.innerHTML='<p>Select a course first</p>';return;}
-    container.innerHTML = '';
-    course.units.forEach(unit => {
-        const data = portfolioData[unit.id] || {completed:false, answers:{}, files:[], status:'draft'};
-        container.innerHTML += `
-        <div class="unit ${data.completed ? 'completed' : ''}">
-            <h4>${getStatusIcon(data.status)} ${unit.title}</h4>
-            <div style="margin:1rem 0">
-                <p style="opacity:0.7;font-size:0.9rem;margin-bottom:0.5rem">Knowledge & Criteria Checklist:</p>
-                ${unit.criteria.map((c,i) => `
-                <div style="margin:0.5rem 0;display:flex;align-items:flex-start;gap:0.5rem">
-                    <input type="checkbox" ${data.criteriaChecked?.[i] ? 'checked' : ''} 
-                        onchange="toggleCriteria('${unit.id}',${i},this.checked)" style="margin-top:0.25rem">
-                    <span style="font-size:0.9rem">${c}</span>
-                </div>`).join('')}
+function renderPortfolio(){
+    if(!currentUser.course)return;
+    const course=COURSES[currentUser.course];
+    const container=document.getElementById('unitsList');
+    const completed=userData.completedUnits||[];
+    container.innerHTML='';
+    
+    course.units.forEach((unit,idx)=>{
+        const isDone=completed.includes(unit.id);
+        const answers=(userData.answers||{})[unit.id]||{};
+        const files=(userData.uploads||{})[unit.id]||[];
+        
+        container.innerHTML+=`
+        <div class="unit ${isDone?'completed':''}" id="unit-${unit.id}">
+            <h4>Unit ${idx+1}: ${unit.title} ${isDone?'✅ Completed':''}</h4>
+            
+            ${unit.questions.map((q,qIdx)=>`
+            <div class="q-block">
+                <label>${qIdx+1}. ${q.q}</label>
+                <textarea id="q-${unit.id}-${qIdx}" rows="4" placeholder="Type your answer here...">${answers[`q${qIdx}`]||''}</textarea>
             </div>
-            <label style="margin-top:1rem;display:block">✍️ Answers / Notes:</label>
-            <textarea id="answer-${unit.id}" placeholder="Type your answers here...">${data.answers.text || ''}</textarea>
-            <div class="upload-zone" onclick="document.getElementById('file-${unit.id}').click()">
-                📎 Upload photo, scan, video or paper evidence
-                <input type="file" id="file-${unit.id}" style="display:none" onchange="handleFile('${unit.id}',this.files[0])">
-                <p style="font-size:0.8rem;opacity:0.5;margin-top:0.5rem">${data.files?.length||0} file(s) attached</p>
+            `).join('')}
+            
+            <div class="q-block">
+                <label>📎 Upload Evidence — Photos, Scans, PDFs</label>
+                <div class="upload-zone" onclick="document.getElementById('file-${unit.id}').click()">
+                    <p>Click to select files or drag & drop here</p>
+                    <p style="font-size:0.85rem;opacity:0.7">Supports: JPG, PNG, PDF</p>
+                </div>
+                <input type="file" id="file-${unit.id}" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleFileUpload('${unit.id}',this.files[0])">
+                <div class="file-list" id="files-${unit.id}">
+                    ${files.map(f=>`<div class="file-item">✅ ${f.name}</div>`).join('')}
+                </div>
             </div>
-            ${data.feedback ? `<div style="background:rgba(231,76,60,0.1);padding:1rem;border-radius:8px;margin:1rem 0">
-                <strong>Assessor Feedback:</strong><p style="margin-top:0.5rem">${data.feedback}</p></div>` : ''}
-            <div class="unit-actions">
-                <button class="btn-small btn-primary" onclick="saveUnit('${unit.id}')">Save Draft</button>
-                <button class="btn-small btn-primary" onclick="submitUnit('${unit.id}')">Submit for Assessment</button>
-                <button class="btn-small ${data.completed?'btn-secondary':'btn-primary'}" onclick="toggleComplete('${unit.id}')">
-                    ${data.completed?'Mark Incomplete':'Mark Complete'}
-                </button>
-            </div>
-        </div>`;
+            
+            <button class="btn-primary btn-small" style="width:auto" onclick="saveUnit('${unit.id}')">Save Unit</button>
+            <button class="btn-success btn-small" style="width:auto;margin-left:0.5rem" onclick="markComplete('${unit.id}')" ${isDone?'disabled':''}>
+                ${isDone?'✓ Marked Complete':'Mark as Complete'}
+            </button>
+        </div>
+        `;
     });
 }
 
-function getStatusIcon(status){
-    const icons = {draft:'📝',submitted:'⏳',assessing:'👁️',approved:'✅',feedback:'💬'};
-    return icons[status] || '📝';
+function handleFileUpload(unitId,file){
+    if(!file)return;
+    if(!userData.uploads)userData.uploads={};
+    if(!userData.uploads[unitId])userData.uploads[unitId]=[];
+    
+    userData.uploads[unitId].push({
+        name:file.name,
+        size:file.size,
+        type:file.type,
+        uploadedAt:new Date().toISOString()
+    });
+    
+    saveUserData();
+    renderPortfolio();
+    alert('File uploaded: '+file.name);
 }
 
 function saveUnit(unitId){
-    if(!portfolioData[unitId]) portfolioData[unitId] = {completed:false,answers:{},files:[],status:'draft'};
-    portfolioData[unitId].answers.text = document.getElementById(`answer-${unitId}`).value;
-    savePortfolio(); alert('✅ Saved!');
+    if(!userData.answers)userData.answers={};
+    if(!userData.answers[unitId])userData.answers[unitId]={};
+    
+    const course=COURSES[currentUser.course];
+    const unit=course.units.find(u=>u.id===unitId);
+    
+    unit.questions.forEach((_,idx)=>{
+        const el=document.getElementById(`q-${unitId}-${idx}`);
+        if(el)userData.answers[unitId][`q${idx}`]=el.value;
+    });
+    
+    saveUserData();
+    alert('✅ Unit saved!');
 }
 
-function submitUnit(unitId){
-    if(!portfolioData[unitId]) portfolioData[unitId] = {completed:false,answers:{},files:[],status:'draft'};
-    portfolioData[unitId].status = 'submitted';
-    savePortfolio(); renderUnits(); alert('📤 Submitted to Assessor!');
+function markComplete(unitId){
+    if(!confirm('Mark this unit as completed? This will update your progress.'))return;
+    
+    if(!userData.completedUnits)userData.completedUnits=[];
+    if(!userData.completedUnits.includes(unitId)){
+        userData.completedUnits.push(unitId);
+        saveUserData();
+        renderPortfolio();
+        renderDashboard();
+    }
 }
 
-function toggleComplete(unitId){
-    if(!portfolioData[unitId]) portfolioData[unitId] = {completed:false,answers:{},files:[],status:'draft'};
-    portfolioData[unitId].completed = !portfolioData[unitId].completed;
-    portfolioData[unitId].status = portfolioData[unitId].completed ? 'approved' : 'draft';
-    savePortfolio(); renderUnits(); updateProgress();
-}
-
-function toggleCriteria(unitId, idx, checked){
-    if(!portfolioData[unitId]) portfolioData[unitId] = {completed:false,answers:{},files:[],status:'draft'};
-    if(!portfolioData[unitId].criteriaChecked) portfolioData[unitId].criteriaChecked = {};
-    portfolioData[unitId].criteriaChecked[idx] = checked;
-    savePortfolio();
-}
-
-function handleFile(unitId, file){
-    if(!file) return;
-    if(!portfolioData[unitId]) portfolioData[unitId] = {completed:false,answers:{},files:[],status:'draft'};
-    portfolioData[unitId].files.push({name:file.name, size:file.size, type:file.type});
-    savePortfolio(); alert(`📎 Attached: ${file.name}`); renderUnits();
+function renderAttendance(){
+    if(!currentUser.course){
+        document.getElementById('otjProgress').style.width='100%';
+        document.getElementById('otjProgress').textContent='Admin — No Hours Target';
+        document.getElementById('otjText').textContent='Full system access';
+        return;
+    }
+    
+    const course=COURSES[currentUser.course];
+    const hours=userData.hours||[];
+    const total=hours.reduce((sum,h)=>sum+parseFloat(h.hours||0),0);
+    const percent=course.requiredHours?Math.round((total/course.requiredHours)*100):0;
+    
+    document.getElementById('otjProgress').style.width=Math.min(percent,100)+'%';
+    document.getElementById('otjProgress').textContent=percent+'%';
+    document.getElementById('otjText').textContent=`${total.toFixed(1)} of ${course.requiredHours} hours required`;
+    
+    const log=document.getElementById('hoursLog');
+    if(hours.length===0){
+        log.innerHTML='<p style="opacity:0.7">No hours logged yet — start recording above!</p>';
+    }else{
+        log.innerHTML=hours.slice().reverse().map(h=>`
+        <div style="padding:0.75rem 0;border-bottom:1px solid rgba(74,144,217,0.15)">
+            <strong>${h.date}</strong> — ${h.hours} hrs<br>
+            <small style="opacity:0.7">${h.note||'No details'}</small>
+        </div>
+        `).join('');
+    }
 }
 
 function saveHours(){
-    const date = document.getElementById('logDate').value;
-    const hours = parseFloat(document.getElementById('logHours').value);
-    const note = document.getElementById('logNote').value;
-    if(!date || !hours){alert('Enter date and hours');return;}
-    hoursLog.unshift({date, hours, note, studentId: currentUser.id, course: selectedCourse});
-    localStorage.setItem('hf1_hours', JSON.stringify(hoursLog));
-    document.getElementById('logDate').value = '';
-    document.getElementById('logHours').value = '';
-    document.getElementById('logNote').value = '';
-    renderHoursLog(); updateProgress(); alert('✅ Hours logged!');
+    const date=document.getElementById('logDate').value;
+    const hours=document.getElementById('logHours').value;
+    const note=document.getElementById('logNote').value;
+    
+    if(!date||!hours)return alert('Fill in date and hours');
+    
+    if(!userData.hours)userData.hours=[];
+    userData.hours.push({date,hours,note});
+    saveUserData();
+    
+    document.getElementById('logDate').value='';
+    document.getElementById('logHours').value='';
+    document.getElementById('logNote').value='';
+    
+    renderAttendance();
+    renderDashboard();
+    alert('✅ Hours saved!');
 }
 
-function renderHoursLog(){
-    const req = selectedCourse ? COURSES[selectedCourse].requiredHours : 372;
-    const total = hoursLog.filter(e => !selectedCourse || e.course === selectedCourse).reduce((s,e)=>s+e.hours,0);
-    const pct = req>0 ? Math.min(100, Math.round(total/req*100)) : 0;
-    document.getElementById('otjProgress').style.width = pct+'%';
-    document.getElementById('otjProgress').textContent = pct+'%';
-    document.getElementById('otjText').textContent = `${total} of ${req} hours required`;
-    document.getElementById('hoursLogged').textContent = `${total}/${req}`;
-    document.getElementById('hoursLog').innerHTML = hoursLog.length ? hoursLog.slice(0,10).map(e => `<div style="padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.1)">
-        <strong>${e.date}</strong> — ${e.hours}hrs<p style="opacity:0.7;font-size:0.9rem">${e.note || 'No details'}</p></div>`).join('') : '<p style="opacity:0.5">No entries yet</p>';
+function toggleCourseSelect(){
+    const role=document.getElementById('newUserRole').value;
+    document.getElementById('newUserCourse').disabled=(role==='admin');
 }
 
 function addUser(){
-    const name = document.getElementById('newUserName').value.trim();
-    const email = document.getElementById('newUserEmail').value.trim();
-    const role = document.getElementById('newUserRole').value;
-    const course = document.getElementById('newUserCourse').value;
-    const salon = document.getElementById('newUserSalon').value.trim();
-    if(!name || !email){alert('Fill name & email');return;}
-    users.push({id:'u_'+Date.now(), name, email:email.toLowerCase(), role, course:role==='student'?course:null, salon, added:new Date().toISOString()});
-    saveUsers(); renderUsersTable();
-    document.getElementById('newUserName').value = '';
-    document.getElementById('newUserEmail').value = '';
-    alert(`✅ User Added!\n\nEmail: ${email}\nPassword: Hairforce1.\nRole: ${role}`);
+    if(currentUser.role!=='admin')return alert('Admin only');
+    
+    const name=document.getElementById('newUserName').value.trim();
+    const email=document.getElementById('newUserEmail').value.trim();
+    const pass=document.getElementById('newUserPass').value;
+    const role=document.getElementById('newUserRole').value;
+    const course=document.getElementById('newUserCourse').value;
+    
+    if(!name||!email||!pass)return alert('Fill in all fields');
+    if(role==='student'&&!course)return alert('Select a course for this student');
+    if(findUser(email))return alert('Email already exists');
+    
+    const newUser={
+        id:'user-'+Date.now(),
+        name,
+        email,
+        password:pass,
+        role,
+        course:(role==='student')?course:null,
+        createdAt:new Date().toISOString()
+    };
+    
+    allUsers.push(newUser);
+    saveAllData();
+    
+    // Clear form
+    document.getElementById('newUserName').value='';
+    document.getElementById('newUserEmail').value='';
+    document.getElementById('newUserPass').value='';
+    document.getElementById('newUserCourse').value='';
+    
+    renderAdmin();
+    alert(`✅ Account created for ${name}!\nEmail: ${email}\nPassword: ${pass}`);
 }
 
-function renderUsersTable(){
-    const tbody = document.getElementById('usersTableBody');
-    tbody.innerHTML = users.length ? users.map(u => {
-        const course = u.course ? COURSES[u.course]?.name?.substring(0,15)+'...' : 'N/A';
-        return `<tr>
-            <td>${u.name}</td><td>${u.email}</td>
+function deleteUser(id){
+    if(!confirm('Delete this user? This cannot be undone.'))return;
+    if(id===currentUser.id)return alert('Cannot delete yourself');
+    
+    allUsers=allUsers.filter(u=>u.id!==id);
+    saveAllData();
+    renderAdmin();
+}
+
+function renderAdmin(){
+    if(currentUser.role!=='admin')return;
+    
+    const tbody=document.getElementById('usersTableBody');
+    tbody.innerHTML=allUsers.map(u=>{
+        const courseName=u.course?COURSES[u.course].name:'—';
+        return `
+        <tr>
+            <td>${u.name}</td>
+            <td>${u.email}</td>
             <td><span class="role-badge role-${u.role}">${u.role}</span></td>
-            <td>${u.salon || course}</td>
-            <td><button class="btn-small btn-danger" onclick="removeUser('${u.id}')">Remove</button></td>
-        </tr>`;
-    }).join('') : '<tr><td colspan="5" style="text-align:center;opacity:0.5;padding:2rem">No users added</td></tr>';
+            <td>${courseName}</td>
+            <td>
+                <button class="btn-danger btn-small" style="width:auto" onclick="deleteUser('${u.id}')">Delete</button>
+            </td>
+        </tr>
+        `;
+    }).join('');
 }
 
-function removeUser(id){
-    if(!confirm('Remove this user?')) return;
-    users = users.filter(u => u.id !== id);
-    saveUsers(); renderUsersTable();
-}
-
-function updateProgress(){
-    if(!selectedCourse){
-        document.getElementById('overallProgress').style.width = '0%';
-        document.getElementById('overallProgress').textContent = '0%';
-        document.getElementById('unitsDone').textContent = '0/0';
-        return;
-    }
-    const course = COURSES[selectedCourse];
-    const done = Object.values(portfolioData).filter(u => u.completed).length;
-    const pct = Math.round(done / course.totalUnits * 100);
-    document.getElementById('overallProgress').style.width = pct + '%';
-    document.getElementById('overallProgress').textContent = pct + '%';
-    document.getElementById('unitsDone').textContent = `${done}/${course.totalUnits}`;
-}
-
-function savePortfolio(){localStorage.setItem('hf1_portfolio', JSON.stringify(portfolioData));}
-function saveUsers(){localStorage.setItem('hf1_users', JSON.stringify(users));}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('email').value = 'shane@hairforce-1.co.uk';
-    document.getElementById('password').value = 'Hairforce1.';
-});
+// Start
+loadData();
 </script>
 </body>
 </html>
