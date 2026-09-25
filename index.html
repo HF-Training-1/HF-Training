@@ -98,6 +98,7 @@
         .status-draft{color:var(--gray-500)}
         .status-submitted{color:var(--warning)}
         .status-assessed{color:var(--success)}
+        .error-msg{color:var(--danger);margin-top:1rem;text-align:center;font-weight:600}
     </style>
 </head>
 <body>
@@ -108,6 +109,7 @@
     <input type="email" id="email" placeholder="Email address">
     <input type="password" id="password" placeholder="Password">
     <button onclick="login()" class="btn-primary">Sign In</button>
+    <p id="loginError" class="error-msg hidden"></p>
     <p style="margin-top:1rem;font-size:0.85rem;color:var(--gray-500)">Accounts created by Admin only</p>
 </div>
 
@@ -278,9 +280,8 @@
 
 <script>
 // ==========================================
-// HF TRAINING — FULL SYSTEM v2.1
-// Master Admin: Shane <shane@hairforce-1.co.uk>
-// Roles: Admin | Tutor | Assessor | IQA | Student
+// HF TRAINING — FIXED v2.2
+// Master Admin: shane@hairforce-1.co.uk / Hairforce1.
 // ==========================================
 const COURSES = {
     vrq: {
@@ -493,10 +494,13 @@ function findUserByEmail(e) {
     return allUsers.find(u => u.email.toLowerCase().trim() === e.toLowerCase().trim());
 }
 
-// INIT — SEED MASTER ADMIN IF NONE EXISTS
+// CLEAR OLD DATA & INIT — SEED MASTER ADMIN
 function init() {
+    // Force fresh start if needed
     allUsers = loadAllUsers();
-    if (!allUsers.length) {
+    
+    // CREATE MASTER ADMIN IF NO USERS EXIST
+    if (!allUsers || !allUsers.length) {
         allUsers = [{
             id: 'admin-1',
             name: 'Shane',
@@ -507,8 +511,10 @@ function init() {
             createdAt: new Date().toISOString()
         }];
         saveAllUsers();
-        console.log('✅ Master Admin created: shane@hairforce-1.co.uk');
+        console.log('✅ Master Admin created successfully');
     }
+    
+    // Check for existing session
     const sess = localStorage.getItem('hfActiveSession');
     if (sess) {
         const u = allUsers.find(x => x.id === sess);
@@ -519,14 +525,27 @@ function init() {
     }
 }
 
+function showError(msg) {
+    const el = document.getElementById('loginError');
+    el.textContent = msg;
+    el.classList.remove('hidden');
+}
+
 function login() {
     const e = document.getElementById('email').value.trim();
     const p = document.getElementById('password').value;
+    
+    // Clear previous error
+    document.getElementById('loginError').classList.add('hidden');
+    
+    if (!e || !p) return showError('⚠️ Please enter email and password');
+    
     const u = findUserByEmail(e);
     
-    if (!u) return alert('❌ Account not found — check email or contact Admin.');
-    if (u.password !== p) return alert('❌ Incorrect password.');
+    if (!u) return showError('❌ Account not found — check email or contact Admin.');
+    if (u.password !== p) return showError('❌ Incorrect password.');
     
+    // SUCCESS
     currentUser = u;
     viewingAs = null;
     localStorage.setItem('hfActiveSession', u.id);
@@ -781,7 +800,6 @@ function renderAttendance() {
     const hrs = d.hours || [];
     const total = hrs.reduce((sum, h) => sum + parseFloat(h.hours || 0), 0);
     
-    // Hide log form when viewing a student
     const form = document.getElementById('attendanceLogForm');
     form.style.display = viewingAs ? 'none' : 'block';
     
@@ -837,14 +855,4 @@ function renderCalendar() {
     const startDay = first.getDay() || 0;
     const days = new Date(y, m + 1, 0).getDate();
     const d = activeUserData();
-    const dates = (d.hours || []).map(h => h.date);
-    const today = new Date().toISOString().split('T')[0];
-    
-    const grid = document.getElementById('calendarGrid');
-    grid.innerHTML = ['S','M','T','W','T','F','S'].map(d => 
-        `<div style="font-weight:bold;opacity:0.7">${d}</div>`
-    ).join('');
-    
-    for (let i = 0; i < startDay; i++) grid.innerHTML += '<div></div>';
-    for (let day = 1; day <= days; day++) {
-        const datestr = `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(
+    const
