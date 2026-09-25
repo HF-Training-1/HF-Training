@@ -6,7 +6,6 @@
     <title>HF Training — Barbering Academy E-Portfolio</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-        /* ========== NEW COLOUR THEME ========== */
         :root{
             --dark-blue:#1E3A5F;
             --mid-blue:#2E5077;
@@ -20,6 +19,7 @@
             --gray-100:#F5F5F5;
             --success:#2ECC71;
             --danger:#E74C3C;
+            --warning:#F39C12;
             --white:#FFFFFF;
         }
         body{background:linear-gradient(135deg,var(--dark-blue),var(--gray-800));min-height:100vh;color:var(--white)}
@@ -29,20 +29,23 @@
         .auth-container p{text-align:center;color:var(--gray-500);margin-bottom:2rem}
         input,select,textarea{width:100%;padding:0.85rem 1rem;margin:0.5rem 0 1rem;border:2px solid var(--gray-200);border-radius:8px;font-size:1rem;transition:0.2s}
         input:focus,select:focus,textarea:focus{outline:none;border-color:var(--light-blue)}
-        button{width:100%;padding:0.9rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:0.2s}
+        button{padding:0.9rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:0.2s}
         .btn-primary{background:linear-gradient(90deg,var(--dark-blue),var(--light-blue));color:var(--white)}
         .btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(74,144,217,0.4)}
-        .btn-secondary{background:var(--gray-200);color:var(--gray-800);margin-top:0.5rem}
-        .btn-danger{background:var(--danger);color:var(--white)}
-        .btn-small{width:auto;padding:0.5rem 1rem;font-size:0.9rem}
+        .btn-secondary{background:var(--gray-200);color:var(--gray-800)}
         .btn-success{background:var(--success);color:var(--white)}
+        .btn-warning{background:var(--warning);color:var(--white)}
+        .btn-danger{background:var(--danger);color:var(--white)}
+        .btn-small{padding:0.5rem 1rem;font-size:0.9rem;width:auto}
+        .btn-block{width:100%}
         
         #app{display:none;min-height:100vh}
         header{background:rgba(26,26,26,0.8);backdrop-filter:blur(10px);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:1rem;border-bottom:1px solid rgba(74,144,217,0.2)}
         .logo{font-size:1.4rem;font-weight:700;color:var(--light-blue)}
-        .nav-links{display:flex;gap:1rem;flex-wrap:wrap}
+        .nav-links{display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center}
         .nav-links a{color:var(--white);text-decoration:none;opacity:0.8;transition:0.2s;padding:0.5rem 0.75rem;border-radius:6px}
         .nav-links a:hover,.nav-links a.active{opacity:1;background:rgba(74,144,217,0.2);color:var(--light-blue)}
+        .viewing-as{background:rgba(243,156,18,0.2);padding:0.5rem 1rem;border-radius:6px;border:1px solid var(--warning);font-size:0.9rem}
         
         .container{max-width:1200px;margin:0 auto;padding:2rem}
         .card{background:rgba(255,255,255,0.05);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid rgba(74,144,217,0.15)}
@@ -52,7 +55,8 @@
         .progress-fill{height:100%;background:linear-gradient(90deg,var(--dark-blue),var(--light-blue));border-radius:12px;display:flex;align-items:center;justify-content:flex-end;padding-right:0.5rem;font-size:0.75rem;font-weight:bold;transition:0.5s ease}
         
         .unit{border-left:4px solid var(--light-blue);padding:1.5rem;margin:1rem 0;background:rgba(255,255,255,0.03);border-radius:0 10px 10px 0}
-        .unit.completed{border-color:var(--success);opacity:0.9}
+        .unit.submitted{border-color:var(--warning)}
+        .unit.assessed{border-color:var(--success)}
         .unit h4{font-size:1.1rem;margin-bottom:1rem;color:var(--pale-blue)}
         .q-block{background:rgba(255,255,255,0.03);padding:1rem;border-radius:8px;margin:1rem 0}
         .q-block label{font-weight:600;display:block;margin-bottom:0.5rem;color:var(--pale-blue)}
@@ -65,6 +69,21 @@
         .admin-table th,.admin-table td{padding:0.75rem;text-align:left;border-bottom:1px solid rgba(74,144,217,0.15)}
         .admin-table th{color:var(--light-blue)}
         
+        .search-bar{display:flex;gap:0.5rem;margin-bottom:1.5rem}
+        .search-bar input{margin:0;flex:1}
+        .student-card{padding:1rem;background:rgba(255,255,255,0.03);border-radius:8px;margin:0.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem}
+        .student-card:hover{background:rgba(74,144,217,0.08)}
+        
+        .feedback-box{background:rgba(255,255,255,0.03);border-radius:8px;padding:1rem;margin-top:1rem;border-left:3px solid var(--warning)}
+        .feedback-box h5{color:var(--warning);margin-bottom:0.5rem}
+        .feedback-box.approved{border-color:var(--success)}
+        .feedback-box.iqa{border-color:var(--light-blue)}
+        
+        .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;margin-top:1rem}
+        .calendar-day{aspect-ratio:1;padding:0.5rem;background:rgba(255,255,255,0.03);border-radius:4px;text-align:center;font-size:0.8rem}
+        .calendar-day.has-hours{background:rgba(46,204,113,0.2);color:var(--success)}
+        .calendar-day.today{border:2px solid var(--light-blue)}
+        
         .hidden{display:none !important}
         .tag{display:inline-block;padding:0.25rem 0.75rem;border-radius:20px;font-size:0.8rem;font-weight:bold;margin:0.25rem}
         .tag.vrq{background:var(--dark-blue)}
@@ -74,10 +93,12 @@
         .role-admin{background:var(--light-blue);color:var(--white)}
         .role-student{background:var(--success)}
         .role-assessor{background:var(--mid-blue)}
-        .course-badge{display:inline-block;padding:0.3rem 0.6rem;border-radius:6px;background:rgba(74,144,217,0.15);margin-left:0.5rem;font-size:0.85rem}
-        .status-draft{color:#F39C12}
-        .status-submitted{color:var(--light-blue)}
-        .status-approved{color:var(--success)}
+        .role-iqa{background:var(--warning)}
+        .status-draft{color:var(--gray-500)}
+        .status-submitted{color:var(--warning)}
+        .status-assessed{color:var(--success)}
+        .status-iqa-pending{color:var(--light-blue)}
+        .status-iqa-approved{color:var(--success)}
     </style>
 </head>
 <body>
@@ -94,16 +115,21 @@
 <div id="app">
     <header>
         <span class="logo">HF Training</span>
-        <nav class="nav-links">
+        <div class="nav-links">
+            <span id="viewingAsBadge" class="viewing-as hidden">👁️ Viewing as: <span id="viewingName"></span>
+            <a href="#" onclick="exitStudentView()" style="color:var(--white);margin-left:0.5rem">✕ Exit</a></span>
             <a href="#" class="active" data-page="dashboard">Dashboard</a>
             <a href="#" data-page="portfolio">E-Portfolio</a>
             <a href="#" data-page="attendance">Attendance</a>
+            <a href="#" id="assessorLink" class="hidden" data-page="assessor">Assessor</a>
+            <a href="#" id="iqaLink" class="hidden" data-page="iqa">IQA</a>
             <a href="#" id="adminLink" class="hidden" data-page="admin">Admin</a>
             <a href="#" onclick="logout()">Logout</a>
-        </nav>
+        </div>
     </header>
 
     <div class="container">
+        <!-- DASHBOARD -->
         <section id="page-dashboard" class="page">
             <h2>Welcome, <span id="userName">User</span> <span id="userCourseBadge" class="course-badge"></span></h2>
             <p style="margin:1rem 0">Your progress across all units</p>
@@ -119,16 +145,18 @@
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem">
                     <div><p style="opacity:0.7;font-size:0.9rem">Units Completed</p><p style="font-size:1.8rem;font-weight:bold" id="unitsDone">0/0</p></div>
                     <div><p style="opacity:0.7;font-size:0.9rem">OTJ Hours</p><p style="font-size:1.8rem;font-weight:bold" id="hoursLogged">0/0</p></div>
-                    <div><p style="opacity:0.7;font-size:0.9rem">Pending</p><p style="font-size:1.8rem;font-weight:bold" id="pendingCount">0</p></div>
+                    <div><p style="opacity:0.7;font-size:0.9rem">Submitted</p><p style="font-size:1.8rem;font-weight:bold" id="pendingCount">0</p></div>
                 </div>
             </div>
         </section>
 
+        <!-- PORTFOLIO -->
         <section id="page-portfolio" class="page hidden">
             <h2>E-Portfolio — <span id="currentCourseName"></span></h2>
             <div id="unitsList"></div>
         </section>
 
+        <!-- ATTENDANCE -->
         <section id="page-attendance" class="page hidden">
             <h2>Attendance & On-The-Job Training</h2>
             <div class="card">
@@ -146,8 +174,58 @@
                 <h4 style="margin-top:1.5rem">Recent Entries</h4>
                 <div id="hoursLog"></div>
             </div>
+            <div class="card">
+                <h3>📅 Attendance Calendar</h3>
+                <div id="calendarMonth" style="text-align:center;margin-bottom:1rem;font-weight:bold"></div>
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
         </section>
 
+        <!-- ASSESSOR PANEL -->
+        <section id="page-assessor" class="page hidden">
+            <h2>🔍 Assessor Panel</h2>
+            <div class="card">
+                <h3>Find Student</h3>
+                <div class="search-bar">
+                    <input type="text" id="assessorSearch" placeholder="Type student name..." oninput="filterAssessorList()">
+                </div>
+                <div id="assessorStudentList"></div>
+            </div>
+            <div id="assessorViewSection" class="hidden">
+                <div class="card">
+                    <h3 id="assessingStudentName"></h3>
+                    <p>Course: <span id="assessingCourseName"></span></p>
+                    <div id="assessorUnitsList"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- IQA PANEL -->
+        <section id="page-iqa" class="page hidden">
+            <h2>✅ Internal Quality Assurance</h2>
+            <div class="card">
+                <h3>Filter by Course</h3>
+                <select id="iqaFilterCourse" onchange="renderIQAList()">
+                    <option value="all">— All Courses —</option>
+                    <option value="vrq">VRQ Level 2</option>
+                    <option value="nvq">NVQ Level 2</option>
+                    <option value="vtct">VTCT Level 2</option>
+                </select>
+            </div>
+            <div class="card">
+                <h3>Students for Sampling</h3>
+                <div id="iqaStudentList"></div>
+            </div>
+            <div id="iqaViewSection" class="hidden">
+                <div class="card">
+                    <h3 id="iqaStudentName"></h3>
+                    <p>Course: <span id="iqaCourseName"></span></p>
+                    <div id="iqaUnitsList"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN PANEL -->
         <section id="page-admin" class="page hidden">
             <h2>⚙️ Admin Control Panel</h2>
             
@@ -158,6 +236,8 @@
                 <input type="password" id="newUserPass" placeholder="Set Password">
                 <select id="newUserRole" onchange="toggleCourseSelect()">
                     <option value="student">Student</option>
+                    <option value="assessor">Assessor</option>
+                    <option value="iqa">IQA / Internal Verifier</option>
                     <option value="admin">Admin Staff</option>
                 </select>
                 <select id="newUserCourse">
@@ -171,8 +251,11 @@
             
             <div class="card">
                 <h3>All Users</h3>
+                <div class="search-bar">
+                    <input type="text" id="adminSearch" placeholder="Search by name..." oninput="renderAdmin()">
+                </div>
                 <table class="admin-table">
-                    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Assigned Course</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Course</th><th>Actions</th></tr></thead>
                     <tbody id="usersTableBody"></tbody>
                 </table>
             </div>
@@ -182,7 +265,8 @@
 
 <script>
 // ==========================================
-// HF TRAINING — FULL SYSTEM
+// HF TRAINING — FULL SYSTEM v2.0
+// Roles: Admin | Assessor | IQA | Student
 // ==========================================
 const COURSES = {
     vrq: {
@@ -361,360 +445,279 @@ const COURSES = {
     }
 };
 
-let currentUser=null, userData={}, allUsers=[];
+// GLOBAL STATE
+let currentUser=null, viewingAs=null, allUsers=[], calendarDate=new Date();
 
-// Load saved data
-function loadData(){
-    const saved=localStorage.getItem('hfTrainingData');
-    if(saved){
-        const data=JSON.parse(saved);
-        allUsers=data.users||[];
-        // Auto-login if session exists
-        if(data.activeUser){
-            currentUser=data.activeUser;
-            loadUserData();
-            showApp();
-        }
+// DATA HELPERS
+function storageKey(id){return `hfUser_${id}`;}
+function loadAllUsers(){const d=localStorage.getItem('hfTrainingData');return d?JSON.parse(d).users||[]:[];}
+function saveAllUsers(){localStorage.setItem('hfTrainingData',JSON.stringify({users:allUsers}));}
+function loadUserData(id){const d=localStorage.getItem(storageKey(id));return d?JSON.parse(d):{};}
+function saveUserData(id,data){localStorage.setItem(storageKey(id),JSON.stringify(data));saveAllUsers();}
+function activeUserData(){return viewingAs?loadUserData(viewingAs.id):(currentUser?loadUserData(currentUser.id):{});}
+function setActiveUserData(d){if(viewingAs)saveUserData(viewingAs.id,d);else if(currentUser)saveUserData(currentUser.id,d);}
+function findUserByEmail(e){return allUsers.find(u=>u.email.toLowerCase().trim()===e.toLowerCase().trim());}
+
+// INIT & SEED
+function init(){
+    allUsers=loadAllUsers();
+    if(!allUsers.length){
+        allUsers=[{id:'admin-1',name:'Shane',email:'shane@hairforce-1.co.uk',password:'Hairforce1.',role:'admin',course:null,createdAt:new Date().toISOString()}];
+        saveAllUsers();
     }
-    // Seed default admin if no users exist
-    if(allUsers.length===0){
-        allUsers.push({
-            id:'admin-1',
-            name:'Shane',
-            email:'shane@hairforce-1.co.uk',
-            password:'Hairforce1.',
-            role:'admin',
-            course:null,
-            createdAt:new Date().toISOString()
-        });
-        saveAllData();
+    const sess=localStorage.getItem('hfActiveSession');
+    if(sess){
+        const u=allUsers.find(x=>x.id===sess);
+        if(u){currentUser=u;showApp();}
     }
-}
-
-function saveAllData(){
-    localStorage.setItem('hfTrainingData',JSON.stringify({
-        users:allUsers,
-        activeUser:currentUser
-    }));
-}
-
-function loadUserData(){
-    const saved=localStorage.getItem(`hfUser_${currentUser.id}`);
-    if(saved)userData=JSON.parse(saved);
-}
-
-function saveUserData(){
-    localStorage.setItem(`hfUser_${currentUser.id}`,JSON.stringify(userData));
-    saveAllData();
-}
-
-function findUser(email){
-    return allUsers.find(u=>u.email.toLowerCase()===email.trim().toLowerCase());
 }
 
 function login(){
-    const email=document.getElementById('email').value.trim();
-    const pass=document.getElementById('password').value;
-    const user=findUser(email);
-    
-    if(!user)return alert('Account not found. Check email or contact your Admin.');
-    if(user.password!==pass)return alert('Incorrect password.');
-    
-    currentUser={...user};
-    loadUserData();
+    const e=document.getElementById('email').value.trim(),p=document.getElementById('password').value;
+    const u=findUserByEmail(e);
+    if(!u)return alert('Account not found — check email or contact Admin.');
+    if(u.password!==p)return alert('Incorrect password.');
+    currentUser=u;viewingAs=null;
+    localStorage.setItem('hfActiveSession',u.id);
     showApp();
 }
 
 function logout(){
-    currentUser=null;
-    userData={};
-    saveAllData();
+    currentUser=null;viewingAs=null;
+    localStorage.removeItem('hfActiveSession');
     document.getElementById('loginScreen').style.display='block';
     document.getElementById('app').style.display='none';
-    document.getElementById('email').value='';
-    document.getElementById('password').value='';
+    document.getElementById('email').value='';document.getElementById('password').value='';
 }
 
 function showApp(){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('app').style.display='block';
-    
-    // Show admin link only to admins
-    if(currentUser.role==='admin'){
-        document.getElementById('adminLink').classList.remove('hidden');
-    }else{
-        document.getElementById('adminLink').classList.add('hidden');
-    }
-    
-    // Set user info
-    document.getElementById('userName').textContent=currentUser.name;
-    
-    if(currentUser.course){
-        const course=COURSES[currentUser.course];
-        document.getElementById('userCourseBadge').textContent=course.shortName;
-        document.getElementById('courseName').textContent=course.name;
-        document.getElementById('currentCourseName').textContent=course.name;
-    }else{
-        document.getElementById('userCourseBadge').textContent='Admin';
-        document.getElementById('courseName').textContent='Full System Access';
-    }
-    
     setupNav();
     renderDashboard();
-    if(currentUser.course)renderPortfolio();
+    renderPortfolio();
     renderAttendance();
-    if(currentUser.role==='admin')renderAdmin();
+    if(currentUser.role==='admin'||currentUser.role==='assessor')document.getElementById('assessorLink').classList.remove('hidden');
+    if(currentUser.role==='admin'||currentUser.role==='iqa')document.getElementById('iqaLink').classList.remove('hidden');
+    if(currentUser.role==='admin'){document.getElementById('adminLink').classList.remove('hidden');renderAdmin();}
 }
 
 function setupNav(){
-    document.querySelectorAll('.nav-links a[data-page]').forEach(link=>{
-        link.addEventListener('click',e=>{
+    document.querySelectorAll('.nav-links a[data-page]').forEach(lnk=>{
+        lnk.onclick=e=>{
             e.preventDefault();
-            const page=link.dataset.page;
-            if(page==='admin' && currentUser.role!=='admin')return;
-            
+            const pg=lnk.dataset.page;
+            if(pg==='assessor'&&!['admin','assessor'].includes(currentUser.role))return;
+            if(pg==='iqa'&&!['admin','iqa'].includes(currentUser.role))return;
+            if(pg==='admin'&&currentUser.role!=='admin')return;
             document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
-            document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
-            document.getElementById(`page-${page}`).classList.remove('hidden');
-            link.classList.add('active');
-        });
+            document.querySelectorAll('.nav-links a[data-page]').forEach(a=>a.classList.remove('active'));
+            document.getElementById(`page-${pg}`).classList.remove('hidden');
+            lnk.classList.add('active');
+            if(pg==='assessor')renderAssessorList();
+            if(pg==='iqa')renderIQAList();
+        };
     });
 }
 
+function effectiveUser(){return viewingAs||currentUser;}
+function effectiveData(){return activeUserData();}
+
 function renderDashboard(){
-    if(!currentUser.course){
-        document.getElementById('overallProgress').style.width='100%';
-        document.getElementById('overallProgress').textContent='Admin';
-        document.getElementById('unitsDone').textContent='—';
-        document.getElementById('hoursLogged').textContent='—';
-        document.getElementById('pendingCount').textContent='—';
+    const u=effectiveUser(),d=effectiveData();
+    document.getElementById('userName').textContent=u.name;
+    if(viewingAs){document.getElementById('viewingAsBadge').classList.remove('hidden');document.getElementById('viewingName').textContent=u.name;}
+    else{document.getElementById('viewingAsBadge').classList.add('hidden');}
+    
+    if(!u.course){
+        document.getElementById('userCourseBadge').textContent=u.role.toUpperCase();
+        document.getElementById('courseName').textContent='Full System Access';
+        document.getElementById('overallProgress').style.width='100%';document.getElementById('overallProgress').textContent='Admin';
+        document.getElementById('unitsDone').textContent='—';document.getElementById('hoursLogged').textContent='—';document.getElementById('pendingCount').textContent='—';
         return;
     }
-    
-    const course=COURSES[currentUser.course];
-    const completed=userData.completedUnits||[];
-    const percent=Math.round((completed.length/course.totalUnits)*100);
-    
-    document.getElementById('overallProgress').style.width=percent+'%';
-    document.getElementById('overallProgress').textContent=percent+'%';
-    document.getElementById('unitsDone').textContent=`${completed.length}/${course.totalUnits}`;
-    
-    const totalHours=(userData.hours||[]).reduce((sum,h)=>sum+parseFloat(h.hours||0),0);
-    document.getElementById('hoursLogged').textContent=`${totalHours.toFixed(1)}/${course.requiredHours}`;
-    document.getElementById('pendingCount').textContent=(userData.submissions||[]).length;
+    const c=COURSES[u.course],comp=d.completedUnits||[],subs=(d.submissions||[]).filter(s=>s.status==='submitted');
+    const pc=Math.round((comp.length/c.totalUnits)*100);
+    const hrs=(d.hours||[]).reduce((s,h)=>s+parseFloat(h.hours||0),0);
+    document.getElementById('userCourseBadge').textContent=c.shortName;
+    document.getElementById('courseName').textContent=c.name;
+    document.getElementById('overallProgress').style.width=pc+'%';document.getElementById('overallProgress').textContent=pc+'%';
+    document.getElementById('unitsDone').textContent=`${comp.length}/${c.totalUnits}`;
+    document.getElementById('hoursLogged').textContent=`${hrs.toFixed(1)}/${c.requiredHours}`;
+    document.getElementById('pendingCount').textContent=subs.length;
 }
 
 function renderPortfolio(){
-    if(!currentUser.course)return;
-    const course=COURSES[currentUser.course];
-    const container=document.getElementById('unitsList');
-    const completed=userData.completedUnits||[];
-    container.innerHTML='';
-    
-    course.units.forEach((unit,idx)=>{
-        const isDone=completed.includes(unit.id);
-        const answers=(userData.answers||{})[unit.id]||{};
-        const files=(userData.uploads||{})[unit.id]||[];
-        
-        container.innerHTML+=`
-        <div class="unit ${isDone?'completed':''}" id="unit-${unit.id}">
-            <h4>Unit ${idx+1}: ${unit.title} ${isDone?'✅ Completed':''}</h4>
+    const u=effectiveUser();
+    if(!u.course){document.getElementById('currentCourseName').textContent='Admin — Select a student from Assessor or Admin panel';document.getElementById('unitsList').innerHTML='';return;}
+    const c=COURSES[u.course],d=effectiveData(),comp=d.completedUnits||[],ans=d.answers||{},upl=d.uploads||{},subs=d.submissions||{};
+    document.getElementById('currentCourseName').textContent=c.name;
+    const list=document.getElementById('unitsList');list.innerHTML='';
+    c.units.forEach((un,idx)=>{
+        const done=comp.includes(un.id),sub=subs[un.id]||{},stat=sub.status||'draft';
+        list.innerHTML+=`
+        <div class="unit ${stat==='submitted'?'submitted':''} ${stat==='assessed'?'assessed':''}" id="unit-${un.id}">
+            <h4>Unit ${idx+1}: ${un.title}
+            <span style="font-size:0.8rem;opacity:0.7">
+            ${stat==='draft'?'<span class="status-draft">Draft</span>':''}
+            ${stat==='submitted'?'<span class="status-submitted">⏳ Awaiting Assessment</span>':''}
+            ${stat==='assessed'?'<span class="status-assessed">✅ Assessed</span>':''}
+            ${done?' ✅ Completed':''}</span></h4>
             
-            ${unit.questions.map((q,qIdx)=>`
+            ${un.questions.map((q,qIdx)=>`
             <div class="q-block">
                 <label>${qIdx+1}. ${q.q}</label>
-                <textarea id="q-${unit.id}-${qIdx}" rows="4" placeholder="Type your answer here...">${answers[`q${qIdx}`]||''}</textarea>
+                <textarea id="q-${un.id}-${qIdx}" rows="4" ${viewingAs?'readonly':''} placeholder="Type your answer here...">${ans[un.id]?.[`q${qIdx}`]||''}</textarea>
             </div>
             `).join('')}
             
             <div class="q-block">
-                <label>📎 Upload Evidence — Photos, Scans, PDFs</label>
-                <div class="upload-zone" onclick="document.getElementById('file-${unit.id}').click()">
-                    <p>Click to select files or drag & drop here</p>
-                    <p style="font-size:0.85rem;opacity:0.7">Supports: JPG, PNG, PDF</p>
+                <label>📎 Uploaded Evidence</label>
+                ${!viewingAs?`<div class="upload-zone" onclick="document.getElementById('file-${un.id}').click()">
+                    <p>Click to select files</p><p style="font-size:0.85rem;opacity:0.7">JPG, PNG, PDF</p>
                 </div>
-                <input type="file" id="file-${unit.id}" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleFileUpload('${unit.id}',this.files[0])">
-                <div class="file-list" id="files-${unit.id}">
-                    ${files.map(f=>`<div class="file-item">✅ ${f.name}</div>`).join('')}
-                </div>
+                <input type="file" id="file-${un.id}" accept=".jpg,.jpeg,.png,.pdf" style="display:none" onchange="handleFileUpload('${un.id}',this.files[0])">`:''}
+                <div class="file-list">${(upl[un.id]||[]).map(f=>`<div class="file-item">✅ ${f.name}</div>`).join('')}</div>
             </div>
             
-            <button class="btn-primary btn-small" style="width:auto" onclick="saveUnit('${unit.id}')">Save Unit</button>
-            <button class="btn-success btn-small" style="width:auto;margin-left:0.5rem" onclick="markComplete('${unit.id}')" ${isDone?'disabled':''}>
-                ${isDone?'✓ Marked Complete':'Mark as Complete'}
-            </button>
+            ${sub.feedback?`<div class="feedback-box ${sub.status==='assessed'?'approved':''}">
+                <h5>Assessor Feedback</h5><p>${sub.feedback}</p>
+                ${sub.iqaNote?`<div class="feedback-box iqa" style="margin-top:0.5rem">
+                    <h5>IQA Note</h5><p>${sub.iqaNote}</p>
+                </div>`:''}
+            </div>`:''}
+            
+            ${!viewingAs?`
+            <button class="btn-primary btn-small" style="width:auto" onclick="saveUnit('${un.id}')">Save</button>
+            <button class="btn-warning btn-small" style="width:auto;margin-left:0.5rem" onclick="submitUnit('${un.id}')" ${stat==='submitted'?'disabled':''}>${stat==='submitted'?'Submitted':'Submit to Assessor'}</button>
+            `:''}
+            ${viewingAs&&['admin','assessor'].includes(currentUser.role)?`
+            <button class="btn-success btn-small" style="width:auto" onclick="assessUnit('${u.id}','${un.id}','approve')">✅ Approve</button>
+            <button class="btn-warning btn-small" style="width:auto;margin-left:0.5rem" onclick="assessUnit('${u.id}','${un.id}','refer')">↩️ Refer Back</button>
+            `:''}
         </div>
         `;
     });
 }
 
-function handleFileUpload(unitId,file){
+function handleFileUpload(uid,file){
     if(!file)return;
-    if(!userData.uploads)userData.uploads={};
-    if(!userData.uploads[unitId])userData.uploads[unitId]=[];
-    
-    userData.uploads[unitId].push({
-        name:file.name,
-        size:file.size,
-        type:file.type,
-        uploadedAt:new Date().toISOString()
-    });
-    
-    saveUserData();
-    renderPortfolio();
-    alert('File uploaded: '+file.name);
+    const d=effectiveData();
+    if(!d.uploads)d.uploads={};if(!d.uploads[uid])d.uploads[uid]=[];
+    d.uploads[uid].push({name:file.name,size:file.size,type:file.type,uploadedAt:new Date().toISOString()});
+    setActiveUserData(d);renderPortfolio();
 }
 
-function saveUnit(unitId){
-    if(!userData.answers)userData.answers={};
-    if(!userData.answers[unitId])userData.answers[unitId]={};
-    
-    const course=COURSES[currentUser.course];
-    const unit=course.units.find(u=>u.id===unitId);
-    
-    unit.questions.forEach((_,idx)=>{
-        const el=document.getElementById(`q-${unitId}-${idx}`);
-        if(el)userData.answers[unitId][`q${idx}`]=el.value;
+function saveUnit(uid){
+    const d=effectiveData();
+    if(!d.answers)d.answers={};if(!d.answers[uid])d.answers[uid]={};
+    const c=COURSES[effectiveUser().course];
+    c.units.find(u=>u.id===uid).questions.forEach((_,i)=>{
+        const el=document.getElementById(`q-${uid}-${i}`);
+        if(el)d.answers[uid][`q${i}`]=el.value;
     });
-    
-    saveUserData();
-    alert('✅ Unit saved!');
+    setActiveUserData(d);alert('✅ Saved');
 }
 
-function markComplete(unitId){
-    if(!confirm('Mark this unit as completed? This will update your progress.'))return;
-    
-    if(!userData.completedUnits)userData.completedUnits=[];
-    if(!userData.completedUnits.includes(unitId)){
-        userData.completedUnits.push(unitId);
-        saveUserData();
-        renderPortfolio();
-        renderDashboard();
-    }
+function submitUnit(uid){
+    if(!confirm('Submit this unit to your Assessor? You may not edit it after submission.'))return;
+    const d=effectiveData();
+    if(!d.submissions)d.submissions={};
+    d.submissions[uid]={status:'submitted',submittedAt:new Date().toISOString()};
+    setActiveUserData(d);renderPortfolio();renderDashboard();
+}
+
+function assessUnit(sid,uid,decision){
+    const fb=prompt(decision==='approve'?'Enter approval feedback:':'Enter reason for referring back:');
+    if(fb===null)return;
+    const d=loadUserData(sid);
+    if(!d.submissions)d.submissions={};
+    d.submissions[uid]={status:decision==='approve'?'assessed':'draft',feedback:fb,assessedBy:currentUser.email,assessedAt:new Date().toISOString()};
+    if(decision==='approve'){if(!d.completedUnits)d.completedUnits=[];if(!d.completedUnits.includes(uid))d.completedUnits.push(uid);}
+    saveUserData(sid,d);
+    alert('✅ Assessment recorded');
+    if(viewingAs)renderPortfolio();
 }
 
 function renderAttendance(){
-    if(!currentUser.course){
-        document.getElementById('otjProgress').style.width='100%';
-        document.getElementById('otjProgress').textContent='Admin — No Hours Target';
-        document.getElementById('otjText').textContent='Full system access';
-        return;
-    }
-    
-    const course=COURSES[currentUser.course];
-    const hours=userData.hours||[];
-    const total=hours.reduce((sum,h)=>sum+parseFloat(h.hours||0),0);
-    const percent=course.requiredHours?Math.round((total/course.requiredHours)*100):0;
-    
-    document.getElementById('otjProgress').style.width=Math.min(percent,100)+'%';
-    document.getElementById('otjProgress').textContent=percent+'%';
-    document.getElementById('otjText').textContent=`${total.toFixed(1)} of ${course.requiredHours} hours required`;
-    
-    const log=document.getElementById('hoursLog');
-    if(hours.length===0){
-        log.innerHTML='<p style="opacity:0.7">No hours logged yet — start recording above!</p>';
+    const u=effectiveUser(),d=effectiveData(),c=u.course?COURSES[u.course]:null;
+    const hrs=d.hours||[],total=hrs.reduce((s,h)=>s+parseFloat(h.hours||0),0);
+    if(!c){
+        document.getElementById('otjProgress').style.width='100%';document.getElementById('otjProgress').textContent='Admin';
+        document.getElementById('otjText').textContent='Select student from Assessor panel';
     }else{
-        log.innerHTML=hours.slice().reverse().map(h=>`
-        <div style="padding:0.75rem 0;border-bottom:1px solid rgba(74,144,217,0.15)">
-            <strong>${h.date}</strong> — ${h.hours} hrs<br>
-            <small style="opacity:0.7">${h.note||'No details'}</small>
-        </div>
-        `).join('');
+        const pc=c.requiredHours?Math.round((total/c.requiredHours)*100):0;
+        document.getElementById('otjProgress').style.width=Math.min(pc,100)+'%';document.getElementById('otjProgress').textContent=pc+'%';
+        document.getElementById('otjText').textContent=`${total.toFixed(1)} of ${c.requiredHours} hours`;
     }
+    const log=document.getElementById('hoursLog');
+    log.innerHTML=hrs.length?hrs.slice().reverse().map(h=>`<div style="padding:0.75rem 0;border-bottom:1px solid rgba(74,144,217,0.15)"><strong>${h.date}</strong> — ${h.hours} hrs<br><small style="opacity:0.7">${h.note||'No details'}</small></div>`).join(''):'<p style="opacity:0.7">No entries yet</p>';
+    renderCalendar();
+    if(viewingAs)document.querySelectorAll('#page-attendance input,textarea,button').forEach(x=>x.disabled=true);
+    else document.querySelectorAll('#page-attendance input,textarea,button').forEach(x=>x.disabled=false);
 }
 
 function saveHours(){
-    const date=document.getElementById('logDate').value;
-    const hours=document.getElementById('logHours').value;
-    const note=document.getElementById('logNote').value;
-    
-    if(!date||!hours)return alert('Fill in date and hours');
-    
-    if(!userData.hours)userData.hours=[];
-    userData.hours.push({date,hours,note});
-    saveUserData();
-    
-    document.getElementById('logDate').value='';
-    document.getElementById('logHours').value='';
-    document.getElementById('logNote').value='';
-    
+    const d=effectiveData(),date=document.getElementById('logDate').value,hrs=document.getElementById('logHours').value,note=document.getElementById('logNote').value;
+    if(!date||!hrs)return alert('Fill in date and hours');
+    if(!d.hours)d.hours=[];d.hours.push({date,hours:hrs,note});
+    setActiveUserData(d);
+    document.getElementById('logDate').value='';document.getElementById('logHours').value='';document.getElementById('logNote').value='';
+    renderAttendance();renderDashboard();alert('✅ Saved');
+}
+
+function renderCalendar(){
+    const y=calendarDate.getFullYear(),m=calendarDate.getMonth();
+    document.getElementById('calendarMonth').textContent=new Date(y,m).toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+    const first=new Date(y,m,1),startDay=first.getDay()||0,days=new Date(y,m+1,0).getDate();
+    const d=effectiveData(),dates=(d.hours||[]).map(h=>h.date);
+    const grid=document.getElementById('calendarGrid');grid.innerHTML=['S','M','T','W','T','F','S'].map(d=>`<div style="font-weight:bold;opacity:0.7">${d}</div>`).join('');
+    for(let i=0;i<startDay;i++)grid.innerHTML+='<div></div>';
+    const today=new Date().toISOString().split('T')[0];
+    for(let d=1;d<=days;d++){
+        const datestr=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const hasDate=dates.includes(datestr);
+        grid.innerHTML+=`<div class="calendar-day ${hasDate?'has-hours':''} ${datestr===today?'today':''}">${d}</div>`;
+    }
+}
+
+// ASSESSOR
+function renderAssessorList(){
+    filterAssessorList();
+    document.getElementById('assessorViewSection').classList.add('hidden');
+}
+function filterAssessorList(){
+    const q=document.getElementById('assessorSearch').value.toLowerCase();
+    const list=allUsers.filter(u=>u.role==='student'&&u.name.toLowerCase().includes(q));
+    const c=document.getElementById('assessorStudentList');
+    c.innerHTML=list.length?list.map(s=>{
+        const sd=loadUserData(s.id),comp=sd.completedUnits||[],course=COURSES[s.course];
+        return `<div class="student-card">
+            <div><strong>${s.name}</strong><br><span class="tag ${s.course}">${course?course.shortName:'—'}</span> ${comp.length}/${course?.totalUnits||0} units</div>
+            <div>
+                <button class="btn-primary btn-small" onclick="viewStudent('${s.id}')">👁️ View Portfolio</button>
+                <button class="btn-secondary btn-small" onclick="viewStudentAttendance('${s.id}')">📅 Attendance</button>
+            </div>
+        </div>`;
+    }).join(''):'<p style="opacity:0.7">No students found</p>';
+}
+function viewStudent(sid){
+    viewingAs=allUsers.find(u=>u.id===sid);
+    document.getElementById('assessingStudentName').textContent=viewingAs.name;
+    document.getElementById('assessingCourseName').textContent=COURSES[viewingAs.course]?.name||'—';
+    document.getElementById('assessorViewSection').classList.remove('hidden');
+    document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+    document.getElementById('page-portfolio').classList.remove('hidden');
+    document.querySelector('[data-page="portfolio"]').classList.add('active');
+    renderPortfolio();
+}
+function viewStudentAttendance(sid){
+    viewingAs=allUsers.find(u=>u.id===sid);
+    document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+    document.getElementById('page-attendance').classList.remove('hidden');
+    document.querySelector('[data-page="attendance"]').classList.add('active');
     renderAttendance();
-    renderDashboard();
-    alert('✅ Hours saved!');
 }
-
-function toggleCourseSelect(){
-    const role=document.getElementById('newUserRole').value;
-    document.getElementById('newUserCourse').disabled=(role==='admin');
-}
-
-function addUser(){
-    if(currentUser.role!=='admin')return alert('Admin only');
-    
-    const name=document.getElementById('newUserName').value.trim();
-    const email=document.getElementById('newUserEmail').value.trim();
-    const pass=document.getElementById('newUserPass').value;
-    const role=document.getElementById('newUserRole').value;
-    const course=document.getElementById('newUserCourse').value;
-    
-    if(!name||!email||!pass)return alert('Fill in all fields');
-    if(role==='student'&&!course)return alert('Select a course for this student');
-    if(findUser(email))return alert('Email already exists');
-    
-    const newUser={
-        id:'user-'+Date.now(),
-        name,
-        email,
-        password:pass,
-        role,
-        course:(role==='student')?course:null,
-        createdAt:new Date().toISOString()
-    };
-    
-    allUsers.push(newUser);
-    saveAllData();
-    
-    // Clear form
-    document.getElementById('newUserName').value='';
-    document.getElementById('newUserEmail').value='';
-    document.getElementById('newUserPass').value='';
-    document.getElementById('newUserCourse').value='';
-    
-    renderAdmin();
-    alert(`✅ Account created for ${name}!\nEmail: ${email}\nPassword: ${pass}`);
-}
-
-function deleteUser(id){
-    if(!confirm('Delete this user? This cannot be undone.'))return;
-    if(id===currentUser.id)return alert('Cannot delete yourself');
-    
-    allUsers=allUsers.filter(u=>u.id!==id);
-    saveAllData();
-    renderAdmin();
-}
-
-function renderAdmin(){
-    if(currentUser.role!=='admin')return;
-    
-    const tbody=document.getElementById('usersTableBody');
-    tbody.innerHTML=allUsers.map(u=>{
-        const courseName=u.course?COURSES[u.course].name:'—';
-        return `
-        <tr>
-            <td>${u.name}</td>
-            <td>${u.email}</td>
-            <td><span class="role-badge role-${u.role}">${u.role}</span></td>
-            <td>${courseName}</td>
-            <td>
-                <button class="btn-danger btn-small" style="width:auto" onclick="deleteUser('${u.id}')">Delete</button>
-            </td>
-        </tr>
-        `;
-    }).join('');
-}
-
-// Start
-loadData();
-</script>
-</body>
-</html>
+function exitStudentView(){
+    viewingAs=null;
+    document.querySelectorAll('.page').forEach(p
