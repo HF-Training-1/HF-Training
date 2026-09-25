@@ -3,108 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HF Training — Barbering Academy E-Portfolio</title>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-        :root{
-            --dark-blue:#1E3A5F;
-            --mid-blue:#2E5077;
-            --light-blue:#4A90D9;
-            --pale-blue:#E8F0FA;
-            --gray-900:#1A1A1A;
-            --gray-800:#2D2D2D;
-            --gray-700:#404040;
-            --gray-500:#888888;
-            --gray-200:#E0E0E0;
-            --gray-100:#F5F5F5;
-            --success:#2ECC71;
-            --danger:#E74C3C;
-            --warning:#F39C12;
-            --white:#FFFFFF;
-        }
-        body{background:linear-gradient(135deg,var(--dark-blue),var(--gray-800));min-height:100vh;color:var(--white)}
-        
-        .auth-container{max-width:440px;margin:4rem auto;padding:2.5rem;background:var(--white);border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.3);color:var(--gray-800)}
-        .auth-container h1{text-align:center;color:var(--dark-blue);margin-bottom:0.5rem;font-size:1.8rem}
-        .auth-container p{text-align:center;color:var(--gray-500);margin-bottom:2rem}
-        input,select,textarea{width:100%;padding:0.85rem 1rem;margin:0.5rem 0 1rem;border:2px solid var(--gray-200);border-radius:8px;font-size:1rem;transition:0.2s}
-        input:focus,select:focus,textarea:focus{outline:none;border-color:var(--light-blue)}
-        button{padding:0.9rem;border:none;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:0.2s}
-        .btn-primary{background:linear-gradient(90deg,var(--dark-blue),var(--light-blue));color:var(--white)}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(74,144,217,0.4)}
-        .btn-secondary{background:var(--gray-200);color:var(--gray-800)}
-        .btn-success{background:var(--success);color:var(--white)}
-        .btn-warning{background:var(--warning);color:var(--white)}
-        .btn-danger{background:var(--danger);color:var(--white)}
-        .btn-small{padding:0.5rem 1rem;font-size:0.9rem;width:auto}
-        .btn-block{width:100%}
-        
-        #app{display:none;min-height:100vh}
-        header{background:rgba(26,26,26,0.8);backdrop-filter:blur(10px);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:1rem;border-bottom:1px solid rgba(74,144,217,0.2)}
-        .logo{font-size:1.4rem;font-weight:700;color:var(--light-blue)}
-        .nav-links{display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center}
-        .nav-links a{color:var(--white);text-decoration:none;opacity:0.8;transition:0.2s;padding:0.5rem 0.75rem;border-radius:6px}
-        .nav-links a:hover,.nav-links a.active{opacity:1;background:rgba(74,144,217,0.2);color:var(--light-blue)}
-        .viewing-as{background:rgba(243,156,18,0.2);padding:0.5rem 1rem;border-radius:6px;border:1px solid var(--warning);font-size:0.9rem}
-        
-        .container{max-width:1200px;margin:0 auto;padding:2rem}
-        .card{background:rgba(255,255,255,0.05);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;border:1px solid rgba(74,144,217,0.15)}
-        .card h3{color:var(--light-blue);margin-bottom:1rem}
-        
-        .progress-bg{width:100%;height:24px;background:rgba(255,255,255,0.1);border-radius:12px;overflow:hidden;margin:0.5rem 0 1rem}
-        .progress-fill{height:100%;background:linear-gradient(90deg,var(--dark-blue),var(--light-blue));border-radius:12px;display:flex;align-items:center;justify-content:flex-end;padding-right:0.5rem;font-size:0.75rem;font-weight:bold;transition:0.5s ease}
-        
-        .unit{border-left:4px solid var(--light-blue);padding:1.5rem;margin:1rem 0;background:rgba(255,255,255,0.03);border-radius:0 10px 10px 0}
-        .unit.submitted{border-color:var(--warning)}
-        .unit.assessed{border-color:var(--success)}
-        .unit h4{font-size:1.1rem;margin-bottom:1rem;color:var(--pale-blue)}
-        .q-block{background:rgba(255,255,255,0.03);padding:1rem;border-radius:8px;margin:1rem 0}
-        .q-block label{font-weight:600;display:block;margin-bottom:0.5rem;color:var(--pale-blue)}
-        .upload-zone{border:2px dashed rgba(74,144,217,0.4);border-radius:8px;padding:2rem;text-align:center;margin:1rem 0;cursor:pointer;transition:0.2s}
-        .upload-zone:hover{border-color:var(--light-blue);background:rgba(74,144,217,0.08)}
-        .file-list{margin-top:0.5rem;font-size:0.9rem}
-        .file-item{padding:0.5rem;background:rgba(255,255,255,0.05);border-radius:4px;margin:0.25rem 0;display:flex;justify-content:space-between;align-items:center}
-        
-        .admin-table{width:100%;border-collapse:collapse;margin-top:1rem}
-        .admin-table th,.admin-table td{padding:0.75rem;text-align:left;border-bottom:1px solid rgba(74,144,217,0.15)}
-        .admin-table th{color:var(--light-blue)}
-        
-        .search-bar{display:flex;gap:0.5rem;margin-bottom:1.5rem}
-        .search-bar input{margin:0;flex:1}
-        .student-card{padding:1rem;background:rgba(255,255,255,0.03);border-radius:8px;margin:0.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem}
-        .student-card:hover{background:rgba(74,144,217,0.08)}
-        
-        .feedback-box{background:rgba(255,255,255,0.03);border-radius:8px;padding:1rem;margin-top:1rem;border-left:3px solid var(--warning)}
-        .feedback-box h5{color:var(--warning);margin-bottom:0.5rem}
-        .feedback-box.approved{border-color:var(--success)}
-        .feedback-box.iqa{border-color:var(--light-blue)}
-        
-        .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;margin-top:1rem}
-        .calendar-day{aspect-ratio:1;padding:0.5rem;background:rgba(255,255,255,0.03);border-radius:4px;text-align:center;font-size:0.8rem}
-        .calendar-day.has-hours{background:rgba(46,204,113,0.2);color:var(--success)}
-        .calendar-day.today{border:2px solid var(--light-blue)}
-        
-        .hidden{display:none !important}
-        .tag{display:inline-block;padding:0.25rem 0.75rem;border-radius:20px;font-size:0.8rem;font-weight:bold;margin:0.25rem}
-        .tag.vrq{background:var(--dark-blue)}
-        .tag.nvq{background:var(--mid-blue)}
-        .tag.vtct{background:var(--light-blue)}
-        .role-badge{display:inline-block;padding:0.25rem 0.5rem;border-radius:4px;font-size:0.75rem;font-weight:bold;margin-left:0.5rem}
-        .role-admin{background:var(--light-blue);color:var(--white)}
-        .role-student{background:var(--success)}
-        .role-assessor{background:var(--mid-blue)}
-        .role-iqa{background:var(--warning)}
-        .role-tutor{background:var(--pale-blue);color:var(--dark-blue)}
-        .status-draft{color:var(--gray-500)}
-        .status-submitted{color:var(--warning)}
-        .status-assessed{color:var(--success)}
-        .error-msg{color:var(--danger);margin-top:1rem;text-align:center;font-weight:600}
-        .reset-btn{margin-top:1rem;background:var(--gray-100);color:var(--gray-700);font-size:0.85rem;padding:0.6rem;width:100%}
-        .reset-btn:hover{background:var(--pale-blue)}
-    </style>
+    <title>HF Training — Barbering E-Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+<!-- LOGIN SCREEN -->
 <div id="loginScreen" class="auth-container">
     <h1>HF Training</h1>
     <p>Barbering Academy E-Portfolio</p>
@@ -113,15 +17,17 @@
     <button onclick="login()" class="btn-primary btn-block">Sign In</button>
     <p id="loginError" class="error-msg hidden"></p>
     <button onclick="resetMasterLogin()" class="reset-btn">🔑 Reset Master Login</button>
-    <p style="margin-top:1rem;font-size:0.85rem;color:var(--gray-500)">Accounts created by Admin only</p>
+    <p class="small-note">Accounts created by Admin only</p>
 </div>
 
-<div id="app">
+<!-- MAIN APP -->
+<div id="app" class="hidden">
     <header>
         <span class="logo">HF Training</span>
-        <div class="nav-links">
-            <span id="viewingAsBadge" class="viewing-as hidden">👁️ Viewing as: <span id="viewingName"></span>
-            <a href="#" onclick="exitStudentView()" style="color:var(--white);margin-left:0.5rem">✕ Exit</a></span>
+        <nav class="nav-links">
+            <span id="viewingAsBadge" class="viewing-as hidden">👁️ Viewing: <span id="viewingName"></span>
+                <a href="#" onclick="exitStudentView()">✕ Exit</a>
+            </span>
             <a href="#" class="active" data-page="dashboard">Dashboard</a>
             <a href="#" data-page="portfolio">E-Portfolio</a>
             <a href="#" data-page="attendance">Attendance</a>
@@ -130,27 +36,35 @@
             <a href="#" id="tutorLink" class="hidden" data-page="tutor">Tutor</a>
             <a href="#" id="adminLink" class="hidden" data-page="admin">Admin</a>
             <a href="#" onclick="logout()">Logout</a>
-        </div>
+        </nav>
     </header>
 
-    <div class="container">
+    <main class="container">
         <!-- DASHBOARD -->
         <section id="page-dashboard" class="page">
-            <h2>Welcome, <span id="userName">User</span> <span id="userRoleBadge" class="role-badge"></span></h2>
-            <p style="margin:1rem 0">Your progress across all units</p>
+            <h2>Welcome, <span id="userName"></span> <span id="userRoleBadge" class="role-badge"></span></h2>
+            <p class="subheading">Your progress across all units</p>
+            
             <div class="card">
-                <h3>Overall Course Progress</h3>
+                <h3>Overall Progress</h3>
                 <div class="progress-bg">
                     <div class="progress-fill" id="overallProgress" style="width:0%">0%</div>
                 </div>
-                <p id="courseName" style="margin-top:1rem;font-weight:bold"></p>
+                <p id="courseName" class="course-label"></p>
             </div>
-            <div class="card">
-                <h3>Quick Stats</h3>
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem">
-                    <div><p style="opacity:0.7;font-size:0.9rem">Units Completed</p><p style="font-size:1.8rem;font-weight:bold" id="unitsDone">0/0</p></div>
-                    <div><p style="opacity:0.7;font-size:0.9rem">OTJ Hours</p><p style="font-size:1.8rem;font-weight:bold" id="hoursLogged">0/0</p></div>
-                    <div><p style="opacity:0.7;font-size:0.9rem">Submitted</p><p style="font-size:1.8rem;font-weight:bold" id="pendingCount">0</p></div>
+
+            <div class="stats-grid">
+                <div class="card stat-card">
+                    <p class="stat-label">Units Completed</p>
+                    <p class="stat-value" id="unitsDone">0/0</p>
+                </div>
+                <div class="card stat-card">
+                    <p class="stat-label">On-The-Job Hours</p>
+                    <p class="stat-value" id="hoursLogged">0/0</p>
+                </div>
+                <div class="card stat-card">
+                    <p class="stat-label">Pending Assessment</p>
+                    <p class="stat-value" id="pendingCount">0</p>
                 </div>
             </div>
         </section>
@@ -164,25 +78,30 @@
         <!-- ATTENDANCE -->
         <section id="page-attendance" class="page hidden">
             <h2>Attendance & On-The-Job Training</h2>
-            <div id="attendanceLogForm" class="card">
+            
+            <div id="attendanceForm" class="card">
                 <h3>Log Your Hours</h3>
-                <label>Date:</label><input type="date" id="logDate">
-                <label>Hours Completed:</label><input type="number" id="logHours" placeholder="e.g. 7.5" step="0.5">
-                <label>Work Activity / Unit Covered:</label>
-                <textarea id="logNote" placeholder="What did you practice today? Which unit?"></textarea>
-                <button onclick="saveHours()" class="btn-primary">Save Entry</button>
+                <label>Date:</label>
+                <input type="date" id="logDate">
+                
+                <label>Hours Completed:</label>
+                <input type="number" id="logHours" placeholder="e.g. 7.5" step="0.5">
+                
+                <label>Activity / Unit Covered:</label>
+                <textarea id="logNote" placeholder="What did you practice? Which unit?"></textarea>
+                
+                <button onclick="saveHoursEntry()" class="btn-primary">Save Entry</button>
             </div>
+
             <div class="card">
-                <h3>OTJ Progress</h3>
-                <div class="progress-bg"><div class="progress-fill" id="otjProgress" style="width:0%">0%</div></div>
+                <h3>Progress Toward Required Hours</h3>
+                <div class="progress-bg">
+                    <div class="progress-fill" id="otjProgress" style="width:0%">0%</div>
+                </div>
                 <p id="otjText">0 of 0 hours required</p>
-                <h4 style="margin-top:1.5rem">Recent Entries</h4>
-                <div id="hoursLog"></div>
-            </div>
-            <div class="card">
-                <h3>📅 Attendance Calendar</h3>
-                <div id="calendarMonth" style="text-align:center;margin-bottom:1rem;font-weight:bold"></div>
-                <div class="calendar-grid" id="calendarGrid"></div>
+                
+                <h4>Recent Entries</h4>
+                <div id="hoursList"></div>
             </div>
         </section>
 
@@ -191,16 +110,16 @@
             <h2>🔍 Assessor Panel</h2>
             <div class="card">
                 <h3>Find Student</h3>
-                <div class="search-bar">
-                    <input type="text" id="assessorSearch" placeholder="Type student name..." oninput="filterAssessorList()">
+                <div class="search-row">
+                    <input type="text" id="assessorSearch" placeholder="Search by name..." oninput="filterAssessorList()">
                 </div>
                 <div id="assessorStudentList"></div>
             </div>
-            <div id="assessorViewSection" class="hidden">
+            <div id="assessorView" class="hidden">
                 <div class="card">
-                    <h3 id="assessingStudentName"></h3>
-                    <p>Course: <span id="assessingCourseName"></span></p>
-                    <div id="assessorUnitsList"></div>
+                    <h3 id="assessStudentName"></h3>
+                    <p>Course: <span id="assessStudentCourse"></span></p>
+                    <div id="assessStudentUnits"></div>
                 </div>
             </div>
         </section>
@@ -210,7 +129,7 @@
             <h2>✅ Internal Quality Assurance</h2>
             <div class="card">
                 <h3>Filter by Course</h3>
-                <select id="iqaFilterCourse" onchange="renderIQAList()">
+                <select id="iqaCourseFilter" onchange="renderIQAList()">
                     <option value="all">— All Courses —</option>
                     <option value="vrq">VRQ Level 2</option>
                     <option value="nvq">NVQ Level 2</option>
@@ -221,13 +140,6 @@
                 <h3>Students for Sampling</h3>
                 <div id="iqaStudentList"></div>
             </div>
-            <div id="iqaViewSection" class="hidden">
-                <div class="card">
-                    <h3 id="iqaStudentName"></h3>
-                    <p>Course: <span id="iqaCourseName"></span></p>
-                    <div id="iqaUnitsList"></div>
-                </div>
-            </div>
         </section>
 
         <!-- TUTOR PANEL -->
@@ -235,601 +147,81 @@
             <h2>📚 Tutor Panel</h2>
             <div class="card">
                 <h3>Find Student</h3>
-                <div class="search-bar">
-                    <input type="text" id="tutorSearch" placeholder="Type student name..." oninput="filterTutorList()">
+                <div class="search-row">
+                    <input type="text" id="tutorSearch" placeholder="Search by name..." oninput="filterTutorList()">
                 </div>
                 <div id="tutorStudentList"></div>
             </div>
         </section>
 
-        <!-- ADMIN PANEL -->
+        <!-- ADMIN PANEL — ADD STUDENTS, SET ROLES, DROPDOWNS -->
         <section id="page-admin" class="page hidden">
             <h2>⚙️ Admin Control Panel</h2>
-            
+
             <div class="card">
-                <h3>Add New User</h3>
-                <input type="text" id="newUserName" placeholder="Full Name">
-                <input type="email" id="newUserEmail" placeholder="Email Address">
-                <input type="password" id="newUserPass" placeholder="Set Password">
-                <select id="newUserRole" onchange="toggleCourseSelect()">
+                <h3>Add New User / Student</h3>
+                
+                <label>Full Name:</label>
+                <input type="text" id="newName" placeholder="e.g. John Smith">
+                
+                <label>Email Address:</label>
+                <input type="email" id="newEmail" placeholder="email@example.com">
+                
+                <label>Password:</label>
+                <input type="password" id="newPass" placeholder="Set a password">
+                
+                <label>Role:</label>
+                <select id="newRole" onchange="toggleCourseDropdown()">
                     <option value="student">Student</option>
                     <option value="tutor">Tutor</option>
                     <option value="assessor">Assessor</option>
                     <option value="iqa">IQA / Internal Verifier</option>
                     <option value="admin">Admin</option>
                 </select>
-                <select id="newUserCourse">
-                    <option value="">— Select Course (Students Only) —</option>
+                
+                <label id="courseLabel">Course (Students Only):</label>
+                <select id="newCourse">
+                    <option value="">— Select Course —</option>
                     <option value="vrq">VRQ Level 2 Diploma in Barbering</option>
                     <option value="nvq">NVQ Level 2 Diploma in Barbering</option>
                     <option value="vtct">VTCT Level 2 Diploma in Barbering</option>
                 </select>
-                <button onclick="addUser()" class="btn-primary">Create Account</button>
+                
+                <label>Associated Shop / Branch:</label>
+                <select id="newShop">
+                    <option value="hq">HF Training — Main Academy</option>
+                    <option value="shop1">Partner Shop — Central London</option>
+                    <option value="shop2">Partner Shop — Essex</option>
+                    <option value="shop3">Partner Shop — Kent</option>
+                    <option value="other">Other / New Branch</option>
+                </select>
+                
+                <button onclick="createNewUser()" class="btn-primary">Create Account</button>
             </div>
-            
+
             <div class="card">
-                <h3>All Users</h3>
-                <div class="search-bar">
-                    <input type="text" id="adminSearch" placeholder="Search by name..." oninput="renderAdmin()">
+                <h3>All Users & Students</h3>
+                <div class="search-row">
+                    <input type="text" id="adminSearch" placeholder="Search by name or shop..." oninput="renderAdminTable()">
                 </div>
-                <table class="admin-table">
-                    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Course</th><th>Actions</th></tr></thead>
+                <table class="full-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Course</th>
+                            <th>Shop/Branch</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
                     <tbody id="usersTableBody"></tbody>
                 </table>
             </div>
         </section>
-    </div>
+    </main>
 </div>
 
-<script>
-// ==========================================
-// HF TRAINING — FINAL LOCKED v3.0
-// MASTER ADMIN — BUILT-IN & PROTECTED
-// Email: shane@hairforce-1.co.uk
-// Pass:  Hairforce1.
-// ==========================================
-
-// 🔒 MASTER ADMIN — PERMANENTLY SET HERE
-const MASTER_ADMIN = {
-    id: 'master-shane',
-    name: 'Shane',
-    email: 'shane@hairforce-1.co.uk',
-    password: 'Hairforce1.',
-    role: 'admin',
-    course: null
-};
-
-const COURSES = {
-    vrq: {
-        name: "VRQ Level 2 Diploma in Barbering",
-        shortName: "VRQ L2",
-        totalUnits: 7,
-        requiredHours: 0,
-        units: [
-            {id:"u1", title:"Health & Safety in the Salon", questions:[
-                {q:"Identify THREE potential hazards in a barbershop and how to reduce risks."},
-                {q:"What is the correct procedure for dealing with a fire emergency in the salon?"},
-                {q:"Explain why it is important to follow COSHH regulations and how to store hazardous products safely."},
-                {q:"Describe how to maintain personal hygiene and professional appearance in the workplace."}
-            ]},
-            {id:"u2", title:"Advise & Consult with Clients", questions:[
-                {q:"What are the key stages of a client consultation?"},
-                {q:"How would you identify a client's hair type, face shape, and suitability for a proposed style?"},
-                {q:"Why is it important to give clear aftercare advice? Give THREE examples of what you would cover."},
-                {q:"How do you handle a client who is unhappy with their service?"}
-            ]},
-            {id:"u3", title:"Shampoo, Condition & Treat Hair & Scalp", questions:[
-                {q:"Explain how to select the correct shampoo and conditioner for different hair and scalp types."},
-                {q:"Describe the correct posture and massage movements used when shampooing."},
-                {q:"What checks should you make before applying any product to a client's hair or scalp?"},
-                {q:"List the steps you would take to prepare your workstation for a shampoo service."}
-            ]},
-            {id:"u4", title:"Cut Men's Hair Using Basic Techniques", questions:[
-                {q:"Explain the difference between blunt cutting and layering techniques."},
-                {q:"Describe how you would check the hairline, nape, and sides for balance during and after cutting."},
-                {q:"What safety checks do you perform on your cutting tools before use?"},
-                {q:"How does hair growth pattern affect the way you cut and style the hair?"}
-            ]},
-            {id:"u5", title:"Dry & Finish Men's Hair", questions:[
-                {q:"Explain how to choose the correct brushes, combs, and drying equipment for different hair types."},
-                {q:"Describe how you would apply finishing products and why you choose specific ones."},
-                {q:"How do you ensure the finished look meets the client's requirements?"},
-                {q:"What aftercare advice would you give to help the client maintain their finished style?"}
-            ]},
-            {id:"u6", title:"Cut Facial Hair to Shape", questions:[
-                {q:"What protective measures should be taken before trimming a client's facial hair?"},
-                {q:"Describe how you would consult with the client to agree the shape and style of beard or moustache."},
-                {q:"Explain how to check for symmetry and balance when trimming facial hair."},
-                {q:"What aftercare advice would you give for maintaining facial hair?"}
-            ]},
-            {id:"u7", title:"Basic Barbering Services & Professional Practice", questions:[
-                {q:"Explain the importance of time management in a busy barbershop."},
-                {q:"How do you maintain cleanliness and hygiene of tools and equipment between clients?"},
-                {q:"Describe how to communicate professionally with colleagues and clients."},
-                {q:"What are your responsibilities under the Data Protection Act/GDPR?"}
-            ]}
-        ]
-    },
-    nvq: {
-        name: "NVQ Level 2 Diploma in Barbering",
-        shortName: "NVQ L2",
-        totalUnits: 8,
-        requiredHours: 372,
-        units: [
-            {id:"n1", title:"Health & Safety", questions:[
-                {q:"Explain your legal responsibilities for health and safety in the workplace."},
-                {q:"Describe how to carry out a risk assessment in the salon."},
-                {q:"What records should be kept for health and safety compliance?"},
-                {q:"How do you report and record accidents or incidents?"}
-            ]},
-            {id:"n2", title:"Client Consultation", questions:[
-                {q:"Explain how to build client confidence and trust during consultation."},
-                {q:"What visual and manual checks do you perform on hair and scalp before service?"},
-                {q:"How do you manage client expectations when their request is not suitable?"},
-                {q:"Why is written consent important and when should it be obtained?"}
-            ]},
-            {id:"n3", title:"Shampoo & Condition", questions:[
-                {q:"Explain the structure and function of hair and skin."},
-                {q:"How do you identify contra-indications that may restrict or prevent service?"},
-                {q:"Describe the effects of different water temperatures and massage pressures."},
-                {q:"How do you evaluate the effectiveness of the treatment given?"}
-            ]},
-            {id:"n4", title:"Cutting Hair — Basic", questions:[
-                {q:"Explain how hair growth, density, and texture influence cutting decisions."},
-                {q:"Describe how to create graduation and layering effects."},
-                {q:"What do you do if you make a mistake during a haircut?"},
-                {q:"How do you position the client and yourself for best results and posture?"}
-            ]},
-            {id:"n5", title:"Cutting Hair — Advanced Men's Techniques", questions:[
-                {q:"Explain how to create different looks using clipper-over-comb and scissor-over-comb."},
-                {q:"How do you blend lengths and maintain balance throughout the cut?"},
-                {q:"Describe how to create defined outlines and check symmetry."},
-                {q:"How do you adapt your technique for curly, coarse, or thinning hair?"}
-            ]},
-            {id:"n6", title:"Facial Hair Shaping", questions:[
-                {q:"Explain how face shape influences beard design."},
-                {q:"How do you prepare the skin before shaving or trimming?"},
-                {q:"Describe the correct angles and movements when using cut-throat or safety razors."},
-                {q:"What signs of irritation do you look for and how do you respond?"}
-            ]},
-            {id:"n7", title:"Styling & Finishing", questions:[
-                {q:"Explain how heat and mechanical styling affect the hair structure."},
-                {q:"How do you select and apply products to achieve the desired finish?"},
-                {q:"Describe how to maintain the finished look and recommend home care products."},
-                {q:"How do you store and maintain your styling tools?"}
-            ]},
-            {id:"n8", title:"Professional Practice", questions:[
-                {q:"Explain the importance of meeting service times and handling booking systems."},
-                {q:"How do you promote products and additional services ethically?"},
-                {q:"Describe how to work as part of a team and support colleagues."},
-                {q:"What are the key differences between working as an employee and running your own business?"}
-            ]}
-        ]
-    },
-    vtct: {
-        name: "VTCT Level 2 Diploma in Barbering",
-        shortName: "VTCT L2",
-        totalUnits: 10,
-        requiredHours: 372,
-        units: [
-            {id:"v1", title:"Working in the Hair Industry", questions:[
-                {q:"Describe the different career pathways available in barbering."},
-                {q:"What qualities and behaviours are expected of a professional barber?"},
-                {q:"How do you keep up to date with industry trends and new techniques?"},
-                {q:"Explain the importance of continuous professional development."}
-            ]},
-            {id:"v2", title:"Health & Safety", questions:[
-                {q:"List the main pieces of legislation that apply to the barbering industry."},
-                {q:"How do you dispose of waste materials safely and hygienically?"},
-                {q:"What personal protective equipment (PPE) should you use and why?"},
-                {q:"How do you ensure electrical safety with styling equipment?"}
-            ]},
-            {id:"v3", title:"Consultation & Client Care", questions:[
-                {q:"Explain active listening techniques and how you use them with clients."},
-                {q:"How do you adapt your communication style for different clients?"},
-                {q:"What information do you record and why is it stored securely?"},
-                {q:"How do you deal with a complaint professionally and constructively?"}
-            ]},
-            {id:"v4", title:"Shampooing & Conditioning", questions:[
-                {q:"Explain the pH scale and how it relates to hair products."},
-                {q:"How do you recognise common hair and scalp disorders?"},
-                {q:"Describe how to detangle hair without causing damage."},
-                {q:"How do you leave the client feeling comfortable and valued?"}
-            ]},
-            {id:"v5", title:"Cutting Men's Hair — Foundation", questions:[
-                {q:"Explain the terms: weight, graduation, layering, and elevation."},
-                {q:"How do you use the natural fall of the hair to guide your cutting lines?"},
-                {q:"Describe how to check balance and proportion from all angles."},
-                {q:"How does hair elasticity affect how it springs back after cutting?"}
-            ]},
-            {id:"v6", title:"Cutting Men's Hair — Creative", questions:[
-                {q:"How do you use clippers to create different lengths and textures?"},
-                {q:"Explain how to create contrast between short and long areas."},
-                {q:"How do you adapt your cutting plan if the hair behaves differently than expected?"},
-                {q:"Describe how to create detailed designs and patterns."}
-            ]},
-            {id:"v7", title:"Shaving & Facial Hair", questions:[
-                {q:"Explain skin preparation including steaming and cleansing."},
-                {q:"What is the correct blade angle and stroke direction for a clean shave?"},
-                {q:"How do you minimise the risk of cuts, grazes, and razor burn?"},
-                {q:"Describe how to shape and maintain moustaches and beards."}
-            ]},
-            {id:"v8", title:"Styling & Dressing Hair", questions:[
-                {q:"Explain how to use root lifting, blow-drying, and finishing products to create volume."},
-                {q:"How do you identify hair type and choose the right styling approach?"},
-                {q:"Describe how to fix and secure hair for longer-lasting styles."},
-                {q:"What advice do you give clients for home maintenance between visits?"}
-            ]},
-            {id:"v9", title:"Colouring & Lightening Basics", questions:[
-                {q:"Explain the difference between permanent, semi-permanent, and temporary colour."},
-                {q:"What safety checks must be done before any colour service?"},
-                {q:"How do you apply root colour and tone evenly?"},
-                {q:"Describe how to remove colour products without staining skin or scalp."}
-            ]},
-            {id:"v10", title:"End Testing & Portfolio Building", questions:[
-                {q:"What evidence do you need to gather to show you are competent?"},
-                {q:"How do you plan your time to complete all units within your course period?"},
-                {q:"Describe how to prepare for your final practical assessments."},
-                {q:"What feedback do you ask for and how do you use it to improve?"}
-            ]}
-        ]
-    }
-};
-
-// GLOBAL STATE
-let currentUser = null;
-let viewingAs = null;
-let allUsers = [];
-let calendarDate = new Date();
-
-// DATA HELPERS
-function storageKey(id) { return `hfUser_${id}`; }
-function loadAllUsers() {
-    const d = localStorage.getItem('hfTrainingData');
-    return d ? JSON.parse(d).users || [] : [];
-}
-function saveAllUsers() {
-    localStorage.setItem('hfTrainingData', JSON.stringify({ users: allUsers }));
-}
-function loadUserData(id) {
-    const d = localStorage.getItem(storageKey(id));
-    return d ? JSON.parse(d) : {};
-}
-function saveUserData(id, data) {
-    localStorage.setItem(storageKey(id), JSON.stringify(data));
-    saveAllUsers();
-}
-function activeUserData() {
-    return viewingAs ? loadUserData(viewingAs.id) : (currentUser ? loadUserData(currentUser.id) : {});
-}
-function setActiveUserData(d) {
-    if (viewingAs) saveUserData(viewingAs.id, d);
-    else if (currentUser) saveUserData(currentUser.id, d);
-}
-function findUserByEmail(e) {
-    return allUsers.find(u => u.email.toLowerCase().trim() === e.toLowerCase().trim());
-}
-
-// 🔑 RESET FUNCTION — ONE-CLICK FIX
-function resetMasterLogin() {
-    if (!confirm('This will reset your master admin login. Continue?')) return;
-    localStorage.clear();
-    allUsers = [{ ...MASTER_ADMIN }];
-    saveAllUsers();
-    alert('✅ Master Admin Restored!\nEmail: shane@hairforce-1.co.uk\nPass: Hairforce1.');
-}
-
-// INIT — ENSURE MASTER ADMIN ALWAYS EXISTS
-function init() {
-    allUsers = loadAllUsers();
-    
-    // Make sure master admin ALWAYS exists
-    const masterExists = allUsers.some(u => u.email.toLowerCase().trim() === MASTER_ADMIN.email.toLowerCase());
-    if (!masterExists) {
-        allUsers.unshift({ ...MASTER_ADMIN });
-        saveAllUsers();
-        console.log('✅ Master Admin Created');
-    }
-    
-    // Check existing session
-    const sess = localStorage.getItem('hfActiveSession');
-    if (sess) {
-        const u = allUsers.find(x => x.id === sess);
-        if (u) {
-            currentUser = u;
-            showApp();
-        }
-    }
-}
-
-function showError(msg) {
-    const el = document.getElementById('loginError');
-    el.textContent = msg;
-    el.classList.remove('hidden');
-}
-
-function login() {
-    const e = document.getElementById('email').value.trim().toLowerCase();
-    const p = document.getElementById('password').value;
-    
-    document.getElementById('loginError').classList.add('hidden');
-    
-    if (!e || !p) return showError('⚠️ Enter email and password');
-    
-    // First check: MASTER ADMIN — direct match, always works
-    if (e === MASTER_ADMIN.email.toLowerCase() && p === MASTER_ADMIN.password) {
-        // Ensure master is in the list
-        if (!allUsers.some(u => u.email.toLowerCase() === MASTER_ADMIN.email.toLowerCase())) {
-            allUsers.unshift({ ...MASTER_ADMIN });
-            saveAllUsers();
-        }
-        currentUser = { ...MASTER_ADMIN };
-        viewingAs = null;
-        localStorage.setItem('hfActiveSession', MASTER_ADMIN.id);
-        showApp();
-        return;
-    }
-    
-    // Check other users
-    const u = findUserByEmail(e);
-    if (!u) return showError('❌ Account not found');
-    if (u.password !== p) return showError('❌ Incorrect password');
-    
-    currentUser = u;
-    viewingAs = null;
-    localStorage.setItem('hfActiveSession', u.id);
-    showApp();
-}
-
-function logout() {
-    currentUser = null;
-    viewingAs = null;
-    localStorage.removeItem('hfActiveSession');
-    document.getElementById('loginScreen').style.display = 'block';
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('email').value = '';
-    document.getElementById('password').value = '';
-}
-
-function showApp() {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    
-    document.getElementById('assessorLink').classList.toggle('hidden', !['admin','assessor','tutor'].includes(currentUser.role));
-    document.getElementById('iqaLink').classList.toggle('hidden', !['admin','iqa'].includes(currentUser.role));
-    document.getElementById('tutorLink').classList.toggle('hidden', !['admin','tutor','assessor','iqa'].includes(currentUser.role));
-    document.getElementById('adminLink').classList.toggle('hidden', currentUser.role !== 'admin');
-    
-    setupNav();
-    renderDashboard();
-    renderPortfolio();
-    renderAttendance();
-    if (currentUser.role === 'admin') renderAdmin();
-}
-
-function setupNav() {
-    document.querySelectorAll('.nav-links a[data-page]').forEach(lnk => {
-        lnk.onclick = e => {
-            e.preventDefault();
-            const pg = lnk.dataset.page;
-            
-            if (pg === 'assessor' && !['admin','assessor','tutor'].includes(currentUser.role)) return;
-            if (pg === 'iqa' && !['admin','iqa'].includes(currentUser.role)) return;
-            if (pg === 'tutor' && !['admin','tutor','assessor','iqa'].includes(currentUser.role)) return;
-            if (pg === 'admin' && currentUser.role !== 'admin') return;
-            
-            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
-            document.getElementById(`page-${pg}`).classList.remove('hidden');
-            lnk.classList.add('active');
-            
-            if (pg === 'assessor') renderAssessorList();
-            if (pg === 'iqa') renderIQAList();
-            if (pg === 'tutor') renderTutorList();
-        };
-    });
-}
-
-function effectiveUser() { return viewingAs || currentUser; }
-
-function exitStudentView() {
-    viewingAs = null;
-    renderDashboard();
-    renderPortfolio();
-    renderAttendance();
-}
-
-function renderDashboard() {
-    const u = effectiveUser();
-    const d = activeUserData();
-    
-    document.getElementById('userName').textContent = u.name;
-    document.getElementById('userRoleBadge').textContent = u.role.toUpperCase();
-    document.getElementById('userRoleBadge').className = `role-badge role-${u.role}`;
-    
-    if (viewingAs) {
-        document.getElementById('viewingAsBadge').classList.remove('hidden');
-        document.getElementById('viewingName').textContent = u.name;
-    } else {
-        document.getElementById('viewingAsBadge').classList.add('hidden');
-    }
-    
-    if (!u.course) {
-        document.getElementById('courseName').textContent = 'Full System Access';
-        document.getElementById('overallProgress').style.width = '100%';
-        document.getElementById('overallProgress').textContent = 'MASTER ADMIN';
-        document.getElementById('unitsDone').textContent = '—';
-        document.getElementById('hoursLogged').textContent = '—';
-        document.getElementById('pendingCount').textContent = '—';
-        return;
-    }
-    
-    const c = COURSES[u.course];
-    const comp = d.completedUnits || [];
-    const subs = Object.values(d.submissions || {}).filter(s => s.status === 'submitted');
-    const pc = Math.round((comp.length / c.totalUnits) * 100);
-    const hrs = (d.hours || []).reduce((sum, h) => sum + parseFloat(h.hours || 0), 0);
-    
-    document.getElementById('courseName').textContent = c.name;
-    document.getElementById('overallProgress').style.width = pc + '%';
-    document.getElementById('overallProgress').textContent = pc + '%';
-    document.getElementById('unitsDone').textContent = `${comp.length}/${c.totalUnits}`;
-    document.getElementById('hoursLogged').textContent = `${hrs.toFixed(1)}/${c.requiredHours}`;
-    document.getElementById('pendingCount').textContent = subs.length;
-}
-
-function renderPortfolio() {
-    const u = effectiveUser();
-    if (!u.course) {
-        document.getElementById('currentCourseName').textContent = 'Select a student from Assessor / Tutor panel';
-        document.getElementById('unitsList').innerHTML = '';
-        return;
-    }
-    
-    const c = COURSES[u.course];
-    const d = activeUserData();
-    const comp = d.completedUnits || [];
-    const ans = d.answers || {};
-    const upl = d.uploads || {};
-    const subs = d.submissions || {};
-    
-    document.getElementById('currentCourseName').textContent = c.name;
-    const list = document.getElementById('unitsList');
-    list.innerHTML = '';
-    
-    c.units.forEach((un, idx) => {
-        const done = comp.includes(un.id);
-        const sub = subs[un.id] || {};
-        const stat = sub.status || 'draft';
-        
-        list.innerHTML += `
-        <div class="unit ${stat === 'submitted' ? 'submitted' : ''} ${stat === 'assessed' ? 'assessed' : ''}">
-            <h4>Unit ${idx + 1}: ${un.title}
-            <span style="font-size:0.8rem;opacity:0.7;margin-left:0.5rem;">
-            ${stat === 'draft' ? '<span class="status-draft">Draft</span>' : ''}
-            ${stat === 'submitted' ? '<span class="status-submitted">⏳ Awaiting Assessment</span>' : ''}
-            ${stat === 'assessed' ? '<span class="status-assessed">✅ Assessed</span>' : ''}
-            ${done ? ' ✅ Completed' : ''}
-            </span></h4>
-            
-            ${un.questions.map((q, qIdx) => `
-            <div class="q-block">
-                <label>${qIdx + 1}. ${q.q}</label>
-                <textarea id="q-${un.id}-${qIdx}" rows="4" ${viewingAs ? 'readonly' : ''} 
-                    placeholder="Type your answer here...">${(ans[un.id] || {})[`q${qIdx}`] || ''}</textarea>
-            </div>
-            `).join('')}
-            
-            <div class="q-block">
-                <label>📎 Uploaded Evidence</label>
-                ${!viewingAs ? `
-                <div class="upload-zone" onclick="document.getElementById('file-${un.id}').click()">
-                    <p>Click to select files</p>
-                    <p style="font-size:0.85rem;opacity:0.7">JPG, PNG, PDF</p>
-                </div>
-                <input type="file" id="file-${un.id}" accept=".jpg,.jpeg,.png,.pdf" style="display:none" 
-                    onchange="handleFileUpload('${un.id}', this.files[0])">
-                ` : ''}
-                <div class="file-list">
-                    ${(upl[un.id] || []).map(f => `<div class="file-item">✅ ${f.name}</div>`).join('')}
-                </div>
-            </div>
-            
-            ${sub.feedback ? `
-            <div class="feedback-box ${sub.status === 'assessed' ? 'approved' : ''}">
-                <h5>Assessor Feedback</h5>
-                <p>${sub.feedback}</p>
-                ${sub.iqaNote ? `
-                <div class="feedback-box iqa" style="margin-top:0.5rem">
-                    <h5>IQA Note</h5><p>${sub.iqaNote}</p>
-                </div>` : ''}
-            </div>` : ''}
-            
-            ${!viewingAs ? `
-            <button class="btn-primary btn-small" style="width:auto" onclick="saveUnit('${un.id}')">Save</button>
-            <button class="btn-warning btn-small" style="width:auto;margin-left:0.5rem" 
-                onclick="submitUnit('${un.id}')" ${stat === 'submitted' ? 'disabled' : ''}>
-                ${stat === 'submitted' ? 'Submitted' : 'Submit to Assessor'}
-            </button>
-            ` : ''}
-            
-            ${viewingAs && ['admin','assessor','tutor'].includes(currentUser.role) ? `
-            <button class="btn-success btn-small" style="width:auto;margin-left:0.5rem" 
-                onclick="assessUnit('${u.id}', '${un.id}', 'approve')">✅ Approve</button>
-            <button class="btn-warning btn-small" style="width:auto" 
-                onclick="assessUnit('${u.id}', '${un.id}', 'refer')">↩️ Refer</button>
-            ` : ''}
-        </div>`;
-    });
-}
-
-function handleFileUpload(uid, file) {
-    if (!file) return;
-    const d = activeUserData();
-    if (!d.uploads) d.uploads = {};
-    if (!d.uploads[uid]) d.uploads[uid] = [];
-    d.uploads[uid].push({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        uploadedAt: new Date().toISOString()
-    });
-    setActiveUserData(d);
-    renderPortfolio();
-    alert('✅ File uploaded: ' + file.name);
-}
-
-function saveUnit(uid) {
-    const d = activeUserData();
-    if (!d.answers) d.answers = {};
-    if (!d.answers[uid]) d.answers[uid] = {};
-    
-    const c = COURSES[effectiveUser().course];
-    c.units.find(u => u.id === uid).questions.forEach((_, i) => {
-        const el = document.getElementById(`q-${uid}-${i}`);
-        if (el) d.answers[uid][`q${i}`] = el.value;
-    });
-    
-    setActiveUserData(d);
-    alert('✅ Saved!');
-}
-
-function submitUnit(uid) {
-    if (!confirm('Submit this unit to your Assessor? You may not edit it after submission.')) return;
-    const d = activeUserData();
-    if (!d.submissions) d.submissions = {};
-    d.submissions[uid] = { status: 'submitted', submittedAt: new Date().toISOString() };
-    setActiveUserData(d);
-    renderPortfolio();
-    renderDashboard();
-}
-
-function assessUnit(sid, uid, decision) {
-    const fb = prompt(decision === 'approve' ? 'Enter approval feedback:' : 'Enter reason for referring back:');
-    if (fb === null) return;
-    
-    const d = loadUserData(sid);
-    if (!d.submissions) d.submissions = {};
-    d.submissions[uid] = {
-        status: decision === 'approve' ? 'assessed' : 'draft',
-        feedback: fb,
-        assessedBy: currentUser.email,
-        assessedAt: new Date().toISOString()
-    };
-    
-    if (decision === 'approve') {
-        if (!d.completedUnits) d.completedUnits = [];
-        if (!d.completedUnits.includes(uid)) d.completedUnits.push(uid);
-    }
-    
-    saveUserData(sid, d);
-    alert('✅ Assessment recorded!');
-    if (viewingAs) { renderPortfolio(); renderDashboard(); }
-}
-
-function renderAttendance() {
-    const u = effectiveUser();
-    const d = activeUserData();
-    const c = u.course ? COURSES[u.course] : null;
-    const hrs = d.hours || [];
-    const total = hrs.reduce((sum,
+<script src="app.js"></script>
+</body>
+</html>
