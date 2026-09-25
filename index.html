@@ -99,6 +99,8 @@
         .status-submitted{color:var(--warning)}
         .status-assessed{color:var(--success)}
         .error-msg{color:var(--danger);margin-top:1rem;text-align:center;font-weight:600}
+        .reset-btn{margin-top:1rem;background:var(--gray-100);color:var(--gray-700);font-size:0.85rem;padding:0.6rem;width:100%}
+        .reset-btn:hover{background:var(--pale-blue)}
     </style>
 </head>
 <body>
@@ -108,8 +110,9 @@
     <p>Barbering Academy E-Portfolio</p>
     <input type="email" id="email" placeholder="Email address">
     <input type="password" id="password" placeholder="Password">
-    <button onclick="login()" class="btn-primary">Sign In</button>
+    <button onclick="login()" class="btn-primary btn-block">Sign In</button>
     <p id="loginError" class="error-msg hidden"></p>
+    <button onclick="resetMasterLogin()" class="reset-btn">🔑 Reset Master Login</button>
     <p style="margin-top:1rem;font-size:0.85rem;color:var(--gray-500)">Accounts created by Admin only</p>
 </div>
 
@@ -280,9 +283,22 @@
 
 <script>
 // ==========================================
-// HF TRAINING — FIXED v2.2
-// Master Admin: shane@hairforce-1.co.uk / Hairforce1.
+// HF TRAINING — FINAL LOCKED v3.0
+// MASTER ADMIN — BUILT-IN & PROTECTED
+// Email: shane@hairforce-1.co.uk
+// Pass:  Hairforce1.
 // ==========================================
+
+// 🔒 MASTER ADMIN — PERMANENTLY SET HERE
+const MASTER_ADMIN = {
+    id: 'master-shane',
+    name: 'Shane',
+    email: 'shane@hairforce-1.co.uk',
+    password: 'Hairforce1.',
+    role: 'admin',
+    course: null
+};
+
 const COURSES = {
     vrq: {
         name: "VRQ Level 2 Diploma in Barbering",
@@ -494,27 +510,28 @@ function findUserByEmail(e) {
     return allUsers.find(u => u.email.toLowerCase().trim() === e.toLowerCase().trim());
 }
 
-// CLEAR OLD DATA & INIT — SEED MASTER ADMIN
+// 🔑 RESET FUNCTION — ONE-CLICK FIX
+function resetMasterLogin() {
+    if (!confirm('This will reset your master admin login. Continue?')) return;
+    localStorage.clear();
+    allUsers = [{ ...MASTER_ADMIN }];
+    saveAllUsers();
+    alert('✅ Master Admin Restored!\nEmail: shane@hairforce-1.co.uk\nPass: Hairforce1.');
+}
+
+// INIT — ENSURE MASTER ADMIN ALWAYS EXISTS
 function init() {
-    // Force fresh start if needed
     allUsers = loadAllUsers();
     
-    // CREATE MASTER ADMIN IF NO USERS EXIST
-    if (!allUsers || !allUsers.length) {
-        allUsers = [{
-            id: 'admin-1',
-            name: 'Shane',
-            email: 'shane@hairforce-1.co.uk',
-            password: 'Hairforce1.',
-            role: 'admin',
-            course: null,
-            createdAt: new Date().toISOString()
-        }];
+    // Make sure master admin ALWAYS exists
+    const masterExists = allUsers.some(u => u.email.toLowerCase().trim() === MASTER_ADMIN.email.toLowerCase());
+    if (!masterExists) {
+        allUsers.unshift({ ...MASTER_ADMIN });
         saveAllUsers();
-        console.log('✅ Master Admin created successfully');
+        console.log('✅ Master Admin Created');
     }
     
-    // Check for existing session
+    // Check existing session
     const sess = localStorage.getItem('hfActiveSession');
     if (sess) {
         const u = allUsers.find(x => x.id === sess);
@@ -532,20 +549,32 @@ function showError(msg) {
 }
 
 function login() {
-    const e = document.getElementById('email').value.trim();
+    const e = document.getElementById('email').value.trim().toLowerCase();
     const p = document.getElementById('password').value;
     
-    // Clear previous error
     document.getElementById('loginError').classList.add('hidden');
     
-    if (!e || !p) return showError('⚠️ Please enter email and password');
+    if (!e || !p) return showError('⚠️ Enter email and password');
     
+    // First check: MASTER ADMIN — direct match, always works
+    if (e === MASTER_ADMIN.email.toLowerCase() && p === MASTER_ADMIN.password) {
+        // Ensure master is in the list
+        if (!allUsers.some(u => u.email.toLowerCase() === MASTER_ADMIN.email.toLowerCase())) {
+            allUsers.unshift({ ...MASTER_ADMIN });
+            saveAllUsers();
+        }
+        currentUser = { ...MASTER_ADMIN };
+        viewingAs = null;
+        localStorage.setItem('hfActiveSession', MASTER_ADMIN.id);
+        showApp();
+        return;
+    }
+    
+    // Check other users
     const u = findUserByEmail(e);
+    if (!u) return showError('❌ Account not found');
+    if (u.password !== p) return showError('❌ Incorrect password');
     
-    if (!u) return showError('❌ Account not found — check email or contact Admin.');
-    if (u.password !== p) return showError('❌ Incorrect password.');
-    
-    // SUCCESS
     currentUser = u;
     viewingAs = null;
     localStorage.setItem('hfActiveSession', u.id);
@@ -566,7 +595,6 @@ function showApp() {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
     
-    // Show panels based on role
     document.getElementById('assessorLink').classList.toggle('hidden', !['admin','assessor','tutor'].includes(currentUser.role));
     document.getElementById('iqaLink').classList.toggle('hidden', !['admin','iqa'].includes(currentUser.role));
     document.getElementById('tutorLink').classList.toggle('hidden', !['admin','tutor','assessor','iqa'].includes(currentUser.role));
@@ -585,7 +613,6 @@ function setupNav() {
             e.preventDefault();
             const pg = lnk.dataset.page;
             
-            // Permissions check
             if (pg === 'assessor' && !['admin','assessor','tutor'].includes(currentUser.role)) return;
             if (pg === 'iqa' && !['admin','iqa'].includes(currentUser.role)) return;
             if (pg === 'tutor' && !['admin','tutor','assessor','iqa'].includes(currentUser.role)) return;
@@ -605,6 +632,13 @@ function setupNav() {
 
 function effectiveUser() { return viewingAs || currentUser; }
 
+function exitStudentView() {
+    viewingAs = null;
+    renderDashboard();
+    renderPortfolio();
+    renderAttendance();
+}
+
 function renderDashboard() {
     const u = effectiveUser();
     const d = activeUserData();
@@ -623,7 +657,7 @@ function renderDashboard() {
     if (!u.course) {
         document.getElementById('courseName').textContent = 'Full System Access';
         document.getElementById('overallProgress').style.width = '100%';
-        document.getElementById('overallProgress').textContent = u.role === 'admin' ? 'MASTER ADMIN' : u.role.toUpperCase();
+        document.getElementById('overallProgress').textContent = 'MASTER ADMIN';
         document.getElementById('unitsDone').textContent = '—';
         document.getElementById('hoursLogged').textContent = '—';
         document.getElementById('pendingCount').textContent = '—';
@@ -798,61 +832,4 @@ function renderAttendance() {
     const d = activeUserData();
     const c = u.course ? COURSES[u.course] : null;
     const hrs = d.hours || [];
-    const total = hrs.reduce((sum, h) => sum + parseFloat(h.hours || 0), 0);
-    
-    const form = document.getElementById('attendanceLogForm');
-    form.style.display = viewingAs ? 'none' : 'block';
-    
-    if (!c) {
-        document.getElementById('otjProgress').style.width = '100%';
-        document.getElementById('otjProgress').textContent = 'Select student';
-        document.getElementById('otjText').textContent = '';
-    } else {
-        const pc = c.requiredHours ? Math.round((total / c.requiredHours) * 100) : 0;
-        document.getElementById('otjProgress').style.width = Math.min(pc, 100) + '%';
-        document.getElementById('otjProgress').textContent = pc + '%';
-        document.getElementById('otjText').textContent = `${total.toFixed(1)} of ${c.requiredHours} hours required`;
-    }
-    
-    const log = document.getElementById('hoursLog');
-    log.innerHTML = hrs.length ? hrs.slice().reverse().map(h => `
-        <div style="padding:0.75rem 0;border-bottom:1px solid rgba(74,144,217,0.15)">
-            <strong>${h.date}</strong> — ${h.hours} hrs<br>
-            <small style="opacity:0.7">${h.note || 'No details'}</small>
-        </div>`).join('') : '<p style="opacity:0.7">No entries yet</p>';
-    
-    renderCalendar();
-}
-
-function saveHours() {
-    const d = activeUserData();
-    const date = document.getElementById('logDate').value;
-    const hrs = document.getElementById('logHours').value;
-    const note = document.getElementById('logNote').value;
-    
-    if (!date || !hrs) return alert('Fill in date and hours');
-    
-    if (!d.hours) d.hours = [];
-    d.hours.push({ date, hours: hrs, note });
-    setActiveUserData(d);
-    
-    document.getElementById('logDate').value = '';
-    document.getElementById('logHours').value = '';
-    document.getElementById('logNote').value = '';
-    
-    renderAttendance();
-    renderDashboard();
-    alert('✅ Hours saved!');
-}
-
-function renderCalendar() {
-    const y = calendarDate.getFullYear();
-    const m = calendarDate.getMonth();
-    document.getElementById('calendarMonth').textContent = 
-        new Date(y, m).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-    
-    const first = new Date(y, m, 1);
-    const startDay = first.getDay() || 0;
-    const days = new Date(y, m + 1, 0).getDate();
-    const d = activeUserData();
-    const
+    const total = hrs.reduce((sum,
