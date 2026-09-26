@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HF Training — Barbering E-Portfolio</title>
+    <title>HF Training — VRQ E-Portfolio</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- LOGIN -->
 <div id="loginScreen" class="auth-container">
     <h1>HF Training</h1>
-    <p>Barbering Academy E-Portfolio</p>
+    <p>VRQ Level 2 Barbering E-Portfolio</p>
     <input type="email" id="email" placeholder="Email address">
     <input type="password" id="password" placeholder="Password">
     <button onclick="login()" class="btn-primary btn-block">Sign In</button>
     <p id="loginError" class="error-msg hidden"></p>
     <button onclick="resetMasterLogin()" class="reset-btn">🔑 Reset Master Login</button>
-    <p class="small-note">Accounts created by Admin only</p>
 </div>
 
 <!-- MAIN APP -->
 <div id="app" class="hidden">
     <header>
-        <span class="logo">HF Training</span>
+        <span class="logo">HF Training — VRQ Level 2</span>
         <nav class="nav-links">
-            <span id="viewingAsBadge" class="viewing-as hidden">👁️ Viewing: <span id="viewingName"></span>
-                <a href="#" onclick="exitStudentView()">✕ Exit</a>
+            <span id="viewingBadge" class="viewing-as hidden">👁️ Viewing: <span id="viewingName"></span>
+                <a href="#" onclick="exitView()">✕ Exit</a>
             </span>
             <a href="#" class="active" data-page="dashboard">Dashboard</a>
-            <a href="#" data-page="portfolio">E-Portfolio</a>
-            <a href="#" data-page="attendance">Attendance</a>
-            <a href="#" id="assessorLink" class="hidden" data-page="assessor">Assessor</a>
-            <a href="#" id="iqaLink" class="hidden" data-page="iqa">IQA</a>
-            <a href="#" id="tutorLink" class="hidden" data-page="tutor">Tutor</a>
+            <a href="#" data-page="units">E-Portfolio Units</a>
+            <a href="#" id="assessorLink" class="hidden" data-page="assessor">Assessor Panel</a>
+            <a href="#" id="iqaLink" class="hidden" data-page="iqa">IQA Panel</a>
             <a href="#" id="adminLink" class="hidden" data-page="admin">Admin</a>
             <a href="#" onclick="logout()">Logout</a>
         </nav>
@@ -42,190 +39,103 @@
     <main class="container">
         <!-- DASHBOARD -->
         <section id="page-dashboard" class="page">
-            <h2>Welcome, <span id="userName"></span> <span id="userRoleBadge" class="role-badge"></span></h2>
-            <p class="subheading">Your progress across all units</p>
+            <h2>Welcome, <span id="userName"></span> <span id="roleBadge" class="role-badge"></span></h2>
             
-            <div class="card">
-                <h3>Overall Progress</h3>
-                <div class="progress-bg">
-                    <div class="progress-fill" id="overallProgress" style="width:0%">0%</div>
+            <div class="card progress-card">
+                <h3>Overall Course Progress</h3>
+                <div class="progress-bg big-progress">
+                    <div class="progress-fill" id="totalProgress" style="width:0%">0%</div>
                 </div>
-                <p id="courseName" class="course-label"></p>
+                <p id="progressText">0 of 5 units completed</p>
             </div>
 
             <div class="stats-grid">
                 <div class="card stat-card">
-                    <p class="stat-label">Units Completed</p>
-                    <p class="stat-value" id="unitsDone">0/0</p>
+                    <p class="stat-label">Completed</p>
+                    <p class="stat-value" id="statDone">0</p>
                 </div>
                 <div class="card stat-card">
-                    <p class="stat-label">On-The-Job Hours</p>
-                    <p class="stat-value" id="hoursLogged">0/0</p>
+                    <p class="stat-label">Submitted</p>
+                    <p class="stat-value" id="statSub">0</p>
                 </div>
                 <div class="card stat-card">
-                    <p class="stat-label">Pending Assessment</p>
-                    <p class="stat-value" id="pendingCount">0</p>
+                    <p class="stat-label">Pending IQA</p>
+                    <p class="stat-value" id="statIqa">0</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- PORTFOLIO — UNITS, Q&A, UPLOADS -->
-        <section id="page-portfolio" class="page hidden">
-            <h2>E-Portfolio — <span id="currentCourseName"></span></h2>
-            <div id="unitsList"></div>
-        </section>
-
-        <!-- ATTENDANCE & HOURS LOG -->
-        <section id="page-attendance" class="page hidden">
-            <h2>Attendance & On-The-Job Training</h2>
-            
-            <div id="attendanceForm" class="card">
-                <h3>Log Your Hours</h3>
-                <label>Date:</label>
-                <input type="date" id="logDate">
-                
-                <label>Hours Completed:</label>
-                <input type="number" id="logHours" placeholder="e.g. 7.5" step="0.5">
-                
-                <label>Activity / Unit Covered:</label>
-                <textarea id="logNote" placeholder="What did you practice? Which unit?"></textarea>
-                
-                <label>Upload Evidence (Timesheet/Sign-off):</label>
-                <div class="upload-area" onclick="document.getElementById('attFile').click()">
-                    Click to upload file<br><small>Photo, PDF, scanned signature</small>
-                </div>
-                <input type="file" id="attFile" style="display:none" onchange="storeAttFile(this.files[0])">
-                <div id="attFileList" class="file-list"></div>
-                
-                <button onclick="saveHoursEntry()" class="btn-primary">Save Entry</button>
             </div>
 
             <div class="card">
-                <h3>Progress Toward Required Hours</h3>
-                <div class="progress-bg">
-                    <div class="progress-fill" id="otjProgress" style="width:0%">0%</div>
-                </div>
-                <p id="otjText">0 of 0 hours required</p>
-                
-                <h4>Recent Entries</h4>
-                <div id="hoursList"></div>
+                <h3>Unit Summary</h3>
+                <div id="unitSummary"></div>
             </div>
         </section>
 
-        <!-- ASSESSOR PANEL — MARKING & FEEDBACK -->
+        <!-- VRQ UNITS PAGE -->
+        <section id="page-units" class="page hidden">
+            <h2>VRQ Level 2 — Barbering Units</h2>
+            <p class="subheading">Select a unit to complete assessments, upload evidence & track progress</p>
+            <div id="unitsContainer"></div>
+        </section>
+
+        <!-- ASSESSOR PANEL -->
         <section id="page-assessor" class="page hidden">
             <h2>🔍 Assessor Panel</h2>
             <div class="card">
                 <h3>Find Student</h3>
-                <div class="search-row">
-                    <input type="text" id="assessorSearch" placeholder="Search by name..." oninput="filterAssessorList()">
-                </div>
-                <div id="assessorStudentList"></div>
-            </div>
-            <div id="assessorView" class="hidden">
-                <div class="card">
-                    <h3 id="assessStudentName"></h3>
-                    <p>Course: <span id="assessStudentCourse"></span></p>
-                    <div id="assessStudentUnits"></div>
-                </div>
+                <input type="text" id="assSearch" placeholder="Search by name..." oninput="renderAssessorList()">
+                <div id="assStudentList"></div>
             </div>
         </section>
 
-        <!-- IQA PANEL — QUALITY ASSURANCE -->
+        <!-- IQA PANEL -->
         <section id="page-iqa" class="page hidden">
-            <h2>✅ Internal Quality Assurance</h2>
+            <h2>✅ Internal Quality Assurance Panel</h2>
             <div class="card">
-                <h3>Filter by Course</h3>
-                <select id="iqaCourseFilter" onchange="renderIQAList()">
-                    <option value="all">— All Courses —</option>
-                    <option value="vrq">VRQ Level 2</option>
-                    <option value="nvq">NVQ Level 2</option>
-                    <option value="vtct">VTCT Level 2</option>
-                </select>
-            </div>
-            <div class="card">
-                <h3>Students for Sampling</h3>
+                <h3>Sampling & Verification</h3>
+                <input type="text" id="iqaSearch" placeholder="Search by name..." oninput="renderIQAList()">
                 <div id="iqaStudentList"></div>
             </div>
         </section>
 
-        <!-- TUTOR PANEL -->
-        <section id="page-tutor" class="page hidden">
-            <h2>📚 Tutor Panel</h2>
-            <div class="card">
-                <h3>Find Student</h3>
-                <div class="search-row">
-                    <input type="text" id="tutorSearch" placeholder="Search by name..." oninput="filterTutorList()">
-                </div>
-                <div id="tutorStudentList"></div>
-            </div>
-        </section>
-
-        <!-- ADMIN — ADD STUDENTS, SHOPS, COURSES -->
+        <!-- ADMIN -->
         <section id="page-admin" class="page hidden">
             <h2>⚙️ Admin Control Panel</h2>
-
             <div class="card">
-                <h3>Add New User / Student</h3>
-                
+                <h3>Add New User</h3>
                 <label>Full Name:</label>
-                <input type="text" id="newName" placeholder="e.g. John Smith">
-                
-                <label>Email Address:</label>
-                <input type="email" id="newEmail" placeholder="email@example.com">
-                
+                <input type="text" id="newName">
+                <label>Email:</label>
+                <input type="email" id="newEmail">
                 <label>Password:</label>
-                <input type="password" id="newPass" placeholder="Set a password">
-                
+                <input type="password" id="newPass">
                 <label>Role:</label>
-                <select id="newRole" onchange="toggleCourseDropdown()">
+                <select id="newRole">
                     <option value="student">Student</option>
-                    <option value="tutor">Tutor</option>
                     <option value="assessor">Assessor</option>
-                    <option value="iqa">IQA / Internal Verifier</option>
+                    <option value="iqa">IQA Verifier</option>
+                    <option value="tutor">Tutor</option>
                     <option value="admin">Admin</option>
                 </select>
-                
-                <label id="courseLabel">Course (Students Only):</label>
-                <select id="newCourse">
-                    <option value="">— Select Course —</option>
-                    <option value="vrq">VRQ Level 2 Diploma in Barbering</option>
-                    <option value="nvq">NVQ Level 2 Diploma in Barbering</option>
-                    <option value="vtct">VTCT Level 2 Diploma in Barbering</option>
-                </select>
-                
-                <label>Associated Shop / Branch:</label>
-                <select id="newShop">
-                    <option value="hq">HF Training — Main Academy</option>
-                    <option value="shop1">Partner Shop — Central London</option>
-                    <option value="shop2">Partner Shop — Essex</option>
-                    <option value="shop3">Partner Shop — Kent</option>
-                    <option value="other">Other / New Branch</option>
-                </select>
-                
-                <button onclick="createNewUser()" class="btn-primary">Create Account</button>
+                <button onclick="createUser()" class="btn-primary">Create Account</button>
             </div>
-
             <div class="card">
-                <h3>All Users & Students</h3>
-                <div class="search-row">
-                    <input type="text" id="adminSearch" placeholder="Search by name or shop..." oninput="renderAdminTable()">
-                </div>
+                <h3>All Users</h3>
                 <table class="full-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Course</th>
-                            <th>Shop/Branch</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="usersTableBody"></tbody>
+                    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Progress</th><th>Action</th></tr></thead>
+                    <tbody id="userTableBody"></tbody>
                 </table>
             </div>
         </section>
+
+        <!-- UNIT DETAILS POPUP -->
+        <div id="unitModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeUnitModal()">✕</button>
+                <h3 id="modalUnitTitle"></h3>
+                <p id="modalUnitRef" class="unit-ref"></p>
+                <div id="modalUnitContent"></div>
+            </div>
+        </div>
     </main>
 </div>
 
