@@ -1,111 +1,105 @@
 // ==========================================
-// HF TRAINING — FRESH START v6.0
-// MASTER ADMIN: shane@hairforce-1.co.uk
-// PASSWORD:     Hairforce1.
+// HF TRAINING — VRQ LEVEL 2 E-PORTFOLIO
+// MASTER: shane@hairforce-1.co.uk
+// PASS:   Hairforce1.
+// UNITS: 202, 203, 204, 210, 211
 // ==========================================
 
-// 🔒 MASTER ADMIN — PERMANENT
 const MASTER = {
     id: 'hf-master-001',
     name: 'Shane',
     email: 'shane@hairforce-1.co.uk',
     password: 'Hairforce1.',
-    role: 'admin',
-    course: null,
-    shop: 'hq'
+    role: 'admin'
 };
 
 // ==========================================
-// COURSES & UNITS — EDIT/ADD HERE LATER
+// 5 OFFICIAL VRQ LEVEL 2 UNITS — City & Guilds
 // ==========================================
-const COURSES = {
-    vrq: {
-        name: "VRQ Level 2 Diploma in Barbering",
-        shortName: "VRQ L2",
-        requiredHours: 0,
-        units: [
-            {
-                id: "vrq-u1",
-                title: "Health & Safety in the Salon",
-                questions: [
-                    "Identify THREE potential hazards in a barbershop and explain how to reduce risks.",
-                    "What is the correct procedure for dealing with a fire emergency in the salon?",
-                    "Explain the purpose of COSHH regulations and how to store hazardous products safely.",
-                    "Describe how to maintain personal hygiene and professional appearance in the workplace."
-                ]
-            },
-            {
-                id: "vrq-u2",
-                title: "Client Consultation & Advice",
-                questions: [
-                    "What are the key stages of an effective client consultation?",
-                    "How do you assess hair type, face shape, and suitability for a proposed style?",
-                    "Why is aftercare advice important? Give THREE examples of what you would cover.",
-                    "How would you handle a client who is unhappy with their service?"
-                ]
-            }
-            // ✅ ADD MORE UNITS HERE — copy the block above
+const VRQ_UNITS = [
+    {
+        id: 'vrq-202',
+        ref: 'Unit 202',
+        title: 'Shampoo, Condition & Treat the Hair and Scalp',
+        aim: 'Develop skills to shampoo, condition and treat hair and scalp safely and effectively.',
+        criteria: [
+            'Prepare self, client and work area safely',
+            'Consult with client to confirm service requirements',
+            'Select suitable products, tools and equipment',
+            'Shampoo hair using correct massage techniques',
+            'Apply conditioners and treatments appropriately',
+            'Provide aftercare advice and recommendations'
         ]
     },
-    nvq: {
-        name: "NVQ Level 2 Diploma in Barbering",
-        shortName: "NVQ L2",
-        requiredHours: 372,
-        units: [
-            {
-                id: "nvq-u1",
-                title: "Health & Safety Legislation",
-                questions: [
-                    "Explain your legal responsibilities for health and safety in the workplace.",
-                    "How do you carry out a risk assessment in the salon?",
-                    "What records should be kept for health and safety compliance?",
-                    "How do you report and record accidents or incidents?"
-                ]
-            }
-            // ✅ ADD MORE NVQ UNITS HERE
+    {
+        id: 'vrq-203',
+        ref: 'Unit 203',
+        title: 'Client Consultation for Hair Services',
+        aim: 'Develop consultation skills to agree services and manage client expectations.',
+        criteria: [
+            'Establish client requirements and expectations',
+            'Assess hair characteristics, skin type and suitability',
+            'Agree realistic service outcomes and timescales',
+            'Explain potential risks and limitations',
+            'Record client information accurately',
+            'Provide clear aftercare advice'
         ]
     },
-    vtct: {
-        name: "VTCT Level 2 Diploma in Barbering",
-        shortName: "VTCT L2",
-        requiredHours: 372,
-        units: [
-            {
-                id: "vtct-u1",
-                title: "Working in the Hair Industry",
-                questions: [
-                    "Describe the different career pathways available in barbering.",
-                    "What qualities and professional behaviours are expected of a barber?",
-                    "How do you keep up to date with industry trends and new techniques?",
-                    "Explain the importance of continuous professional development."
-                ]
-            }
-            // ✅ ADD MORE VTCT UNITS HERE
+    {
+        id: 'vrq-204',
+        ref: 'Unit 204',
+        title: 'Cut Men’s Hair Using Basic Techniques',
+        aim: 'Create a range of men’s hairstyles using basic cutting methods.',
+        criteria: [
+            'Prepare hair and client for cutting service',
+            'Follow design plan and guide lines accurately',
+            'Use scissor-over-comb and club cutting techniques',
+            'Create uniform lengths and graduated shapes',
+            'Check balance, shape and finish throughout',
+            'Provide styling and maintenance advice'
+        ]
+    },
+    {
+        id: 'vrq-210',
+        ref: 'Unit 210',
+        title: 'Style and Finish Men’s Hair',
+        aim: 'Style, dress and finish men’s hair to achieve desired looks.',
+        criteria: [
+            'Select appropriate styling products and tools',
+            'Apply products correctly for hair type and desired result',
+            'Use blow-drying and finishing techniques',
+            'Create volume, direction and shape',
+            'Check finish against agreed style',
+            'Provide home-care advice'
+        ]
+    },
+    {
+        id: 'vrq-211',
+        ref: 'Unit 211',
+        title: 'Cut Facial Hair to Shape',
+        aim: 'Shape and trim facial hair to enhance client features.',
+        criteria: [
+            'Consult client on desired facial hair shape',
+            'Assess facial features and hair growth patterns',
+            'Select tools and equipment appropriate to the task',
+            'Define outline and shape accurately',
+            'Remove bulk and create balance',
+            'Finish and advise on maintenance'
         ]
     }
-    // ✅ ADD WHOLE NEW COURSES HERE
-};
-
-// SHOPS / BRANCHES — ADD MORE HERE
-const SHOPS = {
-    hq: "HF Training — Main Academy",
-    shop1: "Partner Shop — Central London",
-    shop2: "Partner Shop — Essex",
-    shop3: "Partner Shop — Kent",
-    other: "Other Branch"
-};
+];
 
 // ==========================================
-// SYSTEM — DON'T EDIT BELOW UNLESS ADDING FEATURES
+// SYSTEM
 // ==========================================
 let currentUser = null;
 let viewingAs = null;
 let allUsers = [];
-let pendingAttFile = null;
+let activeUnitId = null;
 
-// Data Storage
-function saveAllUsers() { localStorage.setItem('hfUsers', JSON.stringify({ users: allUsers })); }
-function loadAllUsers() {
+// Storage
+function saveUsers() { localStorage.setItem('hfUsers', JSON.stringify({ users: allUsers })); }
+function loadUsers() {
     const d = localStorage.getItem('hfUsers');
     allUsers = d ? JSON.parse(d).users : [];
     ensureMaster();
@@ -113,38 +107,32 @@ function loadAllUsers() {
 function ensureMaster() {
     if (!allUsers.some(u => u.email === MASTER.email)) {
         allUsers.unshift({ ...MASTER });
-        saveAllUsers();
+        saveUsers();
     }
 }
-function getUserData(id) {
-    return JSON.parse(localStorage.getItem(`user_${id}`) || '{}');
-}
-function setUserData(id, data) {
-    localStorage.setItem(`user_${id}`, JSON.stringify(data));
-}
+function getUserData(id) { return JSON.parse(localStorage.getItem(`user_${id}`) || '{}'); }
+function setUserData(id, data) { localStorage.setItem(`user_${id}`, JSON.stringify(data)); }
 function activeUser() { return viewingAs || currentUser; }
 function activeData() { return getUserData(activeUser().id); }
 function findUser(email) {
     return allUsers.find(u => u.email.toLowerCase().trim() === email.toLowerCase().trim());
 }
 
-// Reset Master Login
-function resetMasterLogin() {
-    if (!confirm('⚠️ This resets ALL user data? Only proceed if needed!')) return;
-    localStorage.clear();
-    allUsers = [{ ...MASTER }];
-    saveAllUsers();
-    alert('✅ Master Restored!\nEmail: shane@hairforce-1.co.uk\nPass: Hairforce1.');
+// Progress Calculation
+function getProgress(uid) {
+    const d = getUserData(uid);
+    const done = VRQ_UNITS.filter(u => (d.units || {})[u.id]?.status === 'assessed').length;
+    const sub = VRQ_UNITS.filter(u => (d.units || {})[u.id]?.status === 'submitted').length;
+    return { done, sub, total: VRQ_UNITS.length, pct: Math.round(((done + sub * 0.5) / VRQ_UNITS.length) * 100) };
 }
 
-// Login System
+// Login
 function login() {
     const email = document.getElementById('email').value.trim().toLowerCase();
     const pass = document.getElementById('password').value;
     const err = document.getElementById('loginError');
     err.classList.add('hidden');
 
-    // Direct Master Check
     if (email === MASTER.email && pass === MASTER.password) {
         currentUser = { ...MASTER };
         localStorage.setItem('activeSession', MASTER.id);
@@ -152,11 +140,10 @@ function login() {
         return;
     }
 
-    // Other Users
     const user = findUser(email);
     if (!user) return showErr('❌ Account not found');
     if (user.password !== pass) return showErr('❌ Incorrect password');
-
+    
     currentUser = user;
     localStorage.setItem('activeSession', user.id);
     showApp();
@@ -167,29 +154,31 @@ function showErr(msg) {
     el.classList.remove('hidden');
 }
 function logout() {
-    currentUser = null; viewingAs = null; pendingAttFile = null;
+    currentUser = null; viewingAs = null;
     localStorage.removeItem('activeSession');
     document.getElementById('loginScreen').classList.remove('hidden');
     document.getElementById('app').classList.add('hidden');
-    document.getElementById('email').value = '';
-    document.getElementById('password').value = '';
+}
+function resetMasterLogin() {
+    if (!confirm('⚠️ Reset ALL data?')) return;
+    localStorage.clear();
+    allUsers = [{ ...MASTER }];
+    saveUsers();
+    alert('✅ Restored!\nEmail: shane@hairforce-1.co.uk\nPass: Hairforce1.');
 }
 
 function showApp() {
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
 
-    // Show/Hide Navigation by Role
     document.getElementById('assessorLink').classList.toggle('hidden', !['admin','assessor','tutor'].includes(currentUser.role));
     document.getElementById('iqaLink').classList.toggle('hidden', !['admin','iqa'].includes(currentUser.role));
-    document.getElementById('tutorLink').classList.toggle('hidden', !['admin','tutor','assessor','iqa'].includes(currentUser.role));
     document.getElementById('adminLink').classList.toggle('hidden', currentUser.role !== 'admin');
 
     setupNav();
     renderDashboard();
-    renderPortfolio();
-    renderAttendance();
-    if (currentUser.role === 'admin') renderAdminTable();
+    renderUnitsList();
+    if (currentUser.role === 'admin') renderUserTable();
 }
 
 function setupNav() {
@@ -201,409 +190,423 @@ function setupNav() {
             document.querySelectorAll('[data-page]').forEach(l => l.classList.remove('active'));
             document.getElementById(`page-${page}`).classList.remove('hidden');
             link.classList.add('active');
-
+            
             if (page === 'assessor') renderAssessorList();
             if (page === 'iqa') renderIQAList();
-            if (page === 'tutor') renderTutorList();
         };
     });
 }
 
-function exitStudentView() {
-    viewingAs = null; pendingAttFile = null;
+function exitView() {
+    viewingAs = null;
     renderDashboard();
-    renderPortfolio();
-    renderAttendance();
+    renderUnitsList();
+    closeUnitModal();
 }
 
 // DASHBOARD
 function renderDashboard() {
     const u = activeUser();
     const d = activeData();
+    const prog = getProgress(u.id);
 
     document.getElementById('userName').textContent = u.name;
-    document.getElementById('userRoleBadge').textContent = u.role.toUpperCase();
-    document.getElementById('userRoleBadge').className = `role-badge role-${u.role}`;
+    document.getElementById('roleBadge').textContent = u.role.toUpperCase();
+    document.getElementById('roleBadge').className = `role-badge role-${u.role}`;
 
     if (viewingAs) {
-        document.getElementById('viewingAsBadge').classList.remove('hidden');
+        document.getElementById('viewingBadge').classList.remove('hidden');
         document.getElementById('viewingName').textContent = u.name;
     } else {
-        document.getElementById('viewingAsBadge').classList.add('hidden');
+        document.getElementById('viewingBadge').classList.add('hidden');
     }
 
-    if (!u.course) {
-        document.getElementById('courseName').textContent = 'Full System Access';
-        document.getElementById('overallProgress').style.width = '100%';
-        document.getElementById('overallProgress').textContent = 'ADMIN';
-        document.getElementById('unitsDone').textContent = '—';
-        document.getElementById('hoursLogged').textContent = '—';
-        document.getElementById('pendingCount').textContent = '—';
-        return;
-    }
+    document.getElementById('totalProgress').style.width = prog.pct + '%';
+    document.getElementById('totalProgress').textContent = prog.pct + '%';
+    document.getElementById('progressText').textContent = `${prog.done} of ${prog.total} units completed`;
+    document.getElementById('statDone').textContent = prog.done;
+    document.getElementById('statSub').textContent = prog.sub;
+    document.getElementById('statIqa').textContent = Object.values(d.units || {}).filter(x => x.iqaSigned).length;
 
-    const c = COURSES[u.course];
-    const done = d.completedUnits || [];
-    const subs = Object.values(d.submissions || {}).filter(s => s.status === 'submitted');
-    const pct = Math.round((done.length / c.units.length) * 100);
-    const hrs = (d.hours || []).reduce((sum, h) => sum + parseFloat(h.hours || 0), 0);
-
-    document.getElementById('courseName').textContent = c.name;
-    document.getElementById('overallProgress').style.width = pct + '%';
-    document.getElementById('overallProgress').textContent = pct + '%';
-    document.getElementById('unitsDone').textContent = `${done.length}/${c.units.length}`;
-    document.getElementById('hoursLogged').textContent = `${hrs.toFixed(1)}/${c.requiredHours}`;
-    document.getElementById('pendingCount').textContent = subs.length;
-}
-
-// PORTFOLIO — UNITS, Q&A, UPLOADS, ASSESSMENT
-function renderPortfolio() {
-    const u = activeUser();
-    if (!u.course) {
-        document.getElementById('currentCourseName').textContent = 'Select a student from Assessor/Tutor panel';
-        document.getElementById('unitsList').innerHTML = '';
-        return;
-    }
-
-    const c = COURSES[u.course];
-    const d = activeData();
-    const done = d.completedUnits || [];
-    const answers = d.answers || {};
-    const files = d.uploads || {};
-    const subs = d.submissions || {};
-
-    document.getElementById('currentCourseName').textContent = c.name;
-    const list = document.getElementById('unitsList');
-    list.innerHTML = '';
-
-    c.units.forEach((unit, idx) => {
-        const isDone = done.includes(unit.id);
-        const sub = subs[unit.id] || {};
-        const status = sub.status || 'draft';
-
-        list.innerHTML += `
-        <div class="unit-block ${status === 'submitted' ? 'submitted' : ''} ${status === 'assessed' ? 'assessed' : ''}">
-            <h4>
-                Unit ${idx + 1}: ${unit.title}
-                <span>
-                    <span class="status-${status}">
-                        ${status === 'draft' ? '📝 Draft' : ''}
-                        ${status === 'submitted' ? '⏳ Pending Assessment' : ''}
-                        ${status === 'assessed' ? '✅ Assessed' : ''}
-                    </span>
-                    ${isDone ? ' ✅ Completed' : ''}
+    document.getElementById('unitSummary').innerHTML = VRQ_UNITS.map(unit => {
+        const status = (d.units || {})[unit.id]?.status || 'draft';
+        return `
+        <div class="unit-card ${status === 'submitted' ? 'submitted' : ''} ${status === 'assessed' ? 'completed' : ''}"
+             onclick="openUnit('${unit.id}')">
+            <div class="unit-header">
+                <strong>${unit.ref}: ${unit.title}</strong>
+                <span class="unit-status status-${status}">
+                    ${status === 'draft' ? '📝 Draft' : ''}
+                    ${status === 'submitted' ? '⏳ Submitted' : ''}
+                    ${status === 'assessed' ? '✅ Completed' : ''}
                 </span>
-            </h4>
-
-            ${unit.questions.map((q, qi) => `
-            <div class="question-block">
-                <label>${qi + 1}. ${q}</label>
-                <textarea id="q-${unit.id}-${qi}" ${viewingAs ? 'readonly' : ''}
-                    placeholder="Type your answer here...">${(answers[unit.id] || {})[`q${qi}`] || ''}</textarea>
             </div>
-            `).join('')}
-
-            <div class="question-block">
-                <label>📎 Upload Evidence / Paperwork</label>
-                ${!viewingAs ? `
-                <div class="upload-area" onclick="document.getElementById('up-${unit.id}').click()">
-                    Click to upload files<br><small>Photos, scanned papers, PDF documents</small>
-                </div>
-                <input type="file" id="up-${unit.id}" style="display:none" 
-                    onchange="handleUnitUpload('${unit.id}', this.files[0])">
-                ` : ''}
-                <div class="file-list">
-                    ${(files[unit.id] || []).map(f => `<div class="file-item">✅ ${f.name}</div>`).join('')}
-                </div>
-            </div>
-
-            ${sub.feedback ? `
-            <div class="feedback-box ${status === 'assessed' ? 'approved' : ''}">
-                <strong>Assessor Feedback:</strong><br>${sub.feedback}
-                ${sub.iqaNote ? `<div class="feedback-box iqa" style="margin-top:0.5rem"><strong>IQA Note:</strong><br>${sub.iqaNote}</div>` : ''}
-            </div>` : ''}
-
-            ${!viewingAs ? `
-            <button class="btn-primary btn-small" onclick="saveUnit('${unit.id}')">Save</button>
-            <button class="btn-warning btn-small" onclick="submitUnit('${unit.id}')"
-                ${status === 'submitted' ? 'disabled' : ''}>
-                ${status === 'submitted' ? 'Submitted' : 'Submit to Assessor'}
-            </button>
-            ` : ''}
-
-            ${viewingAs && ['admin','assessor','tutor'].includes(currentUser.role) ? `
-            <button class="btn-success btn-small" onclick="markUnit('${u.id}', '${unit.id}', 'pass')">✅ Pass</button>
-            <button class="btn-warning btn-small" onclick="markUnit('${u.id}', '${unit.id}', 'refer')">↩️ Refer</button>
-            ${currentUser.role === 'iqa' || currentUser.role === 'admin' ? `
-            <button class="btn-small" style="background:var(--light-blue);color:white" onclick="addIQANote('${u.id}', '${unit.id}')">📝 Add IQA Note</button>
-            ` : ''}
-            ` : ''}
         </div>`;
-    });
+    }).join('');
 }
 
-function handleUnitUpload(uid, file) {
-    if (!file) return;
+// UNITS LIST
+function renderUnitsList() {
     const d = activeData();
-    if (!d.uploads) d.uploads = {};
-    if (!d.uploads[uid]) d.uploads[uid] = [];
-    d.uploads[uid].push({ name: file.name, size: file.size, type: file.type, uploadedAt: new Date().toISOString() });
-    setUserData(activeUser().id, d);
-    renderPortfolio();
-    alert('✅ Uploaded: ' + file.name);
+    document.getElementById('unitsContainer').innerHTML = VRQ_UNITS.map(unit => {
+        const status = (d.units || {})[unit.id]?.status || 'draft';
+        return `
+        <div class="unit-card ${status === 'submitted' ? 'submitted' : ''} ${status === 'assessed' ? 'completed' : ''}"
+             onclick="openUnit('${unit.id}')">
+            <div class="unit-header">
+                <div>
+                    <strong>${unit.ref}: ${unit.title}</strong><br>
+                    <small style="opacity:0.7">${unit.aim.substring(0,60)}...</small>
+                </div>
+                <span class="unit-status status-${status}">
+                    ${status === 'draft' ? '📝 Draft' : ''}
+                    ${status === 'submitted' ? '⏳ Submitted' : ''}
+                    ${status === 'assessed' ? '✅ Completed' : ''}
+                </span>
+            </div>
+        </div>`;
+    }).join('');
 }
 
+// OPEN UNIT — FULL FORM: Consultation → Reflection → Upload → Assessor → IQA
+function openUnit(uid) {
+    activeUnitId = uid;
+    const unit = VRQ_UNITS.find(u => u.id === uid);
+    const d = activeData();
+    const unitData = (d.units || {})[uid] || {};
+    const isViewing = !!viewingAs;
+
+    document.getElementById('modalUnitTitle').textContent = `${unit.ref}: ${unit.title}`;
+    document.getElementById('modalUnitRef').textContent = unit.aim;
+
+    document.getElementById('modalUnitContent').innerHTML = `
+        <!-- CONSULTATION SHEET -->
+        <div class="form-section">
+            <h4>📋 Consultation & Service Details</h4>
+            <label>Client Name / Service Date:</label>
+            <input type="text" id="con_client" ${isViewing ? 'readonly' : ''} 
+                   value="${unitData.client || ''}" placeholder="Name — Date">
+            
+            <label>Service Objectives — What was agreed with the client?</label>
+            <textarea id="con_objectives" ${isViewing ? 'readonly' : ''}
+                      >${unitData.objectives || ''}</textarea>
+            
+            <label>Hair & Skin Analysis — Type, condition, factors noted:</label>
+            <textarea id="con_analysis" ${isViewing ? 'readonly' : ''}
+                      >${unitData.analysis || ''}</textarea>
+            
+            <label>Products, Tools & Techniques Used:</label>
+            <textarea id="con_tools" ${isViewing ? 'readonly' : ''}
+                      >${unitData.tools || ''}</textarea>
+        </div>
+
+        <!-- STUDENT SELF-REFLECTION -->
+        <div class="form-section">
+            <h4>✍️ Student Feedback & Reflection</h4>
+            <label>What went well during this service?</label>
+            <textarea id="self_good" ${isViewing ? 'readonly' : ''}
+                      >${unitData.selfGood || ''}</textarea>
+            
+            <label>What would you do differently next time?</label>
+            <textarea id="self_improve" ${isViewing ? 'readonly' : ''}
+                      >${unitData.selfImprove || ''}</textarea>
+            
+            <label>Aftercare advice given to client:</label>
+            <textarea id="self_aftercare" ${isViewing ? 'readonly' : ''}
+                      >${unitData.selfAftercare || ''}</textarea>
+        </div>
+
+        <!-- EVIDENCE UPLOAD -->
+        <div class="form-section">
+            <h4>📎 Upload Evidence (Photos / Worksheets)</h4>
+            ${!isViewing ? `
+            <div class="upload-area" onclick="document.getElementById('file_${uid}').click()">
+                📁 Click to upload files<br><small>Photos of work, completed sheets, witness statements</small>
+            </div>
+            <input type="file" id="file_${uid}" style="display:none" onchange="handleUpload('${uid}', this.files[0])">
+            ` : ''}
+            <div class="file-list" id="files_${uid}">
+                ${(unitData.files || []).map(f => `<div class="file-item">✅ ${f.name}</div>`).join('')}
+            </div>
+        </div>
+
+        <!-- ASSESSMENT CRITERIA CHECKLIST -->
+        <div class="form-section">
+            <h4>✅ Assessment Criteria Checklist</h4>
+            <p style="opacity:0.7;margin-bottom:1rem;">Tick each item when completed / observed</p>
+            ${unit.criteria.map((c, i) => `
+            <label style="display:flex;align-items:flex-start;gap:0.5rem;margin:0.5rem 0;">
+                <input type="checkbox" id="crit_${uid}_${i}" ${unitData.critDone?.includes(i) ? 'checked' : ''} 
+                       ${isViewing ? 'disabled' : ''} style="margin:0;">
+                <span>${c}</span>
+            </label>`).join('')}
+        </div>
+
+        ${!isViewing ? `
+        <!-- STUDENT ACTIONS -->
+        <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:1rem;">
+            <button class="btn-primary btn-small" onclick="saveUnit('${uid}')">💾 Save Progress</button>
+            <button class="btn-warning btn-small" onclick="submitUnit('${uid}')"
+                    ${unitData.status === 'submitted' ? 'disabled' : ''}>
+                ${unitData.status === 'submitted' ? '⏳ Submitted' : '➡️ Submit to Assessor'}
+            </button>
+        </div>
+        ` : ''}
+
+        <!-- ASSESSOR FEEDBACK -->
+        ${isViewing && ['admin','assessor','tutor'].includes(currentUser.role) ? `
+        <div class="form-section" style="border-color:var(--success);margin-top:2rem;">
+            <h4>🔍 Assessor Feedback & Decision</h4>
+            <label>Outcome:</label>
+            <select id="ass_decision">
+                <option value="pass" ${unitData.status === 'assessed' ? 'selected' : ''}>✅ Pass — All Criteria Met</option>
+                <option value="refer" ${unitData.status === 'submitted' && unitData.assessorDecision === 'refer' ? 'selected' : ''}>↩️ Refer — More Evidence Needed</option>
+            </select>
+            <label>Assessor Comments / Feedback:</label>
+            <textarea id="ass_feedback">${unitData.assessorFeedback || ''}</textarea>
+            <label>Assessor Name & Date:</label>
+            <input type="text" id="ass_sign" value="${unitData.assessorSignedBy || ''}" placeholder="Name — Date">
+            <button class="btn-success btn-small" onclick="assessUnit('${activeUser().id}', '${uid}')">✓ Record Assessment</button>
+        </div>
+        ` : ''}
+
+        ${unitData.assessorFeedback ? `
+        <div class="feedback-box ${unitData.status === 'assessed' ? 'assessor-approved' : ''}">
+            <strong>Assessor Feedback:</strong><br>
+            ${unitData.assessorFeedback}<br>
+            <small>— ${unitData.assessorSignedBy || 'Assessor'} · ${unitData.assessorDate || ''}</small>
+        </div>
+        ` : ''}
+
+        <!-- IQA VERIFICATION -->
+        ${isViewing && ['admin','iqa'].includes(currentUser.role) ? `
+        <div class="form-section iqa" style="border-color:var(--light-blue);margin-top:1rem;">
+            <h4>✅ IQA Verification</h4>
+            <label>Sampling Outcome:</label>
+            <select id="iqa_decision">
+                <option value="verified" ${unitData.iqaSigned ? 'selected' : ''}>✅ Verified — Standards Met</option>
+                <option value="escalate">⚠️ Further Review Required</option>
+            </select>
+            <label>IQA Comments / Sampling Notes:</label>
+            <textarea id="iqa_note">${unitData.iqaNote || ''}</textarea>
+            <label>IQA Verifier Name & Date:</label>
+            <input type="text" id="iqa_sign" value="${unitData.iqaSignedBy || ''}" placeholder="Name — Date">
+            <button class="btn-small" style="background:var(--light-blue);color:white" 
+                    onclick="iqaVerify('${activeUser().id}', '${uid}')">✓ Record IQA Check</button>
+        </div>
+        ` : ''}
+
+        ${unitData.iqaSigned ? `
+        <div class="feedback-box iqa">
+            <strong>IQA Verified:</strong><br>
+            ${unitData.iqaNote || 'Sampled and verified'}<br>
+            <small>— ${unitData.iqaSignedBy} · ${unitData.iqaDate}</small>
+        </div>
+        ` : ''}
+    `;
+
+    document.getElementById('unitModal').classList.remove('hidden');
+}
+
+function closeUnitModal() {
+    document.getElementById('unitModal').classList.add('hidden');
+    activeUnitId = null;
+}
+
+// SAVE UNIT
 function saveUnit(uid) {
     const d = activeData();
-    if (!d.answers) d.answers = {};
-    if (!d.answers[uid]) d.answers[uid] = {};
+    if (!d.units) d.units = {};
+    if (!d.units[uid]) d.units[uid] = { status: 'draft', files: [], critDone: [] };
 
-    const c = COURSES[activeUser().course];
-    c.units.find(u => u.id === uid).questions.forEach((_, i) => {
-        const el = document.getElementById(`q-${uid}-${i}`);
-        if (el) d.answers[uid][`q${i}`] = el.value;
+    d.units[uid].client = document.getElementById('con_client')?.value || '';
+    d.units[uid].objectives = document.getElementById('con_objectives')?.value || '';
+    d.units[uid].analysis = document.getElementById('con_analysis')?.value || '';
+    d.units[uid].tools = document.getElementById('con_tools')?.value || '';
+    d.units[uid].selfGood = document.getElementById('self_good')?.value || '';
+    d.units[uid].selfImprove = document.getElementById('self_improve')?.value || '';
+    d.units[uid].selfAftercare = document.getElementById('self_aftercare')?.value || '';
+
+    // Save checklist ticks
+    const unit = VRQ_UNITS.find(u => u.id === uid);
+    d.units[uid].critDone = [];
+    unit.criteria.forEach((_, i) => {
+        if (document.getElementById(`crit_${uid}_${i}`)?.checked) d.units[uid].critDone.push(i);
     });
 
     setUserData(activeUser().id, d);
     alert('✅ Saved!');
+    renderDashboard();
+    renderUnitsList();
 }
 
+// SUBMIT FOR ASSESSMENT
 function submitUnit(uid) {
-    if (!confirm('Submit this unit? You will not be able to edit it after submission.')) return;
+    if (!confirm('Submit this unit to your Assessor? You can still add more evidence after submission.')) return;
     const d = activeData();
-    if (!d.submissions) d.submissions = {};
-    d.submissions[uid] = { status: 'submitted', submittedAt: new Date().toISOString() };
+    if (!d.units) d.units = {};
+    if (!d.units[uid]) d.units[uid] = { files: [], critDone: [] };
+    d.units[uid].status = 'submitted';
+    d.units[uid].submittedAt = new Date().toISOString();
     setUserData(activeUser().id, d);
-    renderPortfolio();
+    alert('✅ Submitted to Assessor!');
+    closeUnitModal();
+    renderDashboard();
+    renderUnitsList();
+}
+
+// FILE UPLOAD
+function handleUpload(uid, file) {
+    if (!file) return;
+    const d = activeData();
+    if (!d.units) d.units = {};
+    if (!d.units[uid]) d.units[uid] = { files: [], critDone: [] };
+    if (!d.units[uid].files) d.units[uid].files = [];
+    d.units[uid].files.push({ name: file.name, size: file.size, type: file.type, uploadedAt: new Date().toISOString() });
+    setUserData(activeUser().id, d);
+    openUnit(uid);
+}
+
+// ASSESSOR MARKS
+function assessUnit(sid, uid) {
+    const decision = document.getElementById('ass_decision').value;
+    const feedback = document.getElementById('ass_feedback').value.trim();
+    const signed = document.getElementById('ass_sign').value.trim() || `${currentUser.name} — ${new Date().toLocaleDateString()}`;
+    
+    if (!feedback) return alert('⚠️ Please add feedback before recording');
+
+    const d = getUserData(sid);
+    if (!d.units) d.units = {};
+    if (!d.units[uid]) d.units[uid] = { files: [], critDone: [] };
+    
+    d.units[uid].assessorDecision = decision;
+    d.units[uid].assessorFeedback = feedback;
+    d.units[uid].assessorSignedBy = signed;
+    d.units[uid].assessorDate = new Date().toLocaleDateString();
+    d.units[uid].status = decision === 'pass' ? 'assessed' : 'submitted';
+    
+    setUserData(sid, d);
+    alert('✅ Assessment recorded!');
+    openUnit(uid);
     renderDashboard();
 }
 
-function markUnit(studentId, unitId, result) {
-    const fb = prompt(result === 'pass' ? 'Enter feedback for the student:' : 'Tell them what needs improving:');
-    if (!fb) return;
-
-    const d = getUserData(studentId);
-    if (!d.submissions) d.submissions = {};
-    d.submissions[unitId] = {
-        status: result === 'pass' ? 'assessed' : 'draft',
-        feedback: fb,
-        assessedBy: currentUser.email,
-        assessedAt: new Date().toISOString()
-    };
-
-    if (result === 'pass') {
-        if (!d.completedUnits) d.completedUnits = [];
-        if (!d.completedUnits.includes(unitId)) d.completedUnits.push(unitId);
-    }
-
-    setUserData(studentId, d);
-    alert('✅ Assessment recorded!');
-    if (viewingAs) { renderPortfolio(); renderDashboard(); }
+// IQA VERIFICATION
+function iqaVerify(sid, uid) {
+    const note = document.getElementById('iqa_note').value.trim() || 'Sampled and verified';
+    const signed = document.getElementById('iqa_sign').value.trim() || `${currentUser.name} — ${new Date().toLocaleDateString()}`;
+    
+    const d = getUserData(sid);
+    if (!d.units) d.units = {};
+    if (!d.units[uid]) d.units[uid] = { files: [], critDone: [] };
+    
+    d.units[uid].iqaSigned = true;
+    d.units[uid].iqaNote = note;
+    d.units[uid].iqaSignedBy = signed;
+    d.units[uid].iqaDate = new Date().toLocaleDateString();
+    
+    setUserData(sid, d);
+    alert('✅ IQA check recorded!');
+    openUnit(uid);
+    renderDashboard();
 }
 
-function addIQANote(studentId, unitId) {
-    const note = prompt('Enter IQA note:');
-    if (!note) return;
-    const d = getUserData(studentId);
-    if (!d.submissions) d.submissions = {};
-    if (!d.submissions[unitId]) d.submissions[unitId] = {};
-    d.submissions[unitId].iqaNote = note;
-    setUserData(studentId, d);
-    alert('✅ IQA note added!');
-    if (viewingAs) renderPortfolio();
+// ASSESSOR & IQA LISTS
+function renderAssessorList(filter = '') {
+    document.getElementById('assStudentList').innerHTML = allUsers
+        .filter(u => u.role === 'student' && u.name.toLowerCase().includes(filter.toLowerCase()))
+        .map(u => {
+            const p = getProgress(u.id);
+            return `
+            <div class="student-row" onclick="viewStudent('${u.id}')">
+                <div>
+                    <strong>${u.name}</strong><br>
+                    <small>${p.done}/${p.total} units — ${p.pct}%</small>
+                </div>
+                <span class="unit-status status-assessed">${p.pct}%</span>
+            </div>`;
+        }).join('') || '<p style="opacity:0.7;">No students found</p>';
 }
+function renderAssessorList() { renderAssessorList(document.getElementById('assSearch')?.value || ''); }
 
-// ATTENDANCE & HOURS WITH FILE UPLOAD
-function storeAttFile(file) {
-    pendingAttFile = file ? { name: file.name, size: file.size, type: file.type } : null;
-    document.getElementById('attFileList').innerHTML = pendingAttFile
-        ? `<div class="file-item">✅ ${file.name}</div>` : '';
+function renderIQAList(filter = '') {
+    document.getElementById('iqaStudentList').innerHTML = allUsers
+        .filter(u => u.role === 'student' && u.name.toLowerCase().includes(filter.toLowerCase()))
+        .map(u => {
+            const p = getProgress(u.id);
+            return `
+            <div class="student-row" onclick="viewStudent('${u.id}')">
+                <div>
+                    <strong>${u.name}</strong><br>
+                    <small>${p.done}/${p.total} units completed</small>
+                </div>
+            </div>`;
+        }).join('') || '<p style="opacity:0.7;">No students found</p>';
 }
+function renderIQAList() { renderIQAList(document.getElementById('iqaSearch')?.value || ''); }
 
-function renderAttendance() {
-    const u = activeUser();
-    const d = activeData();
-    const c = u.course ? COURSES[u.course] : null;
-    const hrs = d.hours || [];
-    const total = hrs.reduce((sum, h) => sum + parseFloat(h.hours || 0), 0);
-
-    document.getElementById('attendanceForm').style.display = viewingAs ? 'none' : 'block';
-    pendingAttFile = null;
-    document.getElementById('attFileList').innerHTML = '';
-
-    if (!c) {
-        document.getElementById('otjProgress').style.width = '0%';
-        document.getElementById('otjText').textContent = 'Select a course first';
-    } else {
-        const pct = c.requiredHours ? Math.round((total / c.requiredHours) * 100) : 0;
-        document.getElementById('otjProgress').style.width = Math.min(pct, 100) + '%';
-        document.getElementById('otjProgress').textContent = pct + '%';
-        document.getElementById('otjText').textContent = `${total.toFixed(1)} of ${c.requiredHours} hours required`;
-    }
-
-    document.getElementById('hoursList').innerHTML = hrs.length
-        ? hrs.slice().reverse().map(h => `
-            <div style="padding:0.75rem 0; border-bottom:1px solid rgba(255,255,255,0.1);">
-                <strong>${h.date || 'No date'}</strong> — ${h.hours} hrs<br>
-                <small>${h.note || 'No details'}</small>
-                ${h.file ? `<br><small>📎 ${h.file.name}</small>` : ''}
-            </div>`).join('')
-        : '<p style="opacity:0.7;">No entries yet. Log your first hours above.</p>';
-}
-
-function saveHoursEntry() {
-    const date = document.getElementById('logDate').value;
-    const hours = document.getElementById('logHours').value;
-    const note = document.getElementById('logNote').value;
-
-    if (!date || !hours) return alert('⚠️ Fill in date and hours');
-
-    const d = activeData();
-    if (!d.hours) d.hours = [];
-    d.hours.push({
-        date,
-        hours,
-        note,
-        file: pendingAttFile
-    });
-    setUserData(activeUser().id, d);
-
-    document.getElementById('logDate').value = '';
-    document.getElementById('logHours').value = '';
-    document.getElementById('logNote').value = '';
-    pendingAttFile = null;
-
-    renderAttendance();
-    alert('✅ Saved!');
-}
-
-// ADMIN — Create Users, Manage Shops & Courses
-function toggleCourseDropdown() {
-    const isStudent = document.getElementById('newRole').value === 'student';
-    document.getElementById('courseLabel').classList.toggle('hidden', !isStudent);
-    document.getElementById('newCourse').classList.toggle('hidden', !isStudent);
-}
-
-function createNewUser() {
-    const name = document.getElementById('newName').value.trim();
-    const email = document.getElementById('newEmail').value.trim().toLowerCase();
-    const pass = document.getElementById('newPass').value;
-    const role = document.getElementById('newRole').value;
-    const course = document.getElementById('newCourse').value || null;
-    const shop = document.getElementById('newShop').value;
-
-    if (!name || !email || !pass) return alert('⚠️ Fill in all required fields');
-    if (findUser(email)) return alert('❌ Email already exists');
-    if (role === 'student' && !course) return alert('⚠️ Select a course for this student');
-
-    allUsers.push({
-        id: 'user-' + Date.now(),
-        name,
-        email,
-        password: pass,
-        role,
-        course,
-        shop
-    });
-    saveAllUsers();
-
-    // Clear form
-    document.getElementById('newName').value = '';
-    document.getElementById('newEmail').value = '';
-    document.getElementById('newPass').value = '';
-
-    renderAdminTable();
-    alert('✅ Account created for ' + name);
-}
-
-function renderAdminTable(search = '') {
-    const q = search.toLowerCase();
-    document.getElementById('usersTableBody').innerHTML = allUsers
-        .filter(u => u.name.toLowerCase().includes(q) || (SHOPS[u.shop] || '').toLowerCase().includes(q))
-        .map(u => `
-            <tr>
-                <td>${u.name}</td>
-                <td>${u.email}</td>
-                <td><span class="role-badge role-${u.role}">${u.role}</span></td>
-                <td>${u.course ? COURSES[u.course]?.shortName || u.course : '—'}</td>
-                <td>${SHOPS[u.shop] || u.shop}</td>
-                <td>
-                    <button class="btn-small" onclick="openStudent('${u.id}')">View</button>
-                    ${u.id !== MASTER.id ? `<button class="btn-small btn-danger" onclick="removeUser('${u.id}')">Remove</button>` : ''}
-                </td>
-            </tr>`).join('');
-}
-function renderAdminTable() { renderAdminTable(document.getElementById('adminSearch')?.value || ''); }
-
-function openStudent(id) {
+function viewStudent(id) {
     viewingAs = allUsers.find(u => u.id === id);
     if (!viewingAs) return;
     document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
     document.getElementById('page-dashboard').classList.remove('hidden');
     document.querySelector('[data-page="dashboard"]').classList.add('active');
     renderDashboard();
-    renderPortfolio();
-    renderAttendance();
+    renderUnitsList();
 }
 
-function removeUser(id) {
-    if (!confirm('Remove this user? This cannot be undone.')) return;
+// ADMIN — MANAGE USERS
+function createUser() {
+    const name = document.getElementById('newName').value.trim();
+    const email = document.getElementById('newEmail').value.trim().toLowerCase();
+    const pass = document.getElementById('newPass').value;
+    const role = document.getElementById('newRole').value;
+    
+    if (!name || !email || !pass) return alert('⚠️ Fill all fields');
+    if (findUser(email)) return alert('❌ Email already exists');
+    
+    allUsers.push({
+        id: 'user-' + Date.now(),
+        name, email, password: pass, role
+    });
+    saveUsers();
+    
+    document.getElementById('newName').value = '';
+    document.getElementById('newEmail').value = '';
+    document.getElementById('newPass').value = '';
+    
+    renderUserTable();
+    alert('✅ Created: ' + name);
+}
+
+function renderUserTable() {
+    document.getElementById('userTableBody').innerHTML = allUsers.map(u => {
+        const p = getProgress(u.id);
+        return `
+        <tr>
+            <td>${u.name}</td>
+            <td>${u.email}</td>
+            <td><span class="role-badge role-${u.role}">${u.role}</span></td>
+            <td>${p.pct}%</td>
+            <td>
+                <button class="btn-small" onclick="viewStudent('${u.id}')">View</button>
+                ${u.id !== MASTER.id ? `<button class="btn-small btn-danger" onclick="delUser('${u.id}')">Remove</button>` : ''}
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+function delUser(id) {
+    if (!confirm('Remove this user?')) return;
     allUsers = allUsers.filter(u => u.id !== id);
-    saveAllUsers();
-    renderAdminTable();
+    saveUsers();
+    renderUserTable();
 }
 
-// ASSESSOR LIST
-function renderAssessorList(filter = '') {
-    const students = allUsers.filter(u => u.role === 'student');
-    document.getElementById('assessorStudentList').innerHTML = students
-        .filter(u => u.name.toLowerCase().includes(filter.toLowerCase()))
-        .map(u => `
-            <div class="student-row" onclick="openStudent('${u.id}')">
-                <div>
-                    <strong>${u.name}</strong><br>
-                    <small>${COURSES[u.course]?.name || u.course} — ${SHOPS[u.shop] || 'Unassigned'}</small>
-                </div>
-                <span class="role-badge role-student">Student</span>
-            </div>`).join('') || '<p style="opacity:0.7;">No students found</p>';
-}
-function filterAssessorList() { renderAssessorList(document.getElementById('assessorSearch').value); }
-
-// IQA LIST
-function renderIQAList() {
-    const courseFilter = document.getElementById('iqaCourseFilter').value;
-    let students = allUsers.filter(u => u.role === 'student');
-    if (courseFilter !== 'all') students = students.filter(u => u.course === courseFilter);
-
-    document.getElementById('iqaStudentList').innerHTML = students
-        .map(u => `
-            <div class="student-row" onclick="openStudent('${u.id}')">
-                <div>
-                    <strong>${u.name}</strong><br>
-                    <small>${COURSES[u.course]?.name || u.course} — ${SHOPS[u.shop] || 'Unassigned'}</small>
-                </div>
-            </div>`).join('') || '<p style="opacity:0.7;">No students found</p>';
-}
-
-// TUTOR LIST
-function renderTutorList(filter = '') {
-    const students = allUsers.filter(u => u.role === 'student');
-    document.getElementById('tutorStudentList').innerHTML = students
-        .filter(u => u.name.toLowerCase().includes(filter.toLowerCase()))
-        .map(u => `
-            <div class="student-row" onclick="openStudent('${u.id}')">
-                <div>
-                    <strong>${u.name}</strong><br>
-                    <small>${COURSES[u.course]?.name || u.course}</small>
-                </div>
-            </div>`).join('') || '<p style="opacity:0.7;">No students found</p>';
-}
-function filterTutorList() { renderTutorList(document.getElementById('tutorSearch').value); }
-
-// INITIALISE
-loadAllUsers();
-const savedSession = localStorage.getItem('activeSession');
-if (savedSession) {
-    const u = allUsers.find(x => x.id === savedSession);
+// INIT
+loadUsers();
+const ses = localStorage.getItem('activeSession');
+if (ses) {
+    const u = allUsers.find(x => x.id === ses);
     if (u) { currentUser = u; showApp(); }
 }
